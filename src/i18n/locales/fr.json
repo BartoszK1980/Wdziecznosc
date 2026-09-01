@@ -1,0 +1,152 @@
+{
+  "today": {
+    "title": "Aujourd'hui",
+    "prompt": "De quoi es-tu reconnaissant aujourd'hui ?",
+    "placeholder": "Gratitude {{n}}"
+  },
+  "history": {
+    "title": "Historique",
+    "empty": "Rien pour l'instant",
+    "emptyHint": "Tes notes apparaîtront ici après la première."
+  },
+  "photo": {
+    "add": "Ajouter une photo",
+    "replace": "Changer la photo",
+    "remove": "Supprimer la photo",
+    "camera": "Prendre une photo",
+    "library": "Choisir dans la galerie",
+    "permissionTitle": "Autorisation requise",
+    "permissionBody": "Autorise l'accès à l'appareil photo et aux photos pour joindre une image."
+  },
+  "settings": {
+    "title": "Réglages",
+    "language": "Langue",
+    "languageSystem": "Langue du système",
+    "reminder": "Rappel quotidien",
+    "reminderOff": "Désactivé",
+    "account": "Compte",
+    "export": "Exporter mes données",
+    "exportDone": "Données exportées",
+    "about": "À propos",
+    "version": "Version",
+    "theme": "Thème de l'app",
+    "themeLight": "Clair",
+    "themeDark": "Sombre",
+    "themeSystem": "Système",
+    "backup": "Sauvegarde",
+    "lock": "Verrouillage de l'app",
+    "lockHint": "Empreinte ou code de l’appareil",
+    "lockUnavailable": "Cet appareil n'a pas de verrouillage d'écran."
+  },
+  "account": {
+    "title": "Compte",
+    "protectTitle": "Protège tes notes",
+    "protectBody": "Ajoute une adresse e-mail pour tout retrouver sur un nouveau téléphone.",
+    "protectCta": "Ajouter un e-mail",
+    "later": "Plus tard",
+    "emailLabel": "Adresse e-mail",
+    "emailPlaceholder": "toi@exemple.com",
+    "sendCode": "Envoyer le code",
+    "codeLabel": "Code à 6 chiffres",
+    "codeSent": "Nous avons envoyé un code à {{email}}.",
+    "verify": "Confirmer",
+    "linked": "Connecté en tant que {{email}}",
+    "signOut": "Se déconnecter",
+    "signOutWarning": "Tes notes restent dans le cloud et reviendront à la prochaine connexion.",
+    "invalidEmail": "Cette adresse semble incorrecte.",
+    "invalidCode": "Code incorrect ou expiré.",
+    "haveAccount": "J'ai déjà un compte",
+    "restoreWarning": "La connexion remplace ce qui se trouve sur ce téléphone par les notes de ce compte.",
+    "restoreCta": "Se connecter et restaurer"
+  },
+  "sync": {
+    "offline": "Hors ligne — enregistré sur ce téléphone",
+    "syncing": "Synchronisation…",
+    "synced": "Tout est enregistré",
+    "error": "Échec de la synchronisation, nouvelle tentative"
+  },
+  "common": {
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "ok": "OK",
+    "back": "Retour",
+    "retry": "Réessayer"
+  },
+  "home": {
+    "greeting": "Bonjour !",
+    "subtitle": "Prends un instant pour voir ce qui était bon.",
+    "cardTitle": "Note du jour",
+    "cardBody": "Note 3 choses pour lesquelles tu es reconnaissant·e aujourd'hui.",
+    "addNote": "Ajouter une note",
+    "openNote": "Ouvrir la note du jour",
+    "moodTitle": "Ton humeur",
+    "moodQuestion": "Comment te sens-tu aujourd'hui ?",
+    "statsTitle": "Statistiques de gratitude",
+    "statsBody": "Regarde ta pratique grandir."
+  },
+  "editor": {
+    "titleNew": "Nouvelle note",
+    "titleEdit": "Note",
+    "date": "Date",
+    "question": "De quoi suis-je reconnaissant·e ?",
+    "hint1": "Ex. pour une discussion avec un proche",
+    "hint2": "Ex. pour un beau coucher de soleil",
+    "hint3": "Ex. pour la santé et l'énergie",
+    "photo": "Ajouter une photo",
+    "optional": "facultatif",
+    "extra": "Note complémentaire",
+    "extraPlaceholder": "Quelques mots de plus pour toi…",
+    "tags": "De quoi s'agissait-il ?",
+    "autosaved": "Enregistré tout seul"
+  },
+  "notes": {
+    "title": "Mes notes",
+    "all": "Toutes",
+    "favorites": "Favoris",
+    "photos": "Photos",
+    "search": "Rechercher dans tes notes",
+    "noResults": "Aucun résultat"
+  },
+  "stats": {
+    "title": "Statistiques",
+    "streak": "Ta série",
+    "streakUnit": "jours de suite",
+    "summary": "Résumé",
+    "days": "Notes",
+    "entries": "Entrées",
+    "streakShort": "Jours de suite",
+    "moodChart": "Ton humeur dans le temps",
+    "topTags": "Le plus souvent reconnaissant·e pour",
+    "empty": "Écris quelques notes et tes statistiques apparaîtront ici."
+  },
+  "tags": {
+    "family": "Famille",
+    "health": "Santé",
+    "friends": "Amis",
+    "nature": "Nature",
+    "growth": "Progrès",
+    "small": "Petites choses"
+  },
+  "mood": {
+    "m1": "Mal",
+    "m2": "Bof",
+    "m3": "Ça va",
+    "m4": "Bien",
+    "m5": "Super"
+  },
+  "backup": {
+    "title": "Sauvegarde",
+    "syncedAt": "Dernière synchronisation : {{when}}",
+    "never": "Pas encore synchronisé",
+    "syncNow": "Synchroniser maintenant",
+    "pending": "En attente d’envoi : {{count}}",
+    "allSynced": "Tout est envoyé",
+    "explain": "Tes notes partent dans le cloud automatiquement. Connecte-toi sur un nouveau téléphone pour les retrouver."
+  },
+  "lock": {
+    "prompt": "Déverrouiller Wdzięczność",
+    "unlock": "Déverrouiller",
+    "locked": "Application verrouillée"
+  }
+}

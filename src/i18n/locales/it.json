@@ -1,0 +1,152 @@
+{
+  "today": {
+    "title": "Oggi",
+    "prompt": "Per cosa sei grato oggi?",
+    "placeholder": "Gratitudine {{n}}"
+  },
+  "history": {
+    "title": "Cronologia",
+    "empty": "Ancora niente",
+    "emptyHint": "Le tue note appariranno qui dopo la prima."
+  },
+  "photo": {
+    "add": "Aggiungi foto",
+    "replace": "Cambia foto",
+    "remove": "Rimuovi foto",
+    "camera": "Scatta una foto",
+    "library": "Scegli dalla galleria",
+    "permissionTitle": "Autorizzazione necessaria",
+    "permissionBody": "Consenti l'accesso alla fotocamera e alle foto per allegare un'immagine."
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "language": "Lingua",
+    "languageSystem": "Lingua di sistema",
+    "reminder": "Promemoria giornaliero",
+    "reminderOff": "Disattivato",
+    "account": "Account",
+    "export": "Esporta i miei dati",
+    "exportDone": "Dati esportati",
+    "about": "Informazioni",
+    "version": "Versione",
+    "theme": "Tema app",
+    "themeLight": "Chiaro",
+    "themeDark": "Scuro",
+    "themeSystem": "Sistema",
+    "backup": "Backup",
+    "lock": "Blocco app",
+    "lockHint": "Impronta o codice del dispositivo",
+    "lockUnavailable": "Questo dispositivo non ha un blocco schermo impostato."
+  },
+  "account": {
+    "title": "Account",
+    "protectTitle": "Proteggi le tue note",
+    "protectBody": "Aggiungi un'email per recuperare tutto su un nuovo telefono.",
+    "protectCta": "Aggiungi email",
+    "later": "Non ora",
+    "emailLabel": "Indirizzo email",
+    "emailPlaceholder": "tu@esempio.com",
+    "sendCode": "Invia codice",
+    "codeLabel": "Codice a 6 cifre",
+    "codeSent": "Abbiamo inviato un codice a {{email}}.",
+    "verify": "Conferma",
+    "linked": "Accesso come {{email}}",
+    "signOut": "Esci",
+    "signOutWarning": "Le tue note restano nel cloud e torneranno al prossimo accesso.",
+    "invalidEmail": "Questa email non sembra corretta.",
+    "invalidCode": "Codice errato o scaduto.",
+    "haveAccount": "Ho già un account",
+    "restoreWarning": "L'accesso sostituisce ciò che è su questo telefono con le note di quell'account.",
+    "restoreCta": "Accedi e ripristina"
+  },
+  "sync": {
+    "offline": "Offline — salvato su questo telefono",
+    "syncing": "Sincronizzazione…",
+    "synced": "Tutto salvato",
+    "error": "Sincronizzazione non riuscita, riproveremo"
+  },
+  "common": {
+    "cancel": "Annulla",
+    "save": "Salva",
+    "delete": "Elimina",
+    "ok": "OK",
+    "back": "Indietro",
+    "retry": "Riprova"
+  },
+  "home": {
+    "greeting": "Ciao!",
+    "subtitle": "Fermati un attimo e nota ciò che è stato bello.",
+    "cardTitle": "Nota di oggi",
+    "cardBody": "Scrivi 3 cose per cui sei grato/a oggi.",
+    "addNote": "Aggiungi nota",
+    "openNote": "Apri la nota di oggi",
+    "moodTitle": "Il tuo umore",
+    "moodQuestion": "Come ti senti oggi?",
+    "statsTitle": "Statistiche di gratitudine",
+    "statsBody": "Guarda come cresce la tua pratica."
+  },
+  "editor": {
+    "titleNew": "Nuova nota",
+    "titleEdit": "Nota",
+    "date": "Data",
+    "question": "Per cosa sono grato/a?",
+    "hint1": "Es. per una chiacchierata con una persona cara",
+    "hint2": "Es. per un bel tramonto",
+    "hint3": "Es. per la salute e l'energia",
+    "photo": "Aggiungi foto",
+    "optional": "facoltativo",
+    "extra": "Nota aggiuntiva",
+    "extraPlaceholder": "Qualche parola in più per te…",
+    "tags": "Di cosa si trattava?",
+    "autosaved": "Si salva da solo"
+  },
+  "notes": {
+    "title": "Le mie note",
+    "all": "Tutte",
+    "favorites": "Preferite",
+    "photos": "Foto",
+    "search": "Cerca nelle note",
+    "noResults": "Nessun risultato"
+  },
+  "stats": {
+    "title": "Statistiche",
+    "streak": "La tua serie",
+    "streakUnit": "giorni di fila",
+    "summary": "Riepilogo",
+    "days": "Note",
+    "entries": "Voci",
+    "streakShort": "Giorni di fila",
+    "moodChart": "Il tuo umore nel tempo",
+    "topTags": "Più spesso grato/a per",
+    "empty": "Scrivi qualche nota e qui appariranno le statistiche."
+  },
+  "tags": {
+    "family": "Famiglia",
+    "health": "Salute",
+    "friends": "Amici",
+    "nature": "Natura",
+    "growth": "Crescita",
+    "small": "Piccole cose"
+  },
+  "mood": {
+    "m1": "Male",
+    "m2": "Così così",
+    "m3": "Nella media",
+    "m4": "Bene",
+    "m5": "Benissimo"
+  },
+  "backup": {
+    "title": "Backup",
+    "syncedAt": "Ultima sincronizzazione: {{when}}",
+    "never": "Non ancora sincronizzato",
+    "syncNow": "Sincronizza ora",
+    "pending": "In attesa di invio: {{count}}",
+    "allSynced": "Tutto inviato",
+    "explain": "Le tue note vanno nel cloud automaticamente. Accedi su un nuovo telefono per recuperarle."
+  },
+  "lock": {
+    "prompt": "Sblocca Wdzięczność",
+    "unlock": "Sblocca",
+    "locked": "App bloccata"
+  }
+}

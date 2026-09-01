@@ -1,0 +1,42 @@
+{
+  "project": "Wdzięczność — gratitude notes app",
+  "language": "pl",
+  "assets": {
+    "full_reference": "00_full_ui_reference.png",
+    "logo_card": "01_brand_logo_card.png",
+    "logo_transparent": "02_logo_symbol_transparent.png",
+    "home_screen": "03_screen_home.png",
+    "new_note_screen": "04_screen_new_note.png",
+    "notes_screen": "05_screen_notes.png",
+    "statistics_screen": "06_screen_statistics.png",
+    "settings_screen": "07_screen_settings.png",
+    "feature_strip": "08_feature_strip.png",
+    "app_icon_512": "09_app_icon_512.png",
+    "app_icon_1024": "09_app_icon_1024.png",
+    "palette": "10_color_palette.png",
+    "preview": "11_assets_preview.png"
+  },
+  "design_tokens": {
+    "background": "#FBF6F0",
+    "surface": "#FFFDFC",
+    "sage": "#738C78",
+    "deep_green": "#3E6654",
+    "warm_beige": "#F1E4D6",
+    "gold": "#ECAF44",
+    "text": "#263A32",
+    "muted_text": "#817B73"
+  },
+  "ui_notes": {
+    "style": "calm, warm, botanical, minimal",
+    "corner_radius": "large / rounded cards",
+    "shadows": "soft, low-contrast",
+    "primary_navigation": [
+      "Dzisiaj",
+      "Notatki",
+      "+",
+      "Statystyki",
+      "Ustawienia"
+    ],
+    "typography": "editorial serif for headings + clean sans-serif for UI text"
+  }
+}

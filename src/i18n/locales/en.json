@@ -1,0 +1,152 @@
+{
+  "today": {
+    "title": "Today",
+    "prompt": "What are you grateful for today?",
+    "placeholder": "Gratitude {{n}}"
+  },
+  "history": {
+    "title": "History",
+    "empty": "Nothing here yet",
+    "emptyHint": "Your entries will appear here once you write the first one."
+  },
+  "photo": {
+    "add": "Add photo",
+    "replace": "Replace photo",
+    "remove": "Remove photo",
+    "camera": "Take a photo",
+    "library": "Choose from library",
+    "permissionTitle": "Permission needed",
+    "permissionBody": "Allow access to your camera and photos to attach an image."
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageSystem": "System language",
+    "reminder": "Daily reminder",
+    "reminderOff": "Off",
+    "account": "Account",
+    "export": "Export my data",
+    "exportDone": "Data exported",
+    "about": "About",
+    "version": "Version",
+    "theme": "App theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System",
+    "backup": "Backup",
+    "lock": "App lock",
+    "lockHint": "Fingerprint or device passcode",
+    "lockUnavailable": "This device has no screen lock set up."
+  },
+  "account": {
+    "title": "Account",
+    "protectTitle": "Protect your entries",
+    "protectBody": "Add an email so you can restore everything on a new phone.",
+    "protectCta": "Add email",
+    "later": "Not now",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "sendCode": "Send code",
+    "codeLabel": "6-digit code",
+    "codeSent": "We sent a code to {{email}}.",
+    "verify": "Confirm",
+    "linked": "Signed in as {{email}}",
+    "signOut": "Sign out",
+    "signOutWarning": "Your entries stay in the cloud and come back when you sign in again.",
+    "invalidEmail": "That email doesn't look right.",
+    "invalidCode": "Wrong or expired code.",
+    "haveAccount": "I already have an account",
+    "restoreWarning": "Signing in replaces what is on this phone with the entries from that account.",
+    "restoreCta": "Sign in and restore"
+  },
+  "sync": {
+    "offline": "Offline — saved on this phone",
+    "syncing": "Syncing…",
+    "synced": "All saved",
+    "error": "Sync failed, will retry"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "ok": "OK",
+    "back": "Back",
+    "retry": "Retry"
+  },
+  "home": {
+    "greeting": "Hello!",
+    "subtitle": "Take a moment and notice what was good.",
+    "cardTitle": "Today's note",
+    "cardBody": "Write down 3 things you are grateful for today.",
+    "addNote": "Add a note",
+    "openNote": "Open today's note",
+    "moodTitle": "Your mood",
+    "moodQuestion": "How do you feel today?",
+    "statsTitle": "Gratitude statistics",
+    "statsBody": "See how your practice is growing."
+  },
+  "editor": {
+    "titleNew": "New note",
+    "titleEdit": "Note",
+    "date": "Date",
+    "question": "What am I grateful for?",
+    "hint1": "E.g. for a talk with someone close",
+    "hint2": "E.g. for a beautiful sunset",
+    "hint3": "E.g. for health and energy",
+    "photo": "Add photo",
+    "optional": "optional",
+    "extra": "Extra note",
+    "extraPlaceholder": "A few more words for yourself…",
+    "tags": "What was it about?",
+    "autosaved": "Saves itself"
+  },
+  "notes": {
+    "title": "My notes",
+    "all": "All",
+    "favorites": "Favorites",
+    "photos": "Photos",
+    "search": "Search your notes",
+    "noResults": "Nothing found"
+  },
+  "stats": {
+    "title": "Statistics",
+    "streak": "Your streak",
+    "streakUnit": "days in a row",
+    "summary": "Summary",
+    "days": "Notes",
+    "entries": "Entries",
+    "streakShort": "Days in a row",
+    "moodChart": "Your mood over time",
+    "topTags": "Most often grateful for",
+    "empty": "Write a few notes and your statistics will appear here."
+  },
+  "tags": {
+    "family": "Family",
+    "health": "Health",
+    "friends": "Friends",
+    "nature": "Nature",
+    "growth": "Growth",
+    "small": "Small things"
+  },
+  "mood": {
+    "m1": "Bad",
+    "m2": "Poor",
+    "m3": "Okay",
+    "m4": "Good",
+    "m5": "Great"
+  },
+  "backup": {
+    "title": "Backup",
+    "syncedAt": "Last synced: {{when}}",
+    "never": "Not synced yet",
+    "syncNow": "Sync now",
+    "pending": "Waiting to upload: {{count}}",
+    "allSynced": "Everything uploaded",
+    "explain": "Your notes go to the cloud automatically. Sign in on a new phone to get them back."
+  },
+  "lock": {
+    "prompt": "Unlock Wdzięczność",
+    "unlock": "Unlock",
+    "locked": "App locked"
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "today": {
+    "title": "Heute",
+    "prompt": "Wofür bist du heute dankbar?",
+    "placeholder": "Dankbarkeit {{n}}"
+  },
+  "history": {
+    "title": "Verlauf",
+    "empty": "Noch nichts da",
+    "emptyHint": "Deine Einträge erscheinen hier, sobald du den ersten schreibst."
+  },
+  "photo": {
+    "add": "Foto hinzufügen",
+    "replace": "Foto ersetzen",
+    "remove": "Foto entfernen",
+    "camera": "Foto aufnehmen",
+    "library": "Aus der Galerie wählen",
+    "permissionTitle": "Berechtigung nötig",
+    "permissionBody": "Erlaube den Zugriff auf Kamera und Fotos, um ein Bild anzuhängen."
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "languageSystem": "Systemsprache",
+    "reminder": "Tägliche Erinnerung",
+    "reminderOff": "Aus",
+    "account": "Konto",
+    "export": "Meine Daten exportieren",
+    "exportDone": "Daten exportiert",
+    "about": "Über",
+    "version": "Version",
+    "theme": "App-Design",
+    "themeLight": "Hell",
+    "themeDark": "Dunkel",
+    "themeSystem": "System",
+    "backup": "Sicherung",
+    "lock": "App-Sperre",
+    "lockHint": "Fingerabdruck oder Gerätecode",
+    "lockUnavailable": "Auf diesem Gerät ist keine Bildschirmsperre eingerichtet."
+  },
+  "account": {
+    "title": "Konto",
+    "protectTitle": "Sichere deine Einträge",
+    "protectBody": "Hinterlege eine E-Mail, um alles auf einem neuen Handy wiederherzustellen.",
+    "protectCta": "E-Mail hinzufügen",
+    "later": "Später",
+    "emailLabel": "E-Mail-Adresse",
+    "emailPlaceholder": "du@beispiel.de",
+    "sendCode": "Code senden",
+    "codeLabel": "6-stelliger Code",
+    "codeSent": "Wir haben einen Code an {{email}} geschickt.",
+    "verify": "Bestätigen",
+    "linked": "Angemeldet als {{email}}",
+    "signOut": "Abmelden",
+    "signOutWarning": "Deine Einträge bleiben in der Cloud und kommen bei der nächsten Anmeldung zurück.",
+    "invalidEmail": "Diese E-Mail sieht nicht richtig aus.",
+    "invalidCode": "Falscher oder abgelaufener Code.",
+    "haveAccount": "Ich habe schon ein Konto",
+    "restoreWarning": "Die Anmeldung ersetzt die Einträge auf diesem Handy durch die aus diesem Konto.",
+    "restoreCta": "Anmelden und wiederherstellen"
+  },
+  "sync": {
+    "offline": "Offline — auf diesem Handy gespeichert",
+    "syncing": "Wird synchronisiert…",
+    "synced": "Alles gespeichert",
+    "error": "Synchronisierung fehlgeschlagen, neuer Versuch folgt"
+  },
+  "common": {
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "ok": "OK",
+    "back": "Zurück",
+    "retry": "Erneut versuchen"
+  },
+  "home": {
+    "greeting": "Guten Tag!",
+    "subtitle": "Halte kurz inne und sieh, was gut war.",
+    "cardTitle": "Notiz für heute",
+    "cardBody": "Schreibe 3 Dinge auf, für die du heute dankbar bist.",
+    "addNote": "Notiz hinzufügen",
+    "openNote": "Heutige Notiz öffnen",
+    "moodTitle": "Deine Stimmung",
+    "moodQuestion": "Wie fühlst du dich heute?",
+    "statsTitle": "Dankbarkeits-Statistik",
+    "statsBody": "Sieh, wie deine Praxis wächst."
+  },
+  "editor": {
+    "titleNew": "Neue Notiz",
+    "titleEdit": "Notiz",
+    "date": "Datum",
+    "question": "Wofür bin ich dankbar?",
+    "hint1": "Z. B. für ein Gespräch mit einem lieben Menschen",
+    "hint2": "Z. B. für einen schönen Sonnenuntergang",
+    "hint3": "Z. B. für Gesundheit und Energie",
+    "photo": "Foto hinzufügen",
+    "optional": "optional",
+    "extra": "Zusätzliche Notiz",
+    "extraPlaceholder": "Ein paar Worte mehr für dich…",
+    "tags": "Worum ging es?",
+    "autosaved": "Speichert von selbst"
+  },
+  "notes": {
+    "title": "Meine Notizen",
+    "all": "Alle",
+    "favorites": "Favoriten",
+    "photos": "Fotos",
+    "search": "Notizen durchsuchen",
+    "noResults": "Nichts gefunden"
+  },
+  "stats": {
+    "title": "Statistik",
+    "streak": "Deine Serie",
+    "streakUnit": "Tage in Folge",
+    "summary": "Übersicht",
+    "days": "Notizen",
+    "entries": "Einträge",
+    "streakShort": "Tage in Folge",
+    "moodChart": "Deine Stimmung im Verlauf",
+    "topTags": "Am häufigsten dankbar für",
+    "empty": "Schreibe ein paar Notizen, dann erscheint hier deine Statistik."
+  },
+  "tags": {
+    "family": "Familie",
+    "health": "Gesundheit",
+    "friends": "Freunde",
+    "nature": "Natur",
+    "growth": "Wachstum",
+    "small": "Kleine Dinge"
+  },
+  "mood": {
+    "m1": "Schlecht",
+    "m2": "Mäßig",
+    "m3": "Geht so",
+    "m4": "Gut",
+    "m5": "Super"
+  },
+  "backup": {
+    "title": "Sicherung",
+    "syncedAt": "Zuletzt synchronisiert: {{when}}",
+    "never": "Noch nicht synchronisiert",
+    "syncNow": "Jetzt synchronisieren",
+    "pending": "Wartet auf Upload: {{count}}",
+    "allSynced": "Alles hochgeladen",
+    "explain": "Deine Notizen gehen automatisch in die Cloud. Melde dich auf einem neuen Handy an, um sie zurückzuholen."
+  },
+  "lock": {
+    "prompt": "Wdzięczność entsperren",
+    "unlock": "Entsperren",
+    "locked": "App gesperrt"
+  }
+}

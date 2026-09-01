@@ -1,0 +1,152 @@
+{
+  "today": {
+    "title": "Dziś",
+    "prompt": "Za co jesteś dziś wdzięczny?",
+    "placeholder": "Wdzięczność {{n}}"
+  },
+  "history": {
+    "title": "Historia",
+    "empty": "Jeszcze nic tu nie ma",
+    "emptyHint": "Twoje wpisy pojawią się tutaj po pierwszym zapisie."
+  },
+  "photo": {
+    "add": "Dodaj zdjęcie",
+    "replace": "Zmień zdjęcie",
+    "remove": "Usuń zdjęcie",
+    "camera": "Zrób zdjęcie",
+    "library": "Wybierz z galerii",
+    "permissionTitle": "Potrzebna zgoda",
+    "permissionBody": "Zezwól na dostęp do aparatu i zdjęć, żeby dołączyć obraz."
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "language": "Język",
+    "languageSystem": "Język systemu",
+    "reminder": "Codzienne przypomnienie",
+    "reminderOff": "Wyłączone",
+    "account": "Konto",
+    "export": "Eksportuj moje dane",
+    "exportDone": "Dane wyeksportowane",
+    "about": "O aplikacji",
+    "version": "Wersja",
+    "theme": "Motyw aplikacji",
+    "themeLight": "Jasny",
+    "themeDark": "Ciemny",
+    "themeSystem": "Systemowy",
+    "backup": "Kopia zapasowa",
+    "lock": "Blokada aplikacji",
+    "lockHint": "Odcisk palca lub kod urządzenia",
+    "lockUnavailable": "To urządzenie nie ma ustawionej blokady ekranu."
+  },
+  "account": {
+    "title": "Konto",
+    "protectTitle": "Zabezpiecz swoje wpisy",
+    "protectBody": "Podaj e-mail, żeby odzyskać wszystko na nowym telefonie.",
+    "protectCta": "Dodaj e-mail",
+    "later": "Nie teraz",
+    "emailLabel": "Adres e-mail",
+    "emailPlaceholder": "ty@przyklad.pl",
+    "sendCode": "Wyślij kod",
+    "codeLabel": "6-cyfrowy kod",
+    "codeSent": "Wysłaliśmy kod na {{email}}.",
+    "verify": "Potwierdź",
+    "linked": "Zalogowano jako {{email}}",
+    "signOut": "Wyloguj się",
+    "signOutWarning": "Twoje wpisy zostają w chmurze i wrócą po ponownym zalogowaniu.",
+    "invalidEmail": "Ten adres wygląda niepoprawnie.",
+    "invalidCode": "Błędny lub wygasły kod.",
+    "haveAccount": "Mam już konto",
+    "restoreWarning": "Zalogowanie zastąpi to, co jest na tym telefonie, wpisami z tamtego konta.",
+    "restoreCta": "Zaloguj i odzyskaj"
+  },
+  "sync": {
+    "offline": "Offline — zapisano na tym telefonie",
+    "syncing": "Synchronizacja…",
+    "synced": "Wszystko zapisane",
+    "error": "Synchronizacja nieudana, spróbuję ponownie"
+  },
+  "common": {
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "delete": "Usuń",
+    "ok": "OK",
+    "back": "Wstecz",
+    "retry": "Ponów"
+  },
+  "home": {
+    "greeting": "Dzień dobry!",
+    "subtitle": "Zatrzymaj się na chwilę i doceń to, co dobre.",
+    "cardTitle": "Notatka na dziś",
+    "cardBody": "Zapisz 3 rzeczy, za które jesteś wdzięczny/a dzisiaj.",
+    "addNote": "Dodaj notatkę",
+    "openNote": "Otwórz dzisiejszą notatkę",
+    "moodTitle": "Twój nastrój",
+    "moodQuestion": "Jak się dziś czujesz?",
+    "statsTitle": "Statystyki wdzięczności",
+    "statsBody": "Zobacz, jak pięknie budujesz swoją praktykę."
+  },
+  "editor": {
+    "titleNew": "Nowa notatka",
+    "titleEdit": "Notatka",
+    "date": "Data",
+    "question": "Za co jestem wdzięczny/a?",
+    "hint1": "Np. za rozmowę z bliską osobą",
+    "hint2": "Np. za piękny zachód słońca",
+    "hint3": "Np. za zdrowie i energię",
+    "photo": "Dodaj zdjęcie",
+    "optional": "opcjonalnie",
+    "extra": "Notatka dodatkowa",
+    "extraPlaceholder": "Kilka słów więcej dla siebie…",
+    "tags": "Za co najczęściej?",
+    "autosaved": "Zapisuje się samo"
+  },
+  "notes": {
+    "title": "Moje notatki",
+    "all": "Wszystkie",
+    "favorites": "Ulubione",
+    "photos": "Zdjęcia",
+    "search": "Szukaj we wpisach",
+    "noResults": "Nic nie znaleziono"
+  },
+  "stats": {
+    "title": "Statystyki",
+    "streak": "Twoja seria",
+    "streakUnit": "dni z rzędu",
+    "summary": "Podsumowanie",
+    "days": "Notatki",
+    "entries": "Wpisy",
+    "streakShort": "Dni z rzędu",
+    "moodChart": "Twój nastrój w czasie",
+    "topTags": "Najczęściej wdzięczny/a za",
+    "empty": "Zapisz kilka wpisów, a pojawią się tutaj statystyki."
+  },
+  "tags": {
+    "family": "Rodzina",
+    "health": "Zdrowie",
+    "friends": "Przyjaciele",
+    "nature": "Natura",
+    "growth": "Rozwój",
+    "small": "Małe rzeczy"
+  },
+  "mood": {
+    "m1": "Źle",
+    "m2": "Słabo",
+    "m3": "Nieźle",
+    "m4": "Dobrze",
+    "m5": "Świetnie"
+  },
+  "backup": {
+    "title": "Kopia zapasowa",
+    "syncedAt": "Ostatnia synchronizacja: {{when}}",
+    "never": "Jeszcze nie synchronizowano",
+    "syncNow": "Synchronizuj teraz",
+    "pending": "Czeka na wysłanie: {{count}}",
+    "allSynced": "Wszystko wysłane",
+    "explain": "Wpisy trafiają do chmury automatycznie. Odzyskasz je po zalogowaniu na nowym telefonie."
+  },
+  "lock": {
+    "prompt": "Odblokuj Wdzięczność",
+    "unlock": "Odblokuj",
+    "locked": "Aplikacja zablokowana"
+  }
+}
