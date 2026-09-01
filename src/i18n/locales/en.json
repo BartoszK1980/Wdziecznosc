@@ -36,7 +36,8 @@
     "backup": "Backup",
     "lock": "App lock",
     "lockHint": "Fingerprint or device passcode",
-    "lockUnavailable": "This device has no screen lock set up."
+    "lockUnavailable": "This device has no screen lock set up.",
+    "reminderUnavailable": "Reminders are not available in this build."
   },
   "account": {
     "title": "Account",

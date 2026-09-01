@@ -36,7 +36,8 @@
     "backup": "Kopia zapasowa",
     "lock": "Blokada aplikacji",
     "lockHint": "Odcisk palca lub kod urządzenia",
-    "lockUnavailable": "To urządzenie nie ma ustawionej blokady ekranu."
+    "lockUnavailable": "To urządzenie nie ma ustawionej blokady ekranu.",
+    "reminderUnavailable": "Przypomnienia są niedostępne w tej wersji aplikacji."
   },
   "account": {
     "title": "Konto",

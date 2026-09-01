@@ -14,7 +14,13 @@ import { useTheme, useThemeMode } from '@/hooks/use-theme';
 import { getStoredLanguage, LANGUAGES, LANGUAGE_CODES, setLanguage, type Language } from '@/i18n';
 import { formatTime } from '@/i18n/dates';
 import { isLockEnabled, setLockEnabled, supportsLock } from '@/lock/lock';
-import { DEFAULT_REMINDER, getReminder, setReminder, type ReminderTime } from '@/notifications/reminder';
+import {
+  DEFAULT_REMINDER,
+  getReminder,
+  remindersAvailable,
+  setReminder,
+  type ReminderTime,
+} from '@/notifications/reminder';
 import { getAccountState, type AccountState } from '@/sync/supabase';
 import type { ThemeMode } from '@/theme/provider';
 
@@ -35,6 +41,7 @@ export default function SettingsScreen() {
   const [account, setAccount] = useState<AccountState>({ kind: 'offline' });
   const [lock, setLock] = useState(false);
   const [lockAvailable, setLockAvailable] = useState(true);
+  const [reminderAvailable, setReminderAvailable] = useState(true);
   const [iosPicker, setIosPicker] = useState(false);
   const [languagesOpen, setLanguagesOpen] = useState(false);
 
@@ -45,13 +52,14 @@ export default function SettingsScreen() {
       void getAccountState().then(setAccount);
       void isLockEnabled().then(setLock);
       void supportsLock().then(setLockAvailable);
+      void remindersAvailable().then(setReminderAvailable);
     }, [])
   );
 
   const applyReminder = async (time: ReminderTime | null) => {
     const ok = await setReminder(time);
     if (!ok) {
-      Alert.alert(t('settings.reminder'), t('photo.permissionBody'));
+      Alert.alert(t('settings.reminder'), t('settings.reminderUnavailable'));
       return;
     }
     setReminderState(time);
@@ -100,9 +108,14 @@ export default function SettingsScreen() {
           <Heading size={26}>{t('settings.title')}</Heading>
 
           <Card style={styles.group}>
-            <Row icon="bell" label={t('settings.reminder')}>
+            <Row
+              icon="bell"
+              label={t('settings.reminder')}
+              hint={reminderAvailable ? undefined : t('settings.reminderUnavailable')}
+              last={!reminder}>
               <Switch
                 value={reminder !== null}
+                disabled={!reminderAvailable}
                 onValueChange={(on) => void applyReminder(on ? DEFAULT_REMINDER : null)}
                 trackColor={{ true: colors.accent }}
               />

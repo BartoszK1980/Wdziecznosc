@@ -36,7 +36,8 @@
     "backup": "Backup",
     "lock": "Bloqueio do app",
     "lockHint": "Digital ou código do aparelho",
-    "lockUnavailable": "Este aparelho não tem bloqueio de tela configurado."
+    "lockUnavailable": "Este aparelho não tem bloqueio de tela configurado.",
+    "reminderUnavailable": "Os lembretes não estão disponíveis nesta versão."
   },
   "account": {
     "title": "Conta",

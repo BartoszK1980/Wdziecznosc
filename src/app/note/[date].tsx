@@ -190,7 +190,6 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 16,
-    textTransform: 'capitalize',
   },
   chips: {
     flexDirection: 'row',

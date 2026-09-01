@@ -36,7 +36,8 @@
     "backup": "Sicherung",
     "lock": "App-Sperre",
     "lockHint": "Fingerabdruck oder Gerätecode",
-    "lockUnavailable": "Auf diesem Gerät ist keine Bildschirmsperre eingerichtet."
+    "lockUnavailable": "Auf diesem Gerät ist keine Bildschirmsperre eingerichtet.",
+    "reminderUnavailable": "Erinnerungen sind in dieser Version nicht verfügbar."
   },
   "account": {
     "title": "Konto",

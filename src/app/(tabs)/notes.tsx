@@ -11,7 +11,7 @@ import { CardShadow, Fonts, MaxContentWidth, Radius, Spacing } from '@/constants
 import { loadDayMetaMap, type DayMeta } from '@/db/days';
 import { isEmpty, listDays, type Day, type DayFilter } from '@/db/entries';
 import { useTheme } from '@/hooks/use-theme';
-import { formatShortDate, parseDateKey } from '@/i18n/dates';
+import { formatDayAndMonth, parseDateKey } from '@/i18n/dates';
 
 const PAGE = 30;
 const THUMB = 56;
@@ -159,7 +159,7 @@ function DayCard({
   const colors = useTheme();
   const filled = day.slots.filter((slot) => !isEmpty(slot));
   const photo = day.slots.find((slot) => slot.photoLocalUri || slot.photoPath);
-  const parts = formatShortDate(day.date, language).split(' ');
+  const { day: dayNumber, month: monthShort } = formatDayAndMonth(day.date, language);
 
   return (
     <View style={styles.cardWrap}>
@@ -169,9 +169,14 @@ function DayCard({
         <Pressable accessibilityRole="button">
           <Card style={styles.card}>
             <View style={styles.dateColumn}>
-              <Text style={[styles.dateDay, { color: colors.text }]}>{parts[0]}</Text>
-              <Text style={[styles.dateMonth, { color: colors.textMuted }]}>
-                {(parts[1] ?? '').slice(0, 3).toUpperCase()}
+              <Text style={[styles.dateDay, { color: colors.text }]}>{dayNumber}</Text>
+              <Text
+                style={[styles.dateMonth, { color: colors.textMuted }]}
+                numberOfLines={1}
+                // niektore jezyki maja dluzsze skroty miesiaca; zwezenie jest
+                // lepsze niz lamanie kolumny albo przyciecie w polowie slowa
+                adjustsFontSizeToFit>
+                {monthShort.toUpperCase()}
               </Text>
               {meta?.favorite ? <Feather name="heart" size={14} color={colors.accent} /> : null}
             </View>
@@ -259,7 +264,7 @@ const styles = StyleSheet.create({
   dateColumn: {
     alignItems: 'center',
     gap: 2,
-    width: 34,
+    width: 42,
   },
   dateDay: {
     fontFamily: Fonts.serif,

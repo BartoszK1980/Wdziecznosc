@@ -136,7 +136,6 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 14,
     fontWeight: '600',
-    textTransform: 'capitalize',
     marginTop: Spacing.xs,
   },
   noteCard: { padding: Spacing.lg },

@@ -36,7 +36,8 @@
     "backup": "Backup",
     "lock": "Blocco app",
     "lockHint": "Impronta o codice del dispositivo",
-    "lockUnavailable": "Questo dispositivo non ha un blocco schermo impostato."
+    "lockUnavailable": "Questo dispositivo non ha un blocco schermo impostato.",
+    "reminderUnavailable": "I promemoria non sono disponibili in questa versione."
   },
   "account": {
     "title": "Account",
