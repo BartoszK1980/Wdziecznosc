@@ -1,0 +1,45 @@
+# Jednolite konce linii, niezaleznie od systemu i od lokalnego core.autocrlf.
+#
+# Bez tego pliku maszyna z innym ustawieniem pokazuje jako zmienione pliki,
+# ktorych nikt nie dotykal — przy pierwszym commicie git ostrzegal o zamianie
+# LF na CRLF w 55 plikach. Reguly jada razem z repozytorium, wiec dzialaja
+# tak samo u kazdego, kto je sklonuje.
+* text=auto eol=lf
+
+# Skrypty powloki musza miec LF nawet na Windowsie — CRLF lamie shebang.
+*.sh text eol=lf
+
+# Pliki wsadowe Windowsa odwrotnie: bez CRLF potrafia sie nie wykonac.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binaria: bez normalizacji koncow linii i bez prob roznicowania.
+# Gdyby PNG trafil pod `text=auto`, git zamienilby w nim bajty 0x0D0A
+# i uszkodzil plik.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.webp binary
+*.gif  binary
+*.ico  binary
+*.ttf  binary
+*.otf  binary
+*.woff binary
+*.woff2 binary
+*.hbc  binary
+
+# Klucze i certyfikaty podpisujace — binarne i tak nigdy nie powinny tu trafic
+# (sa w .gitignore), ale gdyby ktos je dodal na sile, niech nie zostana zepsute.
+*.jks      binary
+*.keystore binary
+*.p8       binary
+*.p12      binary
+
+# Generowane maszynowo: zwiniete w podgladzie zmian i pominiete w statystykach
+# jezykow repozytorium.
+package-lock.json linguist-generated=true
+
+# mark.svg powstaje z `npm run trace-mark` i to 6 kB wspolrzednych krzywych.
+# Zrodlem jest assets/brand/mark.png, a nie ten plik — recznej edycji nie ma
+# sensu przegladac linia po linii.
+assets/brand/mark.svg linguist-generated=true
