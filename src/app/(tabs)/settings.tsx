@@ -8,7 +8,7 @@ import { Alert, Platform, Pressable, ScrollView, StyleSheet, Switch, Text, View 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Card, Chip, Heading, Muted, SectionLabel } from '@/components/ui';
-import { MaxContentWidth, Radius, Spacing } from '@/constants/theme';
+import { ACCENTS, ACCENT_NAMES, MaxContentWidth, Radius, Spacing } from '@/constants/theme';
 import { exportEntriesJson } from '@/db/export';
 import { useTheme, useThemeMode } from '@/hooks/use-theme';
 import { getStoredLanguage, LANGUAGES, LANGUAGE_CODES, setLanguage, type Language } from '@/i18n';
@@ -33,7 +33,7 @@ const THEME_OPTIONS: { mode: ThemeMode; label: string; icon: React.ComponentProp
 export default function SettingsScreen() {
   const { t, i18n } = useTranslation();
   const colors = useTheme();
-  const { mode, setMode } = useThemeMode();
+  const { mode, setMode, scheme, accent, setAccent } = useThemeMode();
   const router = useRouter();
 
   const [language, setLanguageState] = useState<Language | null>(null);
@@ -156,6 +156,45 @@ export default function SettingsScreen() {
                   <Text style={[styles.themeLabel, { color: colors.text }]}>{t(option.label)}</Text>
                 </Pressable>
               ))}
+            </View>
+          </View>
+
+          <View style={styles.section}>
+            <SectionLabel>{t('settings.accent')}</SectionLabel>
+            <View style={styles.accentRow}>
+              {ACCENT_NAMES.map((name) => {
+                const swatch = ACCENTS[name][scheme];
+                const selected = accent === name;
+                return (
+                  <Pressable
+                    key={name}
+                    accessibilityRole="button"
+                    accessibilityLabel={t(`accents.${name}`)}
+                    accessibilityState={selected ? { selected: true } : {}}
+                    onPress={() => setAccent(name)}
+                    style={styles.accentItem}>
+                    <View
+                      style={[
+                        styles.swatch,
+                        {
+                          backgroundColor: swatch.accent,
+                          // Obwodka rysowana kolorem tla, a nie brakiem obwodki:
+                          // inaczej zaznaczony kafelek skakalby o 3 px.
+                          borderColor: selected ? colors.text : colors.bg,
+                        },
+                      ]}
+                    />
+                    <Text
+                      style={[
+                        styles.accentLabel,
+                        { color: selected ? colors.text : colors.textMuted },
+                      ]}
+                      numberOfLines={1}>
+                      {t(`accents.${name}`)}
+                    </Text>
+                  </Pressable>
+                );
+              })}
             </View>
           </View>
 
@@ -327,6 +366,10 @@ const styles = StyleSheet.create({
     borderRadius: Radius.lg,
   },
   themeLabel: { fontSize: 13, fontWeight: '500' },
+  accentRow: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.md },
+  accentItem: { alignItems: 'center', gap: Spacing.xs, width: 68 },
+  swatch: { width: 40, height: 40, borderRadius: Radius.pill, borderWidth: 3 },
+  accentLabel: { fontSize: 11 },
   languages: {
     flexDirection: 'row',
     flexWrap: 'wrap',

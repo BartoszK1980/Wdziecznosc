@@ -36,7 +36,9 @@ export default function TodayScreen() {
       void Promise.all([loadDayMeta(today), loadDay(today)]).then(([meta, day]) => {
         if (!active) return;
         setMoodState(meta.mood);
-        setHasNote(day.slots.some((slot) => slot.text.trim() !== '' || slot.photoLocalUri || slot.photoPath));
+        // loadDay zwraca juz tylko wypelnione sloty, wiec sama ich obecnosc
+        // oznacza, ze dzien ma tresc.
+        setHasNote(day.slots.length > 0);
       });
       return () => {
         active = false;

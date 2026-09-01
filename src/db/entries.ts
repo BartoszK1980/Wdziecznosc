@@ -1,40 +1,64 @@
 import { deletePhotoFile } from '@/photos/photos';
-import { getDb, nowIso, SLOTS, type EntryRow, type Slot } from './db';
+import {
+  getDb,
+  MAX_PHOTOS_PER_SLOT,
+  MAX_SLOTS,
+  nowIso,
+  type EntryRow,
+  type PhotoRow,
+  type Slot,
+} from './db';
+
+export type Photo = {
+  position: number;
+  localUri: string | null;
+  path: string | null;
+};
 
 export type DaySlot = {
   slot: Slot;
   text: string;
-  photoLocalUri: string | null;
-  photoPath: string | null;
+  photos: Photo[]; // tylko niepuste, posortowane po position
 };
 
 export type Day = {
   date: string;
-  slots: DaySlot[]; // zawsze 3 pozycje, w kolejnosci 1..3
+  /** Tylko sloty z trescia, plus ewentualnie jeden pusty na dopisanie. */
+  slots: DaySlot[];
 };
 
 export const MAX_TEXT_LENGTH = 280;
 
-const emptySlot = (slot: Slot): DaySlot => ({
-  slot,
-  text: '',
-  photoLocalUri: null,
-  photoPath: null,
-});
+const isPhotoEmpty = (photo: Photo) => !photo.localUri && !photo.path;
 
-const toDaySlot = (row: EntryRow): DaySlot => ({
-  slot: row.slot as Slot,
-  text: row.text ?? '',
-  photoLocalUri: row.photo_local_uri,
-  photoPath: row.photo_path,
-});
+export const isEmpty = (slot: DaySlot) => slot.text.trim() === '' && slot.photos.length === 0;
 
-const isEmpty = (s: DaySlot) => s.text.trim() === '' && !s.photoLocalUri && !s.photoPath;
+// --- odczyt -----------------------------------------------------------------
+
+async function photosFor(date: string): Promise<Map<number, Photo[]>> {
+  const db = await getDb();
+  const rows = await db.getAllAsync<PhotoRow>(
+    `SELECT * FROM entry_photos
+      WHERE entry_date = ? AND (local_uri IS NOT NULL OR path IS NOT NULL)
+      ORDER BY slot, position`,
+    [date]
+  );
+
+  const bySlot = new Map<number, Photo[]>();
+  for (const row of rows) {
+    const list = bySlot.get(row.slot) ?? [];
+    list.push({ position: row.position, localUri: row.local_uri, path: row.path });
+    bySlot.set(row.slot, list);
+  }
+  return bySlot;
+}
 
 /**
- * Zwraca dzien zawsze jako komplet trzech slotow — brakujace wiersze w bazie
- * staja sie pustymi slotami. Ekran nigdy nie musi sie zastanawiac, ilu pol
- * narysowac, i nie tworzymy wierszy dla slotow, ktorych uzytkownik nie dotknal.
+ * Dzien jako lista WYPELNIONYCH slotow.
+ *
+ * Przy trzech slotach rysowalismy zawsze wszystkie trzy. Przy dziesieciu byloby
+ * to sciana pustych pol, wiec pokazujemy tylko to, co ma tresc — a dopisanie
+ * kolejnej wdziecznosci obsluguje przycisk w UI (patrz nextFreeSlot).
  */
 export async function loadDay(date: string): Promise<Day> {
   const db = await getDb();
@@ -42,19 +66,45 @@ export async function loadDay(date: string): Promise<Day> {
     'SELECT * FROM entries WHERE entry_date = ? ORDER BY slot',
     [date]
   );
-  const bySlot = new Map(rows.map((r) => [r.slot, toDaySlot(r)]));
-  return { date, slots: SLOTS.map((s) => bySlot.get(s) ?? emptySlot(s)) };
+  const photos = await photosFor(date);
+
+  const slots = rows
+    .map((row) => ({
+      slot: row.slot,
+      text: row.text ?? '',
+      photos: photos.get(row.slot) ?? [],
+    }))
+    .filter((slot) => !isEmpty(slot));
+
+  return { date, slots };
+}
+
+/** Najnizszy wolny numer slotu, albo null gdy dzien jest pelny. */
+export async function nextFreeSlot(date: string): Promise<Slot | null> {
+  const db = await getDb();
+  const used = await db.getAllAsync<{ slot: number }>(
+    'SELECT slot FROM entries WHERE entry_date = ?',
+    [date]
+  );
+  const taken = new Set(used.map((row) => row.slot));
+  for (let slot = 1; slot <= MAX_SLOTS; slot++) {
+    if (!taken.has(slot)) return slot;
+  }
+  return null;
 }
 
 export type DayFilter = 'all' | 'favorites' | 'photos';
 
-const HAS_CONTENT = `((e.text IS NOT NULL AND trim(e.text) <> '') OR e.photo_local_uri IS NOT NULL OR e.photo_path IS NOT NULL)`;
-const HAS_PHOTO = `(e.photo_local_uri IS NOT NULL OR e.photo_path IS NOT NULL)`;
+const HAS_TEXT = `(e.text IS NOT NULL AND trim(e.text) <> '')`;
+const HAS_PHOTO = `EXISTS (
+  SELECT 1 FROM entry_photos p
+   WHERE p.entry_date = e.entry_date AND p.slot = e.slot
+     AND (p.local_uri IS NOT NULL OR p.path IS NOT NULL)
+)`;
+const HAS_CONTENT = `(${HAS_TEXT} OR ${HAS_PHOTO})`;
 
 /**
- * Dni z jakakolwiek trescia, od najnowszego. Pusty slot nie robi z dnia wpisu,
- * wiec dzien, w ktorym wszystko wyczyszczono, znika z listy — ale jego wiersze
- * zostaja w bazie, bo musza dojechac do pozostalych urzadzen.
+ * Dni z jakakolwiek trescia, od najnowszego.
  *
  * Uwaga o szukaniu: LIKE w SQLite zwija wielkosc liter tylko dla ASCII, wiec
  * "Zdrowie" znajdzie sie po "zdrow", ale "Łąka" juz nie po "łąk". Do naprawy
@@ -79,33 +129,32 @@ export async function listDays(
     params.push(`%${search}%`, `%${search}%`);
   }
 
-  const rows = await db.getAllAsync<EntryRow>(
-    `SELECT * FROM entries
-      WHERE entry_date IN (
-        SELECT e.entry_date FROM entries e
-          LEFT JOIN days d ON d.entry_date = e.entry_date
-         WHERE ${conditions.join(' AND ')}
-         GROUP BY e.entry_date
-         ORDER BY e.entry_date DESC
-         LIMIT ? OFFSET ?
-      )
-      ORDER BY entry_date DESC, slot`,
+  const dates = await db.getAllAsync<{ entry_date: string }>(
+    `SELECT e.entry_date FROM entries e
+       LEFT JOIN days d ON d.entry_date = e.entry_date
+      WHERE ${conditions.join(' AND ')}
+      GROUP BY e.entry_date
+      ORDER BY e.entry_date DESC
+      LIMIT ? OFFSET ?`,
     [...params, limit, offset]
   );
 
-  const days: Day[] = [];
-  for (const row of rows) {
-    let day = days[days.length - 1];
-    if (!day || day.date !== row.entry_date) {
-      day = { date: row.entry_date, slots: SLOTS.map(emptySlot) };
-      days.push(day);
-    }
-    day.slots[row.slot - 1] = toDaySlot(row);
-  }
-  return days;
+  return Promise.all(dates.map((row) => loadDay(row.entry_date)));
 }
 
-/** Tworzy wiersz slotu, jesli jeszcze nie istnieje. */
+/** Dni z trescia w zadanym zakresie — kalendarz zaznacza nimi kropki. */
+export async function datesWithContent(from: string, to: string): Promise<Set<string>> {
+  const db = await getDb();
+  const rows = await db.getAllAsync<{ entry_date: string }>(
+    `SELECT DISTINCT e.entry_date FROM entries e
+      WHERE e.entry_date BETWEEN ? AND ? AND ${HAS_CONTENT}`,
+    [from, to]
+  );
+  return new Set(rows.map((row) => row.entry_date));
+}
+
+// --- zapis ------------------------------------------------------------------
+
 async function ensureRow(date: string, slot: Slot): Promise<void> {
   const db = await getDb();
   await db.runAsync(
@@ -126,79 +175,114 @@ export async function saveText(date: string, slot: Slot, text: string): Promise<
   );
 }
 
-/**
- * Podpina zdjecie juz skopiowane do katalogu aplikacji (patrz src/photos).
- * Poprzednie zdjecie tego slotu trafia do kosza, zeby sync mogl skasowac je
- * takze w chmurze.
- */
-export async function savePhoto(date: string, slot: Slot, localUri: string): Promise<void> {
+/** Pierwsza wolna pozycja zdjecia w slocie, albo null gdy komplet. */
+export async function nextFreePhotoPosition(date: string, slot: Slot): Promise<number | null> {
+  const db = await getDb();
+  const rows = await db.getAllAsync<{ position: number }>(
+    `SELECT position FROM entry_photos
+      WHERE entry_date = ? AND slot = ? AND (local_uri IS NOT NULL OR path IS NOT NULL)`,
+    [date, slot]
+  );
+  const taken = new Set(rows.map((row) => row.position));
+  for (let position = 1; position <= MAX_PHOTOS_PER_SLOT; position++) {
+    if (!taken.has(position)) return position;
+  }
+  return null;
+}
+
+export async function addPhoto(
+  date: string,
+  slot: Slot,
+  position: number,
+  localUri: string
+): Promise<void> {
   const db = await getDb();
   await ensureRow(date, slot);
-  await trashRemotePhoto(date, slot);
+  await trashRemotePhoto(date, slot, position);
   await db.runAsync(
-    `UPDATE entries SET photo_local_uri = ?, photo_path = NULL, photo_dirty = 1,
-            updated_at = ?, dirty = 1
-      WHERE entry_date = ? AND slot = ?`,
-    [localUri, nowIso(), date, slot]
+    `INSERT INTO entry_photos (entry_date, slot, position, local_uri, path, updated_at, dirty, photo_dirty)
+     VALUES (?, ?, ?, ?, NULL, ?, 1, 1)
+     ON CONFLICT(entry_date, slot, position) DO UPDATE SET
+       local_uri = excluded.local_uri,
+       path = NULL,
+       updated_at = excluded.updated_at,
+       dirty = 1,
+       photo_dirty = 1`,
+    [date, slot, position, localUri, nowIso()]
   );
 }
 
-export async function removePhoto(date: string, slot: Slot): Promise<void> {
+export async function removePhoto(date: string, slot: Slot, position: number): Promise<void> {
   const db = await getDb();
-  await trashRemotePhoto(date, slot);
+  await trashRemotePhoto(date, slot, position);
+
+  const row = await db.getFirstAsync<PhotoRow>(
+    'SELECT * FROM entry_photos WHERE entry_date = ? AND slot = ? AND position = ?',
+    [date, slot, position]
+  );
+  deletePhotoFile(row?.local_uri ?? null);
+
   await db.runAsync(
-    `UPDATE entries SET photo_local_uri = NULL, photo_path = NULL, photo_dirty = 0,
+    `UPDATE entry_photos SET local_uri = NULL, path = NULL, photo_dirty = 0,
             updated_at = ?, dirty = 1
-      WHERE entry_date = ? AND slot = ?`,
+      WHERE entry_date = ? AND slot = ? AND position = ?`,
+    [nowIso(), date, slot, position]
+  );
+}
+
+/** Czysci caly slot: tekst i wszystkie jego zdjecia. */
+export async function clearSlot(date: string, slot: Slot): Promise<void> {
+  const db = await getDb();
+  for (let position = 1; position <= MAX_PHOTOS_PER_SLOT; position++) {
+    await removePhoto(date, slot, position);
+  }
+  await db.runAsync(
+    'UPDATE entries SET text = NULL, updated_at = ?, dirty = 1 WHERE entry_date = ? AND slot = ?',
     [nowIso(), date, slot]
   );
 }
 
-async function trashRemotePhoto(date: string, slot: Slot): Promise<void> {
+async function trashRemotePhoto(date: string, slot: Slot, position: number): Promise<void> {
   const db = await getDb();
-  const row = await db.getFirstAsync<{ photo_path: string | null }>(
-    'SELECT photo_path FROM entries WHERE entry_date = ? AND slot = ?',
-    [date, slot]
+  const row = await db.getFirstAsync<{ path: string | null }>(
+    'SELECT path FROM entry_photos WHERE entry_date = ? AND slot = ? AND position = ?',
+    [date, slot, position]
   );
-  if (row?.photo_path) {
-    await db.runAsync('INSERT OR IGNORE INTO photo_trash (storage_path) VALUES (?)', [
-      row.photo_path,
-    ]);
+  if (row?.path) {
+    await db.runAsync('INSERT OR IGNORE INTO photo_trash (storage_path) VALUES (?)', [row.path]);
   }
 }
 
 export async function countNonEmptyDays(): Promise<number> {
   const db = await getDb();
   const row = await db.getFirstAsync<{ n: number }>(
-    `SELECT COUNT(DISTINCT entry_date) AS n FROM entries
-      WHERE (text IS NOT NULL AND trim(text) <> '') OR photo_local_uri IS NOT NULL OR photo_path IS NOT NULL`
+    `SELECT COUNT(DISTINCT e.entry_date) AS n FROM entries e WHERE ${HAS_CONTENT}`
   );
   return row?.n ?? 0;
 }
-
-export { isEmpty };
 
 /**
  * Czysci wszystkie wpisy i pliki zdjec z tego urzadzenia.
  *
  * Wolane przy logowaniu na istniejace konto: bez tego wpisy z sesji anonimowej
  * zostalyby wypchniete do odzyskiwanego konta i wymieszaly sie z jego historia.
- * Ustawienia (jezyk, godzina przypomnienia) zostaja — to preferencje urzadzenia,
- * nie dane konta.
+ * Ustawienia (jezyk, motyw, godzina przypomnienia) zostaja — to preferencje
+ * urzadzenia, nie dane konta.
  */
 export async function wipeLocalEntries(): Promise<void> {
   const db = await getDb();
-  const rows = await db.getAllAsync<{ photo_local_uri: string | null }>(
-    'SELECT photo_local_uri FROM entries WHERE photo_local_uri IS NOT NULL'
+  const rows = await db.getAllAsync<{ local_uri: string | null }>(
+    'SELECT local_uri FROM entry_photos WHERE local_uri IS NOT NULL'
   );
-  rows.forEach((row) => deletePhotoFile(row.photo_local_uri));
+  rows.forEach((row) => deletePhotoFile(row.local_uri));
 
   await db.runAsync('DELETE FROM entries');
+  await db.runAsync('DELETE FROM entry_photos');
   await db.runAsync('DELETE FROM days');
   await db.runAsync('DELETE FROM photo_trash');
 }
 
-// --- app_state -------------------------------------------------------------
+// --- app_state --------------------------------------------------------------
 
 export async function getState(key: string): Promise<string | null> {
   const db = await getDb();
@@ -222,3 +306,5 @@ export async function clearState(key: string): Promise<void> {
   const db = await getDb();
   await db.runAsync('DELETE FROM app_state WHERE key = ?', [key]);
 }
+
+export { isPhotoEmpty };

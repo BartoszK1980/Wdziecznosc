@@ -37,7 +37,8 @@
     "lock": "Blokada aplikacji",
     "lockHint": "Odcisk palca lub kod urządzenia",
     "lockUnavailable": "To urządzenie nie ma ustawionej blokady ekranu.",
-    "reminderUnavailable": "Przypomnienia są niedostępne w tej wersji aplikacji."
+    "reminderUnavailable": "Przypomnienia są niedostępne w tej wersji aplikacji.",
+    "accent": "Kolor akcentu"
   },
   "account": {
     "title": "Konto",
@@ -99,7 +100,13 @@
     "extra": "Notatka dodatkowa",
     "extraPlaceholder": "Kilka słów więcej dla siebie…",
     "tags": "Za co najczęściej?",
-    "autosaved": "Zapisuje się samo"
+    "autosaved": "Zapisuje się samo",
+    "addEntry": "Dodaj kolejną",
+    "removeEntry": "Usuń ten wpis",
+    "slotLimit": "To już {{count}} wdzięczności — więcej się nie zmieści.",
+    "photoLimit": "Do jednej wdzięczności można dodać {{count}} zdjęcia.",
+    "noEntries": "Tego dnia nic nie zapisano.",
+    "readOnly": "Ten dzień jest już zamknięty — edytować można {{count}} dni wstecz."
   },
   "notes": {
     "title": "Moje notatki",
@@ -107,7 +114,9 @@
     "favorites": "Ulubione",
     "photos": "Zdjęcia",
     "search": "Szukaj we wpisach",
-    "noResults": "Nic nie znaleziono"
+    "noResults": "Nic nie znaleziono",
+    "viewList": "Lista",
+    "viewCalendar": "Kalendarz"
   },
   "stats": {
     "title": "Statystyki",
@@ -149,5 +158,13 @@
     "prompt": "Odblokuj Wdzięczność",
     "unlock": "Odblokuj",
     "locked": "Aplikacja zablokowana"
+  },
+  "accents": {
+    "sage": "Szałwia",
+    "ocean": "Ocean",
+    "terracotta": "Terakota",
+    "plum": "Śliwka",
+    "graphite": "Grafit",
+    "amber": "Bursztyn"
   }
 }

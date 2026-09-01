@@ -37,7 +37,8 @@
     "lock": "Bloqueio do app",
     "lockHint": "Digital ou código do aparelho",
     "lockUnavailable": "Este aparelho não tem bloqueio de tela configurado.",
-    "reminderUnavailable": "Os lembretes não estão disponíveis nesta versão."
+    "reminderUnavailable": "Os lembretes não estão disponíveis nesta versão.",
+    "accent": "Cor de destaque"
   },
   "account": {
     "title": "Conta",
@@ -99,7 +100,13 @@
     "extra": "Nota adicional",
     "extraPlaceholder": "Mais algumas palavras para você…",
     "tags": "Sobre o que foi?",
-    "autosaved": "Salva sozinho"
+    "autosaved": "Salva sozinho",
+    "addEntry": "Adicionar outra",
+    "removeEntry": "Excluir esta nota",
+    "slotLimit": "Já são {{count}} gratidões — não cabem mais.",
+    "photoLimit": "Você pode adicionar {{count}} fotos a uma gratidão.",
+    "noEntries": "Nada foi escrito nesse dia.",
+    "readOnly": "Este dia está fechado — você pode editar até {{count}} dias atrás."
   },
   "notes": {
     "title": "Minhas notas",
@@ -107,7 +114,9 @@
     "favorites": "Favoritas",
     "photos": "Fotos",
     "search": "Buscar nas notas",
-    "noResults": "Nada encontrado"
+    "noResults": "Nada encontrado",
+    "viewList": "Lista",
+    "viewCalendar": "Calendário"
   },
   "stats": {
     "title": "Estatísticas",
@@ -149,5 +158,13 @@
     "prompt": "Desbloquear Wdzięczność",
     "unlock": "Desbloquear",
     "locked": "Aplicativo bloqueado"
+  },
+  "accents": {
+    "sage": "Sálvia",
+    "ocean": "Oceano",
+    "terracotta": "Terracota",
+    "plum": "Ameixa",
+    "graphite": "Grafite",
+    "amber": "Âmbar"
   }
 }

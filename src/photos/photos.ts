@@ -28,8 +28,13 @@ function photosDir(): Directory {
 
 const randomSuffix = () => Math.random().toString(36).slice(2, 10);
 
-/** Nazwa pliku niesie date i slot — ulatwia diagnostyke i sprzatanie. */
-const fileNameFor = (date: string, slot: number) => `${date}-${slot}-${randomSuffix()}.jpg`;
+/**
+ * Nazwa pliku niesie date, slot i pozycje w galerii — ulatwia diagnostyke
+ * i sprzatanie. Losowy sufiks jest istotny: bez niego podmienione zdjecie
+ * trafialoby pod ta sama nazwe i cache obrazkow pokazywalby stare.
+ */
+const fileNameFor = (date: string, slot: number, position: number) =>
+  `${date}-${slot}-${position}-${randomSuffix()}.jpg`;
 
 function toResult(result: ImagePicker.ImagePickerResult): PickResult {
   const asset = result.assets?.[0];
@@ -70,7 +75,8 @@ export async function pickFromCamera(): Promise<PickResult> {
 export async function storePhoto(
   image: PickedImage,
   date: string,
-  slot: number
+  slot: number,
+  position: number
 ): Promise<string> {
   const context = ImageManipulator.manipulate(image.uri);
 
@@ -86,7 +92,7 @@ export async function storePhoto(
   const rendered = await context.renderAsync();
   const saved = await rendered.saveAsync({ compress: QUALITY, format: SaveFormat.JPEG });
 
-  const target = new File(photosDir(), fileNameFor(date, slot));
+  const target = new File(photosDir(), fileNameFor(date, slot, position));
   await new File(saved.uri).move(target);
   return target.uri;
 }
@@ -95,9 +101,10 @@ export async function storePhoto(
 export async function downloadPhoto(
   signedUrl: string,
   date: string,
-  slot: number
+  slot: number,
+  position: number
 ): Promise<string> {
-  const target = new File(photosDir(), fileNameFor(date, slot));
+  const target = new File(photosDir(), fileNameFor(date, slot, position));
   await File.downloadFileAsync(signedUrl, target, { idempotent: true });
   return target.uri;
 }

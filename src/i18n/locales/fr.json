@@ -37,7 +37,8 @@
     "lock": "Verrouillage de l'app",
     "lockHint": "Empreinte ou code de l’appareil",
     "lockUnavailable": "Cet appareil n'a pas de verrouillage d'écran.",
-    "reminderUnavailable": "Les rappels ne sont pas disponibles dans cette version."
+    "reminderUnavailable": "Les rappels ne sont pas disponibles dans cette version.",
+    "accent": "Couleur d’accent"
   },
   "account": {
     "title": "Compte",
@@ -99,7 +100,13 @@
     "extra": "Note complémentaire",
     "extraPlaceholder": "Quelques mots de plus pour toi…",
     "tags": "De quoi s'agissait-il ?",
-    "autosaved": "Enregistré tout seul"
+    "autosaved": "Enregistré tout seul",
+    "addEntry": "En ajouter une",
+    "removeEntry": "Supprimer cette note",
+    "slotLimit": "Cela fait déjà {{count}} gratitudes — il n’y a plus de place.",
+    "photoLimit": "Tu peux ajouter {{count}} photos à une gratitude.",
+    "noEntries": "Rien n’a été écrit ce jour-là.",
+    "readOnly": "Ce jour est clos — tu peux modifier jusqu’à {{count}} jours en arrière."
   },
   "notes": {
     "title": "Mes notes",
@@ -107,7 +114,9 @@
     "favorites": "Favoris",
     "photos": "Photos",
     "search": "Rechercher dans tes notes",
-    "noResults": "Aucun résultat"
+    "noResults": "Aucun résultat",
+    "viewList": "Liste",
+    "viewCalendar": "Calendrier"
   },
   "stats": {
     "title": "Statistiques",
@@ -149,5 +158,13 @@
     "prompt": "Déverrouiller Wdzięczność",
     "unlock": "Déverrouiller",
     "locked": "Application verrouillée"
+  },
+  "accents": {
+    "sage": "Sauge",
+    "ocean": "Océan",
+    "terracotta": "Terre cuite",
+    "plum": "Prune",
+    "graphite": "Graphite",
+    "amber": "Ambre"
   }
 }

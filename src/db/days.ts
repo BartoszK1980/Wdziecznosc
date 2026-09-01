@@ -97,7 +97,11 @@ export type Stats = {
   tags: { tag: Tag; count: number }[];
 };
 
-const CONTENT = `((text IS NOT NULL AND trim(text) <> '') OR photo_local_uri IS NOT NULL OR photo_path IS NOT NULL)`;
+const CONTENT = `((e.text IS NOT NULL AND trim(e.text) <> '') OR EXISTS (
+  SELECT 1 FROM entry_photos p
+   WHERE p.entry_date = e.entry_date AND p.slot = e.slot
+     AND (p.local_uri IS NOT NULL OR p.path IS NOT NULL)
+))`;
 
 /**
  * Seria = liczba kolejnych dni z wpisem, liczona wstecz.
@@ -125,12 +129,12 @@ export async function loadStats(moodWindow = 14): Promise<Stats> {
   const db = await getDb();
 
   const dayRows = await db.getAllAsync<{ entry_date: string }>(
-    `SELECT DISTINCT entry_date FROM entries WHERE ${CONTENT} ORDER BY entry_date DESC`
+    `SELECT DISTINCT e.entry_date FROM entries e WHERE ${CONTENT} ORDER BY e.entry_date DESC`
   );
   const dates = new Set(dayRows.map((r) => r.entry_date));
 
   const entryCount = await db.getFirstAsync<{ n: number }>(
-    `SELECT COUNT(*) AS n FROM entries WHERE ${CONTENT}`
+    `SELECT COUNT(*) AS n FROM entries e WHERE ${CONTENT}`
   );
 
   const moodRows = await db.getAllAsync<{ entry_date: string; mood: number }>(

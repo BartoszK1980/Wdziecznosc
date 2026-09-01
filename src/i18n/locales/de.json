@@ -37,7 +37,8 @@
     "lock": "App-Sperre",
     "lockHint": "Fingerabdruck oder Gerätecode",
     "lockUnavailable": "Auf diesem Gerät ist keine Bildschirmsperre eingerichtet.",
-    "reminderUnavailable": "Erinnerungen sind in dieser Version nicht verfügbar."
+    "reminderUnavailable": "Erinnerungen sind in dieser Version nicht verfügbar.",
+    "accent": "Akzentfarbe"
   },
   "account": {
     "title": "Konto",
@@ -99,7 +100,13 @@
     "extra": "Zusätzliche Notiz",
     "extraPlaceholder": "Ein paar Worte mehr für dich…",
     "tags": "Worum ging es?",
-    "autosaved": "Speichert von selbst"
+    "autosaved": "Speichert von selbst",
+    "addEntry": "Weitere hinzufügen",
+    "removeEntry": "Diesen Eintrag löschen",
+    "slotLimit": "Das sind bereits {{count}} Dankbarkeiten — mehr passt nicht.",
+    "photoLimit": "Zu einer Dankbarkeit kannst du {{count}} Fotos hinzufügen.",
+    "noEntries": "An diesem Tag wurde nichts geschrieben.",
+    "readOnly": "Dieser Tag ist abgeschlossen — bearbeiten kannst du {{count}} Tage zurück."
   },
   "notes": {
     "title": "Meine Notizen",
@@ -107,7 +114,9 @@
     "favorites": "Favoriten",
     "photos": "Fotos",
     "search": "Notizen durchsuchen",
-    "noResults": "Nichts gefunden"
+    "noResults": "Nichts gefunden",
+    "viewList": "Liste",
+    "viewCalendar": "Kalender"
   },
   "stats": {
     "title": "Statistik",
@@ -149,5 +158,13 @@
     "prompt": "Wdzięczność entsperren",
     "unlock": "Entsperren",
     "locked": "App gesperrt"
+  },
+  "accents": {
+    "sage": "Salbei",
+    "ocean": "Ozean",
+    "terracotta": "Terrakotta",
+    "plum": "Pflaume",
+    "graphite": "Graphit",
+    "amber": "Bernstein"
   }
 }

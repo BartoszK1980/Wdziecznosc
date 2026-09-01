@@ -37,7 +37,8 @@
     "lock": "App lock",
     "lockHint": "Fingerprint or device passcode",
     "lockUnavailable": "This device has no screen lock set up.",
-    "reminderUnavailable": "Reminders are not available in this build."
+    "reminderUnavailable": "Reminders are not available in this build.",
+    "accent": "Accent colour"
   },
   "account": {
     "title": "Account",
@@ -99,7 +100,13 @@
     "extra": "Extra note",
     "extraPlaceholder": "A few more words for yourself…",
     "tags": "What was it about?",
-    "autosaved": "Saves itself"
+    "autosaved": "Saves itself",
+    "addEntry": "Add another",
+    "removeEntry": "Delete this entry",
+    "slotLimit": "That's already {{count}} gratitudes — no more will fit.",
+    "photoLimit": "You can add {{count}} photos to one gratitude.",
+    "noEntries": "Nothing was written that day.",
+    "readOnly": "This day is closed — you can edit up to {{count}} days back."
   },
   "notes": {
     "title": "My notes",
@@ -107,7 +114,9 @@
     "favorites": "Favorites",
     "photos": "Photos",
     "search": "Search your notes",
-    "noResults": "Nothing found"
+    "noResults": "Nothing found",
+    "viewList": "List",
+    "viewCalendar": "Calendar"
   },
   "stats": {
     "title": "Statistics",
@@ -149,5 +158,13 @@
     "prompt": "Unlock Wdzięczność",
     "unlock": "Unlock",
     "locked": "App locked"
+  },
+  "accents": {
+    "sage": "Sage",
+    "ocean": "Ocean",
+    "terracotta": "Terracotta",
+    "plum": "Plum",
+    "graphite": "Graphite",
+    "amber": "Amber"
   }
 }

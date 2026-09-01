@@ -7,7 +7,7 @@ import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text
 import { DayEditor } from '@/components/day-editor';
 import { Card, Chip, Muted, SectionLabel } from '@/components/ui';
 import { Fonts, MaxContentWidth, Radius, Spacing } from '@/constants/theme';
-import { dateKey, TAGS, type Tag } from '@/db/db';
+import { dateKey, EDIT_WINDOW_DAYS, isEditable, TAGS, type Tag } from '@/db/db';
 import { loadDayMeta, MAX_NOTE_LENGTH, setNote, setTags, toggleFavorite } from '@/db/days';
 import { useTheme } from '@/hooks/use-theme';
 import { formatLongDate } from '@/i18n/dates';
@@ -28,6 +28,13 @@ export default function NoteScreen() {
   const navigation = useNavigation();
   const params = useLocalSearchParams<{ date?: string }>();
   const date = typeof params.date === 'string' ? params.date : dateKey();
+
+  /**
+   * Okno edycji to 7 dni. Starsze dni zostaja widoczne, ale bez pol do pisania —
+   * inaczej kalendarz pozwalalby otworzyc dowolny dzien i dopisac cos wstecz,
+   * co przeczy sensowi codziennej praktyki.
+   */
+  const editable = isEditable(date);
 
   const [note, setNoteState] = useState('');
   const [tags, setTagsState] = useState<Tag[]>([]);
@@ -78,7 +85,11 @@ export default function NoteScreen() {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
+      // "Nowa notatka" tylko dla dzisiejszego dnia — otwierajac 10 sierpnia
+      // z kalendarza uzytkownik nie tworzy niczego nowego.
+      title: date === dateKey() ? t('editor.titleNew') : t('editor.titleEdit'),
+      headerRight: () =>
+        editable ? (
         <Pressable
           accessibilityRole="button"
           accessibilityLabel={t('notes.favorites')}
@@ -92,9 +103,9 @@ export default function NoteScreen() {
             style={favorite ? undefined : styles.outlineHeart}
           />
         </Pressable>
-      ),
+        ) : null,
     });
-  }, [navigation, favorite, colors, onToggleFavorite, t]);
+  }, [navigation, favorite, colors, onToggleFavorite, t, editable, date]);
 
   return (
     <KeyboardAvoidingView
@@ -112,52 +123,71 @@ export default function NoteScreen() {
             </Card>
           </View>
 
+          {!editable ? (
+            <View style={[styles.locked, { backgroundColor: colors.surfaceWarm }]}>
+              <Feather name="lock" size={16} color={colors.textMuted} />
+              <Muted size={14}>{t('editor.readOnly', { count: EDIT_WINDOW_DAYS })}</Muted>
+            </View>
+          ) : null}
+
           <View style={styles.field}>
             <SectionLabel>{t('editor.question')}</SectionLabel>
-            <DayEditor date={date} />
+            <DayEditor date={date} editable={editable} />
           </View>
 
-          <View style={styles.field}>
-            <View style={styles.labelRow}>
-              <SectionLabel>{t('editor.tags')}</SectionLabel>
-              <Muted size={13}>{t('editor.optional')}</Muted>
+          {editable || tags.length > 0 ? (
+            <View style={styles.field}>
+              <View style={styles.labelRow}>
+                <SectionLabel>{t('editor.tags')}</SectionLabel>
+                {editable ? <Muted size={13}>{t('editor.optional')}</Muted> : null}
+              </View>
+              <View style={styles.chips}>
+                {(editable ? TAGS : TAGS.filter((tag) => tags.includes(tag))).map((tag) => (
+                  <Chip
+                    key={tag}
+                    label={t(`tags.${tag}`)}
+                    selected={tags.includes(tag)}
+                    onPress={() => editable && onToggleTag(tag)}
+                  />
+                ))}
+              </View>
             </View>
-            <View style={styles.chips}>
-              {TAGS.map((tag) => (
-                <Chip
-                  key={tag}
-                  label={t(`tags.${tag}`)}
-                  selected={tags.includes(tag)}
-                  onPress={() => onToggleTag(tag)}
+          ) : null}
+
+          {editable || note ? (
+            <View style={styles.field}>
+              <View style={styles.labelRow}>
+                <SectionLabel>{t('editor.extra')}</SectionLabel>
+                {editable ? <Muted size={13}>{t('editor.optional')}</Muted> : null}
+              </View>
+              {editable ? (
+                <TextInput
+                  value={note}
+                  onChangeText={onChangeNote}
+                  placeholder={t('editor.extraPlaceholder')}
+                  placeholderTextColor={colors.textMuted}
+                  multiline
+                  maxLength={MAX_NOTE_LENGTH}
+                  textAlignVertical="top"
+                  style={[
+                    styles.noteInput,
+                    { color: colors.text, backgroundColor: colors.surface, borderColor: colors.border },
+                  ]}
                 />
-              ))}
+              ) : (
+                <Text style={[styles.noteInput, { color: colors.text, backgroundColor: colors.surface, borderColor: colors.border }]}>
+                  {note}
+                </Text>
+              )}
             </View>
-          </View>
+          ) : null}
 
-          <View style={styles.field}>
-            <View style={styles.labelRow}>
-              <SectionLabel>{t('editor.extra')}</SectionLabel>
-              <Muted size={13}>{t('editor.optional')}</Muted>
+          {editable ? (
+            <View style={styles.footer}>
+              <Feather name="check-circle" size={14} color={colors.sage} />
+              <Muted size={13}>{t('editor.autosaved')}</Muted>
             </View>
-            <TextInput
-              value={note}
-              onChangeText={onChangeNote}
-              placeholder={t('editor.extraPlaceholder')}
-              placeholderTextColor={colors.textMuted}
-              multiline
-              maxLength={MAX_NOTE_LENGTH}
-              textAlignVertical="top"
-              style={[
-                styles.noteInput,
-                { color: colors.text, backgroundColor: colors.surface, borderColor: colors.border },
-              ]}
-            />
-          </View>
-
-          <View style={styles.footer}>
-            <Feather name="check-circle" size={14} color={colors.sage} />
-            <Muted size={13}>{t('editor.autosaved')}</Muted>
-          </View>
+          ) : null}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -212,4 +242,11 @@ const styles = StyleSheet.create({
     gap: Spacing.xs,
   },
   outlineHeart: { opacity: 0.9 },
+  locked: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+    padding: Spacing.md,
+    borderRadius: Radius.lg,
+  },
 });

@@ -4,7 +4,8 @@ import * as Sharing from 'expo-sharing';
 import { dateKey, getDb, type EntryRow } from './db';
 
 type ExportedEntry = Pick<EntryRow, 'entry_date' | 'slot' | 'text' | 'updated_at'> & {
-  has_photo: boolean;
+  /** Liczba zdjec przy tym wpisie — same pliki zostaja poza eksportem. */
+  photos: number;
 };
 
 /**
@@ -12,17 +13,23 @@ type ExportedEntry = Pick<EntryRow, 'entry_date' | 'slot' | 'text' | 'updated_at
  *
  * Zdjecia zostaja poza plikiem — sa w chmurze i w katalogu aplikacji, a wrzucenie
  * ich w base64 zrobiloby z eksportu plik nie do otwarcia. Zamiast tego kazdy wpis
- * niesie flage `has_photo`, zeby bylo widac, gdzie zdjecie istnieje.
+ * niesie LICZBE zdjec, zeby bylo widac, gdzie i ile ich jest.
  *
  * Plik ladatuje w cache — jest jednorazowy, po udostepnieniu system moze go usunac.
  */
 export async function exportEntriesJson(): Promise<boolean> {
   const db = await getDb();
-  const rows = await db.getAllAsync<EntryRow>(
-    `SELECT entry_date, slot, text, photo_path, photo_local_uri, updated_at
-       FROM entries
-      WHERE (text IS NOT NULL AND trim(text) <> '') OR photo_path IS NOT NULL OR photo_local_uri IS NOT NULL
-      ORDER BY entry_date DESC, slot`
+  const rows = await db.getAllAsync<EntryRow & { photos: number }>(
+    `SELECT e.entry_date, e.slot, e.text, e.updated_at,
+            (SELECT COUNT(*) FROM entry_photos p
+              WHERE p.entry_date = e.entry_date AND p.slot = e.slot
+                AND (p.local_uri IS NOT NULL OR p.path IS NOT NULL)) AS photos
+       FROM entries e
+      WHERE (e.text IS NOT NULL AND trim(e.text) <> '')
+         OR EXISTS (SELECT 1 FROM entry_photos p
+                     WHERE p.entry_date = e.entry_date AND p.slot = e.slot
+                       AND (p.local_uri IS NOT NULL OR p.path IS NOT NULL))
+      ORDER BY e.entry_date DESC, e.slot`
   );
 
   const entries: ExportedEntry[] = rows.map((row) => ({
@@ -30,7 +37,7 @@ export async function exportEntriesJson(): Promise<boolean> {
     slot: row.slot,
     text: row.text,
     updated_at: row.updated_at,
-    has_photo: Boolean(row.photo_path || row.photo_local_uri),
+    photos: row.photos,
   }));
 
   const file = new File(Paths.cache, `wdziecznosc-${dateKey()}.json`);

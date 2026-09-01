@@ -4,14 +4,14 @@ import { StyleSheet, View } from 'react-native';
 
 import { Radius } from '@/constants/theme';
 import type { Slot } from '@/db/db';
+import type { Photo } from '@/db/entries';
 import { useTheme } from '@/hooks/use-theme';
 import { ensureLocalPhoto } from '@/sync/sync';
 
 type Props = {
   date: string;
   slot: Slot;
-  localUri: string | null;
-  photoPath: string | null;
+  photo: Photo;
   size: number;
 };
 
@@ -20,22 +20,22 @@ type Props = {
  * sciezke zdalna, zdjecie pobiera sie dopiero teraz — czyli wtedy, gdy naprawde
  * trafilo na ekran.
  */
-export function EntryPhoto({ date, slot, localUri, photoPath, size }: Props) {
+export function EntryPhoto({ date, slot, photo, size }: Props) {
   const colors = useTheme();
-  const [uri, setUri] = useState<string | null>(localUri);
+  const [uri, setUri] = useState<string | null>(photo.localUri);
 
   useEffect(() => {
-    setUri(localUri);
-    if (localUri || !photoPath) return;
+    setUri(photo.localUri);
+    if (photo.localUri || !photo.path) return;
 
     let active = true;
-    ensureLocalPhoto(date, slot).then((downloaded) => {
+    ensureLocalPhoto(date, slot, photo.position).then((downloaded) => {
       if (active) setUri(downloaded);
     });
     return () => {
       active = false;
     };
-  }, [date, slot, localUri, photoPath]);
+  }, [date, slot, photo.position, photo.localUri, photo.path]);
 
   // Bez adnotacji typu: te trzy wlasciwosci sa wspolne dla ViewStyle i ImageStyle,
   // wiec wywnioskowany typ pasuje i do placeholdera, i do zdjecia.
@@ -44,22 +44,16 @@ export function EntryPhoto({ date, slot, localUri, photoPath, size }: Props) {
   if (!uri) {
     return (
       <View
-        style={[styles.placeholder, box, { backgroundColor: colors.surface, borderColor: colors.border }]}
+        style={[
+          styles.placeholder,
+          box,
+          { backgroundColor: colors.surfaceWarm, borderColor: colors.border },
+        ]}
       />
     );
   }
 
-  return (
-    <Image
-      source={uri}
-      style={box}
-      contentFit="cover"
-      transition={150}
-      // Kazde zdjecie ma losowy sufiks w nazwie, wiec cache nigdy nie pokaze
-      // starego obrazka po podmianie.
-      cachePolicy="disk"
-    />
-  );
+  return <Image source={uri} style={box} contentFit="cover" transition={150} cachePolicy="disk" />;
 }
 
 const styles = StyleSheet.create({
