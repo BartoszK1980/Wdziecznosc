@@ -166,5 +166,27 @@
     "plum": "Ciruela",
     "graphite": "Grafito",
     "amber": "Ámbar"
+  },
+  "premium": {
+    "title": "Sin anuncios",
+    "subtitle": "La suscripción anual elimina los anuncios de toda la aplicación.",
+    "noAds": "Ningún anuncio — en ningún sitio, nunca",
+    "support": "Apoyas el desarrollo de la aplicación",
+    "sameFeatures": "Todas las funciones siguen disponibles también sin suscripción",
+    "perYear": "al año",
+    "buy": "Suscribirse",
+    "restore": "Restaurar compra",
+    "restored": "Suscripción restaurada.",
+    "nothingToRestore": "No se encontró ninguna compra en esta cuenta.",
+    "unavailable": "La suscripción no está disponible ahora. Inténtalo más tarde.",
+    "notConfigured": "Los pagos aún no están configurados en esta versión.",
+    "activeTitle": "Suscripción activa",
+    "activeBody": "No verás anuncios. Gracias por el apoyo.",
+    "legal": "El pago lo gestiona la tienda. La suscripción se renueva cada año hasta que la canceles en los ajustes de tu cuenta.",
+    "settingsRow": "Quitar anuncios"
+  },
+  "ads": {
+    "placeholder": "Espacio publicitario",
+    "placeholderTest": "Espacio publicitario (modo de prueba)"
   }
 }

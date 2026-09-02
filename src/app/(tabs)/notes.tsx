@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { AdBanner } from '@/components/ad-banner';
 import { Calendar } from '@/components/calendar';
 import { EntryPhoto } from '@/components/entry-photo';
 import { Card, Chip, Heading, Muted } from '@/components/ui';
@@ -165,6 +166,7 @@ export default function NotesScreen() {
         onEndReached={() => void loadMore()}
         onEndReachedThreshold={0.5}
       />
+      <AdBanner placement="notes" />
     </SafeAreaView>
   );
 }

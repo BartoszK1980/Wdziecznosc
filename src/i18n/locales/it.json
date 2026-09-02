@@ -166,5 +166,27 @@
     "plum": "Prugna",
     "graphite": "Grafite",
     "amber": "Ambra"
+  },
+  "premium": {
+    "title": "Senza pubblicità",
+    "subtitle": "L'abbonamento annuale rimuove la pubblicità da tutta l'app.",
+    "noAds": "Nessuna pubblicità — da nessuna parte, mai",
+    "support": "Sostieni lo sviluppo dell'app",
+    "sameFeatures": "Tutte le funzioni restano disponibili anche senza abbonamento",
+    "perYear": "all'anno",
+    "buy": "Abbonati",
+    "restore": "Ripristina acquisto",
+    "restored": "Abbonamento ripristinato.",
+    "nothingToRestore": "Nessun acquisto trovato su questo account.",
+    "unavailable": "L'abbonamento non è disponibile ora. Riprova più tardi.",
+    "notConfigured": "I pagamenti non sono ancora configurati in questa versione.",
+    "activeTitle": "Abbonamento attivo",
+    "activeBody": "Non vedrai pubblicità. Grazie per il supporto.",
+    "legal": "Il pagamento è gestito dallo store. L'abbonamento si rinnova ogni anno finché non lo annulli nelle impostazioni del tuo account.",
+    "settingsRow": "Rimuovi pubblicità"
+  },
+  "ads": {
+    "placeholder": "Spazio pubblicitario",
+    "placeholderTest": "Spazio pubblicitario (modalità test)"
   }
 }

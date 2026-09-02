@@ -13,6 +13,7 @@ import { useTheme, useThemeMode } from '@/hooks/use-theme';
 // jakikolwiek ekran wywola useTranslation().
 import { applyStoredLanguage } from '@/i18n';
 import { scheduleReminderFromSettings } from '@/notifications/reminder';
+import { MonetizationProvider } from '@/monetization/provider';
 import { ensureSession } from '@/sync/supabase';
 import { startSyncTriggers } from '@/sync/sync';
 import { ThemeProvider } from '@/theme/provider';
@@ -61,9 +62,11 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider>
-      <LockGate>
-        <Navigation />
-      </LockGate>
+      <MonetizationProvider>
+        <LockGate>
+          <Navigation />
+        </LockGate>
+      </MonetizationProvider>
     </ThemeProvider>
   );
 }
@@ -105,6 +108,10 @@ function Navigation() {
         />
         <Stack.Screen name="backup" options={{ title: t('backup.title'), presentation: 'modal' }} />
         <Stack.Screen name="account" options={{ title: t('account.title'), presentation: 'modal' }} />
+        <Stack.Screen
+          name="premium"
+          options={{ title: t('premium.title'), presentation: 'modal' }}
+        />
       </Stack>
     </NavigationThemeProvider>
   );

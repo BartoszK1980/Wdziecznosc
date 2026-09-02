@@ -103,6 +103,32 @@ npm run trace-mark && npm run verify-mark && npm run make-icons
 
 Chcesz inny stopień wygładzenia? Podnieś `EPSILON` i `BLUR` w [`scripts/trace-mark.mjs`](scripts/trace-mark.mjs) i uruchom ponownie.
 
+## Monetyzacja
+
+Dwa warianty: reklamy dla wszystkich i roczna subskrypcja, która je wyłącza.
+
+### Gdzie pokazują się reklamy
+
+Rozmieszczenie to **konfiguracja, nie zaszyty kod** — całość opisuje `DEFAULT_AD_POLICY` w [`src/monetization/policy.ts`](src/monetization/policy.ts). Ekrany pytają tylko „czy tu wolno" i nie znają żadnych reguł, więc zmiana kanału nie wymaga przechodzenia po komponentach.
+
+Domyślnie: baner na **Notatkach i Statystykach**, nigdzie indziej, i dopiero **po 7 dniach** od instalacji.
+
+Co ważniejsze — te same ustawienia da się zmienić **bez wydawania nowej wersji**, przez tabelę `app_config` w Supabase ([migracja 0004](supabase/migrations/0004_app_config.sql)). Bez tego każda hipoteza o przychodzie kosztowałaby kilka dni czekania na przegląd w sklepie. Przykłady zapytań są w komentarzu na końcu migracji. Ostatnio pobrana konfiguracja siedzi w pamięci podręcznej, więc aplikacja działa tak samo bez sieci.
+
+### Czego brakuje do uruchomienia
+
+| Co | Gdzie wpisać | Bez tego |
+|---|---|---|
+| Konto AdMob, identyfikator jednostki reklamowej | `app.json` → `extra.admobBannerAndroid` / `admobBannerIos` | Działają publiczne **identyfikatory testowe Google** — reklama się wyświetla, ale nic nie zarabia |
+| Konto RevenueCat, klucze API | `app.json` → `extra.revenueCatAndroidKey` / `revenueCatIosKey` | Ekran subskrypcji mówi wprost, że płatności nie są skonfigurowane |
+| Produkt roczny w App Store Connect i Google Play Console | panele sklepów | Nie ma czego kupić — wymaga kont deweloperskich |
+
+**Nigdy nie klikaj własnych reklam produkcyjnych** na urządzeniu testowym. Google blokuje za to konto AdMob. Dopóki `extra.admobBanner*` jest puste, aplikacja używa identyfikatorów testowych i jest to bezpieczne.
+
+### Czego nie da się sprawdzić w Expo Go
+
+Ani AdMob, ani RevenueCat nie są częścią Expo Go. Aplikacja to wykrywa i pokazuje zastępcze pole „Ad slot (test mode)" zamiast reklamy — układ ekranu można więc ocenić, ale prawdziwa reklama wymaga buildu deweloperskiego.
+
 ## Odstępstwa od makiet
 
 | Makieta | Tutaj | Dlaczego |

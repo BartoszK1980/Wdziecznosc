@@ -166,5 +166,27 @@
     "plum": "Prune",
     "graphite": "Graphite",
     "amber": "Ambre"
+  },
+  "premium": {
+    "title": "Sans publicité",
+    "subtitle": "L'abonnement annuel retire les publicités de toute l'application.",
+    "noAds": "Aucune publicité — nulle part, jamais",
+    "support": "Tu soutiens le développement de l'application",
+    "sameFeatures": "Toutes les fonctions restent disponibles même sans abonnement",
+    "perYear": "par an",
+    "buy": "S'abonner",
+    "restore": "Restaurer l'achat",
+    "restored": "Abonnement restauré.",
+    "nothingToRestore": "Aucun achat trouvé sur ce compte.",
+    "unavailable": "L'abonnement est indisponible pour le moment. Réessaie plus tard.",
+    "notConfigured": "Les paiements ne sont pas encore configurés dans cette version.",
+    "activeTitle": "Abonnement actif",
+    "activeBody": "Tu ne verras aucune publicité. Merci pour ton soutien.",
+    "legal": "Le paiement est prélevé par la boutique. L'abonnement se renouvelle chaque année jusqu'à ce que tu l'annules dans les réglages de ton compte.",
+    "settingsRow": "Retirer les publicités"
+  },
+  "ads": {
+    "placeholder": "Emplacement publicitaire",
+    "placeholderTest": "Emplacement publicitaire (mode test)"
   }
 }

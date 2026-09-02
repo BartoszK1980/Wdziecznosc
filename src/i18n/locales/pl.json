@@ -166,5 +166,27 @@
     "plum": "Śliwka",
     "graphite": "Grafit",
     "amber": "Bursztyn"
+  },
+  "premium": {
+    "title": "Bez reklam",
+    "subtitle": "Roczna subskrypcja usuwa reklamy z całej aplikacji.",
+    "noAds": "Żadnych reklam — nigdzie i nigdy",
+    "support": "Wspierasz rozwój aplikacji",
+    "sameFeatures": "Wszystkie funkcje zostają dostępne także bez subskrypcji",
+    "perYear": "rocznie",
+    "buy": "Wykup subskrypcję",
+    "restore": "Przywróć zakup",
+    "restored": "Subskrypcja przywrócona.",
+    "nothingToRestore": "Nie znaleziono zakupu na tym koncie.",
+    "unavailable": "Subskrypcja jest teraz niedostępna. Spróbuj ponownie później.",
+    "notConfigured": "Płatności nie są jeszcze skonfigurowane w tej wersji aplikacji.",
+    "activeTitle": "Subskrypcja aktywna",
+    "activeBody": "Nie zobaczysz reklam. Dziękujemy za wsparcie.",
+    "legal": "Płatność pobiera sklep. Subskrypcja odnawia się co rok, dopóki jej nie anulujesz w ustawieniach konta w sklepie.",
+    "settingsRow": "Usuń reklamy"
+  },
+  "ads": {
+    "placeholder": "Miejsce na reklamę",
+    "placeholderTest": "Miejsce na reklamę (tryb testowy)"
   }
 }

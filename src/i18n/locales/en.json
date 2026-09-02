@@ -166,5 +166,27 @@
     "plum": "Plum",
     "graphite": "Graphite",
     "amber": "Amber"
+  },
+  "premium": {
+    "title": "Ad-free",
+    "subtitle": "A yearly subscription removes ads from the whole app.",
+    "noAds": "No ads — anywhere, ever",
+    "support": "You support the app’s development",
+    "sameFeatures": "Every feature stays available without a subscription too",
+    "perYear": "per year",
+    "buy": "Subscribe",
+    "restore": "Restore purchase",
+    "restored": "Subscription restored.",
+    "nothingToRestore": "No purchase found on this account.",
+    "unavailable": "The subscription is unavailable right now. Try again later.",
+    "notConfigured": "Payments are not set up in this build yet.",
+    "activeTitle": "Subscription active",
+    "activeBody": "You will not see any ads. Thank you for the support.",
+    "legal": "Payment is taken by the store. The subscription renews yearly until you cancel it in your store account settings.",
+    "settingsRow": "Remove ads"
+  },
+  "ads": {
+    "placeholder": "Ad slot",
+    "placeholderTest": "Ad slot (test mode)"
   }
 }

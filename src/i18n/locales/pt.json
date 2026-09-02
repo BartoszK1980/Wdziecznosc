@@ -166,5 +166,27 @@
     "plum": "Ameixa",
     "graphite": "Grafite",
     "amber": "Âmbar"
+  },
+  "premium": {
+    "title": "Sem anúncios",
+    "subtitle": "A assinatura anual remove os anúncios de todo o aplicativo.",
+    "noAds": "Nenhum anúncio — em lugar nenhum, nunca",
+    "support": "Você apoia o desenvolvimento do aplicativo",
+    "sameFeatures": "Todos os recursos continuam disponíveis mesmo sem assinatura",
+    "perYear": "por ano",
+    "buy": "Assinar",
+    "restore": "Restaurar compra",
+    "restored": "Assinatura restaurada.",
+    "nothingToRestore": "Nenhuma compra encontrada nesta conta.",
+    "unavailable": "A assinatura não está disponível agora. Tente mais tarde.",
+    "notConfigured": "Os pagamentos ainda não estão configurados nesta versão.",
+    "activeTitle": "Assinatura ativa",
+    "activeBody": "Você não verá anúncios. Obrigado pelo apoio.",
+    "legal": "O pagamento é feito pela loja. A assinatura renova anualmente até você cancelar nas configurações da sua conta.",
+    "settingsRow": "Remover anúncios"
+  },
+  "ads": {
+    "placeholder": "Espaço de anúncio",
+    "placeholderTest": "Espaço de anúncio (modo de teste)"
   }
 }

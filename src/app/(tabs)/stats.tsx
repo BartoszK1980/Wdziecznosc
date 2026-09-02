@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { AdBanner } from '@/components/ad-banner';
 import { MoodChart } from '@/components/mood-chart';
 import { Card, Heading, Muted, SectionLabel, StatTile } from '@/components/ui';
 import { Fonts, MaxContentWidth, Radius, Spacing } from '@/constants/theme';
@@ -90,6 +91,7 @@ export default function StatsScreen() {
           )}
         </View>
       </ScrollView>
+      <AdBanner placement="stats" />
     </SafeAreaView>
   );
 }

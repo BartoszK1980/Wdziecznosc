@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 
 import { clearState, getState, setState } from '@/db/entries';
+import { isExpoGo } from '@/native-runtime';
 import i18n from '@/i18n';
 
 /**
@@ -22,16 +23,21 @@ const ANDROID_CHANNEL = 'daily-reminder';
 let modulePromise: Promise<NotificationsModule | null> | null = null;
 
 /**
- * `null`, gdy modul jest niedostepny (np. Expo Go na Androidzie).
+ * `null`, gdy modulu nie da sie zaladowac.
  *
- * try/catch wewnatrz async, a nie `.catch()` na samym `import()`: modul nie
- * wysypuje sie przy ladowaniu, tylko przy WYKONYWANIU (jego kod rejestruje
- * nasluch tokenu push i rzuca wyjatkiem). Ten rzut jest synchroniczny, wiec
- * `.catch()` na wyrazeniu import go nie widzi — dopiero `await` w bloku try
- * zamienia go na odrzucenie, ktore da sie przechwycic.
+ * Na Androidzie w Expo Go expo-notifications rzuca wyjatkiem JUZ PRZY
+ * ZALADOWANIU: jego kod rejestruje nasluch tokenu push w zasiegu modulu,
+ * a Expo Go od SDK 53 nie obsluguje juz powiadomien push i celowo rzuca.
+ *
+ * Samo `try/catch` wokol `await import(...)` tego NIE lapie — Metro wykonuje
+ * kod modulu wewnatrz oddzwonienia obietnicy, wiec wyjatek omija `catch`
+ * i konczy sie czerwonym ekranem. Dlatego sprawdzamy srodowisko ZANIM
+ * dotkniemy modulu.
  */
 function loadNotifications(): Promise<NotificationsModule | null> {
   modulePromise ??= (async () => {
+    if (Platform.OS === 'android' && isExpoGo()) return null;
+
     try {
       return await import('expo-notifications');
     } catch {

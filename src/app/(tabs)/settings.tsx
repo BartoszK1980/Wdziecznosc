@@ -22,6 +22,7 @@ import {
   type ReminderTime,
 } from '@/notifications/reminder';
 import { getAccountState, type AccountState } from '@/sync/supabase';
+import { useMonetization } from '@/monetization/provider';
 import type { ThemeMode } from '@/theme/provider';
 
 const THEME_OPTIONS: { mode: ThemeMode; label: string; icon: React.ComponentProps<typeof Feather>['name'] }[] = [
@@ -35,6 +36,7 @@ export default function SettingsScreen() {
   const colors = useTheme();
   const { mode, setMode, scheme, accent, setAccent } = useThemeMode();
   const router = useRouter();
+  const { premium } = useMonetization();
 
   const [language, setLanguageState] = useState<Language | null>(null);
   const [reminder, setReminderState] = useState<ReminderTime | null>(null);
@@ -239,6 +241,12 @@ export default function SettingsScreen() {
           </View>
 
           <Card style={styles.group}>
+            <Row
+              icon={premium ? 'award' : 'zap'}
+              label={premium ? t('premium.activeTitle') : t('premium.settingsRow')}
+              onPress={() => router.push('/premium')}>
+              <Feather name="chevron-right" size={18} color={colors.textMuted} />
+            </Row>
             <Row icon="cloud" label={t('settings.backup')} onPress={() => router.push('/backup')}>
               <Feather name="chevron-right" size={18} color={colors.textMuted} />
             </Row>

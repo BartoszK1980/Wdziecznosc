@@ -166,5 +166,27 @@
     "plum": "Pflaume",
     "graphite": "Graphit",
     "amber": "Bernstein"
+  },
+  "premium": {
+    "title": "Ohne Werbung",
+    "subtitle": "Ein Jahresabo entfernt die Werbung aus der ganzen App.",
+    "noAds": "Keine Werbung — nirgends, nie",
+    "support": "Du unterstützt die Entwicklung der App",
+    "sameFeatures": "Alle Funktionen bleiben auch ohne Abo verfügbar",
+    "perYear": "pro Jahr",
+    "buy": "Abo abschließen",
+    "restore": "Kauf wiederherstellen",
+    "restored": "Abo wiederhergestellt.",
+    "nothingToRestore": "Für dieses Konto wurde kein Kauf gefunden.",
+    "unavailable": "Das Abo ist gerade nicht verfügbar. Versuche es später.",
+    "notConfigured": "Zahlungen sind in dieser Version noch nicht eingerichtet.",
+    "activeTitle": "Abo aktiv",
+    "activeBody": "Du siehst keine Werbung. Danke für die Unterstützung.",
+    "legal": "Die Zahlung übernimmt der Store. Das Abo verlängert sich jährlich, bis du es in den Kontoeinstellungen des Stores kündigst.",
+    "settingsRow": "Werbung entfernen"
+  },
+  "ads": {
+    "placeholder": "Werbeplatz",
+    "placeholderTest": "Werbeplatz (Testmodus)"
   }
 }
