@@ -76,11 +76,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopWidth: StyleSheet.hairlineWidth,
     paddingVertical: Spacing.xs,
+    /**
+     * Odstep od paska zakladek MUSI byc wiekszy niz wyniesienie przycisku "+"
+     * (Spacing.lg w tab-bar.tsx). Inaczej przycisk naklada sie na dolna krawedz
+     * banera — a regulamin AdMob zabrania zaslaniania reklam czymkolwiek
+     * i grozi za to zablokowaniem konta.
+     */
+    marginBottom: Spacing.lg + Spacing.sm,
   },
   placeholder: {
     height: 50,
     marginHorizontal: Spacing.lg,
-    marginBottom: Spacing.sm,
+    marginBottom: Spacing.lg + Spacing.sm,
     borderRadius: Radius.md,
     borderWidth: StyleSheet.hairlineWidth,
     borderStyle: 'dashed',

@@ -129,6 +129,32 @@ Co ważniejsze — te same ustawienia da się zmienić **bez wydawania nowej wer
 
 Ani AdMob, ani RevenueCat nie są częścią Expo Go. Aplikacja to wykrywa i pokazuje zastępcze pole „Ad slot (test mode)" zamiast reklamy — układ ekranu można więc ocenić, ale prawdziwa reklama wymaga buildu deweloperskiego.
 
+### Build deweloperski (prawdziwe reklamy testowe)
+
+```bash
+npx expo prebuild --platform android
+```
+
+```bash
+cd android && ./gradlew app:assembleDebug -PreactNativeArchitectures=x86_64
+```
+
+```bash
+adb install -r android/app/build/outputs/apk/debug/app-debug.apk && npx expo start --dev-client
+```
+
+Ograniczenie architektury do `x86_64` skraca kompilację natywną około czterokrotnie i wystarcza dla emulatora. Do wydania w sklepie potrzebne są wszystkie ABI.
+
+**`react-native-google-mobile-ads` jest przypięte do 16.0.3 i nie wolno go podnieść**, dopóki Expo nie przejdzie na Kotlina 2.3. Wersje 16.2+ ciągną `play-services-ads` 25.x, skompilowane metadanymi Kotlina 2.3, a Expo SDK 57 kompiluje Kotlinem 2.1.20 i odmawia ich czytania. Cofnięcie samego `play-services-ads` do 24.x też nie pomaga — biblioteka w wersji 16.5 używa API `AgeRestrictedTreatment`, którego w 24.x nie ma. 16.0.3 celuje w `play-services-ads` 24.9.0 i to jest jedyna działająca kombinacja.
+
+Jeśli gradle zgłosi `Could not HEAD ... > dl.google.com` mimo działającego internetu, to JVM próbuje IPv6 bez trasy zwrotnej. Obejście — w `android/gradle.properties`:
+
+```
+org.gradle.jvmargs=-Xmx2048m -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true
+```
+
+To ustawienie dotyczy konkretnej maszyny, a katalog `android/` jest generowany i pominięty w gitignore, więc po każdym `prebuild` trzeba je dopisać ponownie.
+
 ## Odstępstwa od makiet
 
 | Makieta | Tutaj | Dlaczego |
