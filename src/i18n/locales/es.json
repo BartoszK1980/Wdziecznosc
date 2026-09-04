@@ -38,7 +38,9 @@
     "lockHint": "Huella o código del dispositivo",
     "lockUnavailable": "Este dispositivo no tiene bloqueo de pantalla configurado.",
     "reminderUnavailable": "Los recordatorios no están disponibles en esta versión.",
-    "accent": "Color de acento"
+    "accent": "Color de acento",
+    "adPrivacy": "Privacidad de anuncios",
+    "adPrivacyHint": "Cambia tu consentimiento para anuncios personalizados"
   },
   "account": {
     "title": "Cuenta",

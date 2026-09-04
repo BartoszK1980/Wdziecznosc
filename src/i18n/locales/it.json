@@ -38,7 +38,9 @@
     "lockHint": "Impronta o codice del dispositivo",
     "lockUnavailable": "Questo dispositivo non ha un blocco schermo impostato.",
     "reminderUnavailable": "I promemoria non sono disponibili in questa versione.",
-    "accent": "Colore principale"
+    "accent": "Colore principale",
+    "adPrivacy": "Privacy della pubblicità",
+    "adPrivacyHint": "Modifica il consenso agli annunci personalizzati"
   },
   "account": {
     "title": "Account",

@@ -20,6 +20,34 @@ Aplikacja działa **bez skonfigurowanej chmury** — zapisuje wtedy tylko lokaln
 
 ## Konfiguracja Supabase
 
+Projekt trzeba założyć samemu na [supabase.com](https://supabase.com) — darmowy plan wystarczy. Reszta jest zautomatyzowana:
+
+```bash
+npm run set-supabase -- https://twoj-projekt.supabase.co sb_publishable_xxx
+```
+
+Skrypt sprawdza połączenie, ostrzega, jeśli logowanie anonimowe jest wyłączone, odmawia przyjęcia klucza `service_role` i dopiero wtedy zapisuje wartości do `app.json`.
+
+Potem wklej **[`supabase/setup.sql`](supabase/setup.sql)** w SQL Editor — to wszystkie cztery migracje sklejone w jeden plik, więc nie da się pomylić kolejności. Plik jest generowany, nie edytuj go ręcznie:
+
+```bash
+npm run setup-sql
+```
+
+Na koniec weryfikacja:
+
+```bash
+npm run check-supabase
+```
+
+Sprawdza tabele, bucket i konfigurację reklam, a przede wszystkim **zakłada dwa konta anonimowe i próbuje z drugiego odczytać wpisy pierwszego**. Jeśli się uda, polityki RLS nie działają i prywatne zapiski są widoczne dla obcych — to jedyny błąd z tej listy, który kończy się wyciekiem danych.
+
+### Krok, który najłatwiej przeoczyć
+
+Szablony e-mail muszą zwracać sam kod. W panelu: *Authentication → Emails*, w szablonach *Confirm signup*, *Magic Link* i *Change Email Address* podmień odnośnik na `{{ .Token }}`. Bez tego Supabase wyśle link, a aplikacja prosi o sześciocyfrowy kod — logowanie po prostu nie przejdzie.
+
+## Ręczna konfiguracja Supabase (gdyby skrypty zawiodły)
+
 1. Utwórz nowy projekt na [supabase.com](https://supabase.com).
 2. Wykonaj **obie** migracje w SQL Editor, po kolei:
    - [`supabase/migrations/0001_gratitude.sql`](supabase/migrations/0001_gratitude.sql) — wpisy, zdjęcia, RLS, bucket

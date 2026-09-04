@@ -38,7 +38,9 @@
     "lockHint": "Odcisk palca lub kod urządzenia",
     "lockUnavailable": "To urządzenie nie ma ustawionej blokady ekranu.",
     "reminderUnavailable": "Przypomnienia są niedostępne w tej wersji aplikacji.",
-    "accent": "Kolor akcentu"
+    "accent": "Kolor akcentu",
+    "adPrivacy": "Prywatność reklam",
+    "adPrivacyHint": "Zmień zgodę na reklamy spersonalizowane"
   },
   "account": {
     "title": "Konto",

@@ -36,7 +36,7 @@ export default function SettingsScreen() {
   const colors = useTheme();
   const { mode, setMode, scheme, accent, setAccent } = useThemeMode();
   const router = useRouter();
-  const { premium } = useMonetization();
+  const { premium, privacyOptionsRequired, openPrivacyOptions } = useMonetization();
 
   const [language, setLanguageState] = useState<Language | null>(null);
   const [reminder, setReminderState] = useState<ReminderTime | null>(null);
@@ -247,6 +247,15 @@ export default function SettingsScreen() {
               onPress={() => router.push('/premium')}>
               <Feather name="chevron-right" size={18} color={colors.textMuted} />
             </Row>
+            {privacyOptionsRequired ? (
+              <Row
+                icon="shield"
+                label={t('settings.adPrivacy')}
+                hint={t('settings.adPrivacyHint')}
+                onPress={() => void openPrivacyOptions()}>
+                <Feather name="chevron-right" size={18} color={colors.textMuted} />
+              </Row>
+            ) : null}
             <Row icon="cloud" label={t('settings.backup')} onPress={() => router.push('/backup')}>
               <Feather name="chevron-right" size={18} color={colors.textMuted} />
             </Row>

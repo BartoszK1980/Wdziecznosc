@@ -38,7 +38,9 @@
     "lockHint": "Fingerprint or device passcode",
     "lockUnavailable": "This device has no screen lock set up.",
     "reminderUnavailable": "Reminders are not available in this build.",
-    "accent": "Accent colour"
+    "accent": "Accent colour",
+    "adPrivacy": "Ad privacy",
+    "adPrivacyHint": "Change your consent for personalised ads"
   },
   "account": {
     "title": "Account",

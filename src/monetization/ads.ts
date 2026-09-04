@@ -51,6 +51,15 @@ let initialised = false;
 /** Nazwa modulu natywnego rejestrowanego przez react-native-google-mobile-ads. */
 const NATIVE_MODULE = 'RNGoogleMobileAdsModule';
 
+/**
+ * Zwraca SDK reklam, inicjalizujac je przy pierwszym uzyciu.
+ *
+ * WAZNE: wolno to wywolac dopiero PO zebraniu zgody (src/monetization/consent.ts).
+ * Google wymaga kolejnosci zgoda -> inicjalizacja -> ladowanie reklamy, a
+ * `initialize()` wywolane wczesniej potrafi wyslac zadanie jeszcze zanim
+ * uzytkownik cokolwiek zdecydowal. Pilnuje tego MonetizationProvider: baner
+ * nie renderuje sie, dopoki `canRequestAds` nie jest prawda.
+ */
 export function loadAds(): Promise<AdsModule | null> {
   modulePromise ??= (async () => {
     // Sprawdzenie MUSI byc przed importem. Biblioteka wola getEnforcing

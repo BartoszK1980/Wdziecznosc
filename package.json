@@ -61,7 +61,10 @@
     "typecheck": "tsc --noEmit",
     "trace-mark": "node scripts/trace-mark.mjs",
     "verify-mark": "node scripts/verify-mark.mjs",
-    "make-icons": "node scripts/make-icons.mjs"
+    "make-icons": "node scripts/make-icons.mjs",
+    "setup-sql": "node scripts/build-setup-sql.mjs",
+    "set-supabase": "node scripts/set-supabase.mjs",
+    "check-supabase": "node scripts/check-supabase.mjs"
   },
   "private": true
 }

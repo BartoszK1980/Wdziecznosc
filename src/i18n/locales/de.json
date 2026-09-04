@@ -38,7 +38,9 @@
     "lockHint": "Fingerabdruck oder Gerätecode",
     "lockUnavailable": "Auf diesem Gerät ist keine Bildschirmsperre eingerichtet.",
     "reminderUnavailable": "Erinnerungen sind in dieser Version nicht verfügbar.",
-    "accent": "Akzentfarbe"
+    "accent": "Akzentfarbe",
+    "adPrivacy": "Werbe-Privatsphäre",
+    "adPrivacyHint": "Einwilligung für personalisierte Werbung ändern"
   },
   "account": {
     "title": "Konto",

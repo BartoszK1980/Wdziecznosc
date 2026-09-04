@@ -38,7 +38,9 @@
     "lockHint": "Empreinte ou code de l’appareil",
     "lockUnavailable": "Cet appareil n'a pas de verrouillage d'écran.",
     "reminderUnavailable": "Les rappels ne sont pas disponibles dans cette version.",
-    "accent": "Couleur d’accent"
+    "accent": "Couleur d’accent",
+    "adPrivacy": "Confidentialité des publicités",
+    "adPrivacyHint": "Modifier ton consentement aux publicités personnalisées"
   },
   "account": {
     "title": "Compte",
