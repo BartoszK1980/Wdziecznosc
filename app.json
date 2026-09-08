@@ -68,8 +68,8 @@
       "reactCompiler": true
     },
     "extra": {
-      "supabaseUrl": "",
-      "supabaseKey": "",
+      "supabaseUrl": "https://sjgtiafaaumjzvherbwv.supabase.co",
+      "supabaseKey": "sb_publishable_y3zS7yHd8rYre9Ks0ZN0wQ_jszSUWlo",
       "admobBannerAndroid": "",
       "admobBannerIos": "",
       "revenueCatAndroidKey": "",

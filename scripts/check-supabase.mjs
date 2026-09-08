@@ -2,10 +2,15 @@
 //
 //   npm run check-supabase
 //
-// Najwazniejszy jest test izolacji: zaklada DWA konta anonimowe, pisze wpis
-// z pierwszego i probuje przeczytac go z drugiego. Jesli sie uda, polityki RLS
-// nie dzialaja i prywatne zapiski jednego uzytkownika sa widoczne dla innych.
-// To jedyny blad z tej listy, ktory konczy sie wyciekiem danych.
+// Najwazniejsze sa testy izolacji: zakladaja DWA konta anonimowe, pisza wpis
+// i zdjecie z pierwszego i probuja siegnac po nie z drugiego. Jesli sie uda,
+// polityki RLS nie dzialaja i prywatne zapiski jednego uzytkownika sa widoczne
+// dla innych. To jedyne bledy z tej listy, ktore koncza sie wyciekiem danych.
+//
+// Wszystkie zapytania po zalogowaniu ida z TOKENEM UZYTKOWNIKA, nie z samym
+// kluczem publishable. Polityki tego projektu sa pisane `to authenticated`,
+// wiec zapytanie bez tokenu zwraca pusta liste i wyglada jak brak danych,
+// mimo ze wszystko jest na miejscu.
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,6 +25,11 @@ if (!url || !key) {
   process.exit(1);
 }
 
+const BUCKET = 'gratitude-photos';
+// Najkrotszy poprawny JPEG: sam znacznik poczatku i konca obrazu. Bucket ma
+// liste dozwolonych typow MIME, wiec zwykly tekst zostalby odrzucony.
+const TINY_JPEG = new Uint8Array([0xff, 0xd8, 0xff, 0xd9]);
+
 let failures = 0;
 const ok = (msg) => console.log(`  OK   ${msg}`);
 const bad = (msg) => {
@@ -27,15 +37,23 @@ const bad = (msg) => {
   failures += 1;
 };
 
+const headers = (token, extra = {}) => ({
+  apikey: key,
+  Authorization: `Bearer ${token ?? key}`,
+  ...extra,
+});
+
 const rest = (path, token, init = {}) =>
   fetch(`${url}/rest/v1/${path}`, {
     ...init,
-    headers: {
-      apikey: key,
-      Authorization: `Bearer ${token ?? key}`,
-      'Content-Type': 'application/json',
-      ...(init.headers ?? {}),
-    },
+    headers: headers(token, { 'Content-Type': 'application/json', ...(init.headers ?? {}) }),
+    signal: AbortSignal.timeout(20000),
+  });
+
+const storage = (path, token, init = {}) =>
+  fetch(`${url}/storage/v1/${path}`, {
+    ...init,
+    headers: headers(token, init.headers ?? {}),
     signal: AbortSignal.timeout(20000),
   });
 
@@ -51,7 +69,7 @@ async function signInAnonymously() {
   return data.access_token ? { token: data.access_token, id: data.user?.id } : null;
 }
 
-console.log('\nTabele i konfiguracja');
+console.log('\nTabele');
 
 const TABLES = ['gratitude_entries', 'gratitude_days', 'gratitude_photos', 'app_config'];
 for (const table of TABLES) {
@@ -60,17 +78,6 @@ for (const table of TABLES) {
   else if (response.ok || response.status === 401) ok(`tabela ${table}`);
   else bad(`tabela ${table}: HTTP ${response.status}`);
 }
-
-const bucket = await fetch(`${url}/storage/v1/bucket/gratitude-photos`, {
-  headers: { apikey: key, Authorization: `Bearer ${key}` },
-  signal: AbortSignal.timeout(20000),
-});
-if (bucket.ok) ok('bucket gratitude-photos');
-else bad(`bucket gratitude-photos: HTTP ${bucket.status}`);
-
-const policy = await rest('app_config?key=eq.ad_policy&select=value');
-if (policy.ok && (await policy.json()).length > 0) ok('konfiguracja reklam (app_config)');
-else bad('brak wiersza ad_policy w app_config');
 
 console.log('\nLogowanie anonimowe');
 
@@ -82,7 +89,27 @@ if (!alice) {
 }
 ok('konto anonimowe utworzone');
 
-console.log('\nIzolacja danych (RLS)');
+const bob = await signInAnonymously();
+if (!bob) bad('nie udalo sie utworzyc drugiego konta — testow izolacji nie wykonano');
+
+console.log('\nKonfiguracja reklam');
+
+const policy = await rest('app_config?key=eq.ad_policy&select=value', alice.token);
+if (!policy.ok) {
+  bad(`odczyt app_config: HTTP ${policy.status}`);
+} else {
+  const rows = await policy.json();
+  if (rows.length === 0) {
+    bad('brak wiersza ad_policy w app_config');
+  } else {
+    const on = Object.entries(rows[0].value?.banners ?? {})
+      .filter(([, enabled]) => enabled)
+      .map(([name]) => name);
+    ok(`ad_policy wczytana (banery: ${on.join(', ') || 'zadnych'})`);
+  }
+}
+
+console.log('\nIzolacja wpisow (RLS)');
 
 const today = new Date().toISOString().slice(0, 10);
 const write = await rest('gratitude_entries', alice.token, {
@@ -101,18 +128,12 @@ if (!write.ok) {
 } else {
   ok('wlasny wpis zapisany');
 
-  const bob = await signInAnonymously();
-  if (!bob) {
-    bad('nie udalo sie utworzyc drugiego konta — testu izolacji nie wykonano');
-  } else {
+  if (bob) {
     const leak = await rest(`gratitude_entries?select=*&user_id=eq.${alice.id}`, bob.token);
     const rows = leak.ok ? await leak.json() : [];
 
-    if (rows.length === 0) {
-      ok('drugie konto NIE widzi cudzych wpisow');
-    } else {
-      bad(`WYCIEK: drugie konto odczytalo ${rows.length} cudzych wpisow. Polityki RLS nie dzialaja.`);
-    }
+    if (rows.length === 0) ok('drugie konto NIE widzi cudzych wpisow');
+    else bad(`WYCIEK: drugie konto odczytalo ${rows.length} cudzych wpisow. Polityki RLS nie dzialaja.`);
 
     // Proba zapisu na cudze konto — RLS musi ja odrzucic.
     const forge = await rest('gratitude_entries', bob.token, {
@@ -123,8 +144,56 @@ if (!write.ok) {
     else ok('drugie konto NIE moze pisac na cudze user_id');
   }
 
-  // sprzatanie
   await rest(`gratitude_entries?user_id=eq.${alice.id}`, alice.token, { method: 'DELETE' });
+}
+
+console.log('\nZdjecia (Storage)');
+
+// Bucket sprawdzamy realnym uploadem, a nie odpytaniem /storage/v1/bucket —
+// tamten endpoint wymaga klucza service_role i z kluczem publishable zwraca
+// blad niezaleznie od tego, czy bucket istnieje.
+const alicePath = `${alice.id}/check/${Date.now()}.jpg`;
+const upload = await storage(`object/${BUCKET}/${alicePath}`, alice.token, {
+  method: 'POST',
+  headers: { 'Content-Type': 'image/jpeg' },
+  body: TINY_JPEG,
+});
+
+if (!upload.ok) {
+  const detail = await upload.text();
+  if (upload.status === 404) bad(`brak bucketu ${BUCKET} — czy wykonales supabase/setup.sql?`);
+  else bad(`wyslanie zdjecia nie powiodlo sie: HTTP ${upload.status} ${detail}`);
+} else {
+  ok(`bucket ${BUCKET} przyjmuje zdjecia`);
+
+  const sign = await storage(`object/sign/${BUCKET}/${alicePath}`, alice.token, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ expiresIn: 60 }),
+  });
+  if (sign.ok) ok('wlasne zdjecie da sie odczytac');
+  else bad(`odczyt wlasnego zdjecia nie powiodl sie: HTTP ${sign.status}`);
+
+  if (bob) {
+    const peek = await storage(`object/sign/${BUCKET}/${alicePath}`, bob.token, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ expiresIn: 60 }),
+    });
+    if (peek.ok) bad('WYCIEK: drugie konto uzyskalo dostep do cudzego zdjecia.');
+    else ok('drugie konto NIE widzi cudzych zdjec');
+
+    // Podszycie sie pod cudzy folder — polityka INSERT musi je odrzucic.
+    const intrude = await storage(`object/${BUCKET}/${alice.id}/podszycie.jpg`, bob.token, {
+      method: 'POST',
+      headers: { 'Content-Type': 'image/jpeg' },
+      body: TINY_JPEG,
+    });
+    if (intrude.ok) bad('WYCIEK: drugie konto zapisalo plik w cudzym folderze.');
+    else ok('drugie konto NIE moze pisac w cudzym folderze');
+  }
+
+  await storage(`object/${BUCKET}/${alicePath}`, alice.token, { method: 'DELETE' });
 }
 
 console.log(
