@@ -39,6 +39,7 @@ export function Calendar({ onSelectDay }: Props) {
   }, [weeks]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- stan zmienia sie po await, nie synchronicznie
     void load();
   }, [load]);
 

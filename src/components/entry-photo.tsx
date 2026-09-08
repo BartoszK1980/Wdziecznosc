@@ -22,20 +22,25 @@ type Props = {
  */
 export function EntryPhoto({ date, slot, photo, size }: Props) {
   const colors = useTheme();
-  const [uri, setUri] = useState<string | null>(photo.localUri);
+  // Pobrany plik trzymamy RAZEM z kluczem zdjecia, ktorego dotyczy. Gdyby to byl
+  // sam adres, przewiniecie listy podstawiloby zdjecie poprzedniego wpisu pod
+  // nowy — komponent jest wspoldzielony przez wiersze.
+  const [downloaded, setDownloaded] = useState<{ key: string; uri: string } | null>(null);
+
+  const key = `${date}/${slot}/${photo.position}`;
+  const uri = photo.localUri ?? (downloaded?.key === key ? downloaded.uri : null);
 
   useEffect(() => {
-    setUri(photo.localUri);
     if (photo.localUri || !photo.path) return;
 
     let active = true;
-    ensureLocalPhoto(date, slot, photo.position).then((downloaded) => {
-      if (active) setUri(downloaded);
+    ensureLocalPhoto(date, slot, photo.position).then((file) => {
+      if (active && file) setDownloaded({ key, uri: file });
     });
     return () => {
       active = false;
     };
-  }, [date, slot, photo.position, photo.localUri, photo.path]);
+  }, [key, date, slot, photo.position, photo.localUri, photo.path]);
 
   // Bez adnotacji typu: te trzy wlasciwosci sa wspolne dla ViewStyle i ImageStyle,
   // wiec wywnioskowany typ pasuje i do placeholdera, i do zdjecia.

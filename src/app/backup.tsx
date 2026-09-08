@@ -37,6 +37,7 @@ export default function BackupScreen() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- stan zmienia sie po await, nie synchronicznie
     void refresh();
     return subscribeSyncStatus((next) => {
       setStatus(next);

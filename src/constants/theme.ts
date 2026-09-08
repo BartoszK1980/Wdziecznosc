@@ -1,5 +1,3 @@
-import { Platform } from 'react-native';
-
 /**
  * Paleta i skala pochodza z konceptu wizualnego dostarczonego przez klienta
  * (assets/brand/design-manifest.json, assets/brand/palette-reference.png).
