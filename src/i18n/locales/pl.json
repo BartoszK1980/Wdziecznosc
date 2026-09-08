@@ -61,7 +61,13 @@
     "invalidCode": "Błędny lub wygasły kod.",
     "haveAccount": "Mam już konto",
     "restoreWarning": "Zalogowanie zastąpi to, co jest na tym telefonie, wpisami z tamtego konta.",
-    "restoreCta": "Zaloguj i odzyskaj"
+    "restoreCta": "Zaloguj i odzyskaj",
+    "deleteTitle": "Usuń konto",
+    "deleteHint": "Usunięcie konta kasuje wszystkie wpisy, zdjęcia i nagrania — również w chmurze.",
+    "deleteWarning": "Wszystkie Twoje wpisy, zdjęcia i nagrania zostaną trwale usunięte z tego telefonu i z chmury. Nie da się ich odzyskać.",
+    "deleteConfirm": "Usuń trwale",
+    "deleteDone": "Konto zostało usunięte.",
+    "deleteFailed": "Nie udało się usunąć konta. Spróbuj ponownie."
   },
   "sync": {
     "offline": "Offline — zapisano na tym telefonie",
@@ -190,5 +196,19 @@
   "ads": {
     "placeholder": "Miejsce na reklamę",
     "placeholderTest": "Miejsce na reklamę (tryb testowy)"
+  },
+  "voice": {
+    "label": "Notatka głosowa",
+    "record": "Nagraj notatkę głosową",
+    "stop": "Zatrzymaj",
+    "play": "Odtwórz",
+    "pause": "Wstrzymaj",
+    "remove": "Usuń nagranie",
+    "recording": "Nagrywanie",
+    "tooShort": "Nagranie było za krótkie.",
+    "missingFile": "Nie udało się pobrać nagrania. Sprawdź połączenie.",
+    "permissionTitle": "Brak dostępu do mikrofonu",
+    "permissionBody": "Zezwól na mikrofon w ustawieniach telefonu, żeby nagrywać notatki.",
+    "unavailable": "Nagrywanie jest niedostępne w tej wersji aplikacji."
   }
 }

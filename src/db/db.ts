@@ -53,6 +53,19 @@ export type PhotoRow = {
   photo_dirty: number; // 1 = plik lokalny czeka na upload
 };
 
+export type AudioRow = {
+  entry_date: string;
+  slot: number;
+  /** Plik w documentDirectory/audio/. Zawsze odtwarzamy stad, jesli jest. */
+  local_uri: string | null;
+  /** Sciezka w buckecie Supabase. NULL dopoki nagranie nie zostalo wyslane. */
+  path: string | null;
+  duration_ms: number | null;
+  updated_at: string;
+  dirty: number;
+  audio_dirty: number; // 1 = plik lokalny czeka na upload
+};
+
 export type DayRow = {
   entry_date: string;
   mood: number | null;
@@ -108,32 +121,63 @@ CREATE TABLE IF NOT EXISTS days (
 
 CREATE INDEX IF NOT EXISTS days_dirty_idx ON days (dirty) WHERE dirty = 1;
 
+-- Nagranie glosowe wisi przy KONKRETNEJ wdziecznosci, jedno na slot.
+-- Skasowanie nagrania to wyzerowanie wiersza, nie DELETE — jak wszedzie indziej.
+CREATE TABLE IF NOT EXISTS entry_audio (
+  entry_date  TEXT    NOT NULL,
+  slot        INTEGER NOT NULL,
+  local_uri   TEXT,
+  path        TEXT,
+  duration_ms INTEGER,
+  updated_at  TEXT    NOT NULL,
+  dirty       INTEGER NOT NULL DEFAULT 1,
+  audio_dirty INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (entry_date, slot)
+);
+
+CREATE INDEX IF NOT EXISTS entry_audio_dirty_idx ON entry_audio (dirty, audio_dirty);
+
 -- Ustawienia i znaczniki synchronizacji.
 CREATE TABLE IF NOT EXISTS app_state (
   key   TEXT PRIMARY KEY,
   value TEXT NOT NULL
 );
 
--- Zdjecia usuniete lokalnie, ktore wciaz istnieja w buckecie.
-CREATE TABLE IF NOT EXISTS photo_trash (
-  storage_path TEXT PRIMARY KEY
+-- Pliki usuniete lokalnie, ktore wciaz leza w ktoryms z bucketow.
+-- Kolumna bucket jest tu od poczatku, bo nagrania mieszkaja w innym niz zdjecia.
+CREATE TABLE IF NOT EXISTS storage_trash (
+  bucket       TEXT NOT NULL,
+  storage_path TEXT NOT NULL,
+  PRIMARY KEY (bucket, storage_path)
 );
 `;
 
 /**
  * Wersja schematu w PRAGMA user_version.
  *
- * Potrzebna, bo aplikacja jest juz zainstalowana z poprzednim schematem:
- * `entries` mialo CHECK (slot <= 3) i kolumny na JEDNO zdjecie. SQLite nie
- * pozwala zmienic CHECK-a przez ALTER TABLE, wiec tabele trzeba przepisac.
+ *   1 — `entries` mialo CHECK (slot <= 3) i kolumny na JEDNO zdjecie. SQLite nie
+ *       pozwala zmienic CHECK-a przez ALTER TABLE, wiec tabele trzeba przepisac.
+ *   2 — `photo_trash` zastapiony przez `storage_trash` z kolumna bucket, bo
+ *       nagrania glosowe trafiaja do innego bucketu niz zdjecia.
  */
-const TARGET_VERSION = 1;
+const TARGET_VERSION = 2;
+
+/** Nazwy bucketow w Supabase. Wspoldzielone przez kosz, synchronizacje i UI. */
+export const PHOTO_BUCKET = 'gratitude-photos';
+export const AUDIO_BUCKET = 'gratitude-audio';
 
 async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
   const row = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
   const current = row?.user_version ?? 0;
   if (current >= TARGET_VERSION) return;
 
+  if (current < 1) await migrateToV1(db);
+  if (current < 2) await migrateToV2(db);
+
+  await db.execAsync(`PRAGMA user_version = ${TARGET_VERSION}`);
+}
+
+async function migrateToV1(db: SQLite.SQLiteDatabase): Promise<void> {
   const columns = await db.getAllAsync<{ name: string }>('PRAGMA table_info(entries)');
   const hasLegacyPhotos = columns.some((c) => c.name === 'photo_local_uri');
 
@@ -167,8 +211,29 @@ async function migrate(db: SQLite.SQLiteDatabase): Promise<void> {
       `);
     });
   }
+}
 
-  await db.execAsync(`PRAGMA user_version = ${TARGET_VERSION}`);
+/**
+ * Kosz na pliki dostaje kolumne `bucket`.
+ *
+ * Wpisy ze starej tabeli sa z definicji zdjeciami — w tamtej wersji aplikacji
+ * nie bylo nagran. Przepisujemy je z nazwa bucketu zdjec, zeby porzucone pliki
+ * z poprzedniej instalacji nadal doczekaly sie skasowania w chmurze.
+ */
+async function migrateToV2(db: SQLite.SQLiteDatabase): Promise<void> {
+  const legacy = await db.getAllAsync<{ name: string }>(
+    `SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'photo_trash'`
+  );
+  if (legacy.length === 0) return;
+
+  await db.withTransactionAsync(async () => {
+    await db.execAsync(`
+      INSERT OR IGNORE INTO storage_trash (bucket, storage_path)
+      SELECT '${PHOTO_BUCKET}', storage_path FROM photo_trash;
+
+      DROP TABLE photo_trash;
+    `);
+  });
 }
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;

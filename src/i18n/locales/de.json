@@ -61,7 +61,13 @@
     "invalidCode": "Falscher oder abgelaufener Code.",
     "haveAccount": "Ich habe schon ein Konto",
     "restoreWarning": "Die Anmeldung ersetzt die Einträge auf diesem Handy durch die aus diesem Konto.",
-    "restoreCta": "Anmelden und wiederherstellen"
+    "restoreCta": "Anmelden und wiederherstellen",
+    "deleteTitle": "Konto löschen",
+    "deleteHint": "Beim Löschen des Kontos verschwinden alle Einträge, Fotos und Aufnahmen — auch in der Cloud.",
+    "deleteWarning": "Alle deine Einträge, Fotos und Aufnahmen werden endgültig von diesem Telefon und aus der Cloud gelöscht. Sie lassen sich nicht wiederherstellen.",
+    "deleteConfirm": "Endgültig löschen",
+    "deleteDone": "Dein Konto wurde gelöscht.",
+    "deleteFailed": "Das Konto konnte nicht gelöscht werden. Bitte versuche es erneut."
   },
   "sync": {
     "offline": "Offline — auf diesem Handy gespeichert",
@@ -190,5 +196,19 @@
   "ads": {
     "placeholder": "Werbeplatz",
     "placeholderTest": "Werbeplatz (Testmodus)"
+  },
+  "voice": {
+    "label": "Sprachnotiz",
+    "record": "Sprachnotiz aufnehmen",
+    "stop": "Stoppen",
+    "play": "Abspielen",
+    "pause": "Pause",
+    "remove": "Aufnahme löschen",
+    "recording": "Aufnahme läuft",
+    "tooShort": "Die Aufnahme war zu kurz.",
+    "missingFile": "Die Aufnahme konnte nicht geladen werden. Prüfe deine Verbindung.",
+    "permissionTitle": "Zugriff auf das Mikrofon nötig",
+    "permissionBody": "Erlaube den Mikrofonzugriff in den Telefoneinstellungen, um Notizen aufzunehmen.",
+    "unavailable": "Aufnehmen ist in dieser Version nicht verfügbar."
   }
 }

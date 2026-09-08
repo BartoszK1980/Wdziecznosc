@@ -61,7 +61,13 @@
     "invalidCode": "Codice errato o scaduto.",
     "haveAccount": "Ho già un account",
     "restoreWarning": "L'accesso sostituisce ciò che è su questo telefono con le note di quell'account.",
-    "restoreCta": "Accedi e ripristina"
+    "restoreCta": "Accedi e ripristina",
+    "deleteTitle": "Elimina account",
+    "deleteHint": "Eliminare l'account cancella tutte le voci, le foto e le registrazioni, anche nel cloud.",
+    "deleteWarning": "Tutte le tue voci, foto e registrazioni verranno eliminate definitivamente da questo telefono e dal cloud. Non potranno essere recuperate.",
+    "deleteConfirm": "Elimina definitivamente",
+    "deleteDone": "Il tuo account è stato eliminato.",
+    "deleteFailed": "Impossibile eliminare l'account. Riprova."
   },
   "sync": {
     "offline": "Offline — salvato su questo telefono",
@@ -190,5 +196,19 @@
   "ads": {
     "placeholder": "Spazio pubblicitario",
     "placeholderTest": "Spazio pubblicitario (modalità test)"
+  },
+  "voice": {
+    "label": "Nota vocale",
+    "record": "Registra una nota vocale",
+    "stop": "Ferma",
+    "play": "Riproduci",
+    "pause": "Pausa",
+    "remove": "Elimina registrazione",
+    "recording": "Registrazione",
+    "tooShort": "La registrazione era troppo breve.",
+    "missingFile": "Impossibile caricare la registrazione. Controlla la connessione.",
+    "permissionTitle": "Serve l'accesso al microfono",
+    "permissionBody": "Consenti l'accesso al microfono nelle impostazioni del telefono per registrare note.",
+    "unavailable": "La registrazione non è disponibile in questa versione."
   }
 }

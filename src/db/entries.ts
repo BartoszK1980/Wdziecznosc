@@ -1,9 +1,13 @@
+import { deleteAudioFile } from '@/audio/audio';
 import { deletePhotoFile } from '@/photos/photos';
 import {
+  AUDIO_BUCKET,
   getDb,
   MAX_PHOTOS_PER_SLOT,
   MAX_SLOTS,
   nowIso,
+  PHOTO_BUCKET,
+  type AudioRow,
   type EntryRow,
   type PhotoRow,
   type Slot,
@@ -15,10 +19,18 @@ export type Photo = {
   path: string | null;
 };
 
+/** Notatka glosowa przy jednej wdziecznosci. Najwyzej jedna na slot. */
+export type Voice = {
+  localUri: string | null;
+  path: string | null;
+  durationMs: number | null;
+};
+
 export type DaySlot = {
   slot: Slot;
   text: string;
   photos: Photo[]; // tylko niepuste, posortowane po position
+  voice: Voice | null;
 };
 
 export type Day = {
@@ -31,7 +43,8 @@ export const MAX_TEXT_LENGTH = 280;
 
 const isPhotoEmpty = (photo: Photo) => !photo.localUri && !photo.path;
 
-export const isEmpty = (slot: DaySlot) => slot.text.trim() === '' && slot.photos.length === 0;
+export const isEmpty = (slot: DaySlot) =>
+  slot.text.trim() === '' && slot.photos.length === 0 && slot.voice === null;
 
 // --- odczyt -----------------------------------------------------------------
 
@@ -53,6 +66,22 @@ async function photosFor(date: string): Promise<Map<number, Photo[]>> {
   return bySlot;
 }
 
+async function audioFor(date: string): Promise<Map<number, Voice>> {
+  const db = await getDb();
+  const rows = await db.getAllAsync<AudioRow>(
+    `SELECT * FROM entry_audio
+      WHERE entry_date = ? AND (local_uri IS NOT NULL OR path IS NOT NULL)`,
+    [date]
+  );
+
+  return new Map(
+    rows.map((row) => [
+      row.slot,
+      { localUri: row.local_uri, path: row.path, durationMs: row.duration_ms },
+    ])
+  );
+}
+
 /**
  * Dzien jako lista WYPELNIONYCH slotow.
  *
@@ -67,12 +96,14 @@ export async function loadDay(date: string): Promise<Day> {
     [date]
   );
   const photos = await photosFor(date);
+  const voices = await audioFor(date);
 
   const slots = rows
     .map((row) => ({
       slot: row.slot,
       text: row.text ?? '',
       photos: photos.get(row.slot) ?? [],
+      voice: voices.get(row.slot) ?? null,
     }))
     .filter((slot) => !isEmpty(slot));
 
@@ -101,7 +132,12 @@ const HAS_PHOTO = `EXISTS (
    WHERE p.entry_date = e.entry_date AND p.slot = e.slot
      AND (p.local_uri IS NOT NULL OR p.path IS NOT NULL)
 )`;
-const HAS_CONTENT = `(${HAS_TEXT} OR ${HAS_PHOTO})`;
+const HAS_AUDIO = `EXISTS (
+  SELECT 1 FROM entry_audio a
+   WHERE a.entry_date = e.entry_date AND a.slot = e.slot
+     AND (a.local_uri IS NOT NULL OR a.path IS NOT NULL)
+)`;
+const HAS_CONTENT = `(${HAS_TEXT} OR ${HAS_PHOTO} OR ${HAS_AUDIO})`;
 
 /**
  * Dni z jakakolwiek trescia, od najnowszego.
@@ -230,12 +266,13 @@ export async function removePhoto(date: string, slot: Slot, position: number): P
   );
 }
 
-/** Czysci caly slot: tekst i wszystkie jego zdjecia. */
+/** Czysci caly slot: tekst, wszystkie zdjecia i nagranie. */
 export async function clearSlot(date: string, slot: Slot): Promise<void> {
   const db = await getDb();
   for (let position = 1; position <= MAX_PHOTOS_PER_SLOT; position++) {
     await removePhoto(date, slot, position);
   }
+  await removeAudio(date, slot);
   await db.runAsync(
     'UPDATE entries SET text = NULL, updated_at = ?, dirty = 1 WHERE entry_date = ? AND slot = ?',
     [nowIso(), date, slot]
@@ -248,9 +285,73 @@ async function trashRemotePhoto(date: string, slot: Slot, position: number): Pro
     'SELECT path FROM entry_photos WHERE entry_date = ? AND slot = ? AND position = ?',
     [date, slot, position]
   );
-  if (row?.path) {
-    await db.runAsync('INSERT OR IGNORE INTO photo_trash (storage_path) VALUES (?)', [row.path]);
-  }
+  if (row?.path) await trash(PHOTO_BUCKET, row.path);
+}
+
+async function trash(bucket: string, storagePath: string): Promise<void> {
+  const db = await getDb();
+  await db.runAsync('INSERT OR IGNORE INTO storage_trash (bucket, storage_path) VALUES (?, ?)', [
+    bucket,
+    storagePath,
+  ]);
+}
+
+// --- notatki glosowe --------------------------------------------------------
+
+/**
+ * Podpina nagranie do wdziecznosci, zastepujac poprzednie.
+ *
+ * Nowy plik dostaje wlasna nazwe (losowy sufiks), a stary trafia do kosza
+ * i do skasowania — takze w chmurze. Bez tego kazde poprawione nagranie
+ * zostawialoby porzucony plik, za ktory placi wlasciciel projektu.
+ */
+export async function setAudio(
+  date: string,
+  slot: Slot,
+  localUri: string,
+  durationMs: number
+): Promise<void> {
+  const db = await getDb();
+  await ensureRow(date, slot);
+
+  const previous = await db.getFirstAsync<AudioRow>(
+    'SELECT * FROM entry_audio WHERE entry_date = ? AND slot = ?',
+    [date, slot]
+  );
+  if (previous?.path) await trash(AUDIO_BUCKET, previous.path);
+  if (previous?.local_uri && previous.local_uri !== localUri) deleteAudioFile(previous.local_uri);
+
+  await db.runAsync(
+    `INSERT INTO entry_audio (entry_date, slot, local_uri, path, duration_ms, updated_at, dirty, audio_dirty)
+     VALUES (?, ?, ?, NULL, ?, ?, 1, 1)
+     ON CONFLICT(entry_date, slot) DO UPDATE SET
+       local_uri = excluded.local_uri,
+       path = NULL,
+       duration_ms = excluded.duration_ms,
+       updated_at = excluded.updated_at,
+       dirty = 1,
+       audio_dirty = 1`,
+    [date, slot, localUri, Math.max(0, Math.round(durationMs)), nowIso()]
+  );
+}
+
+export async function removeAudio(date: string, slot: Slot): Promise<void> {
+  const db = await getDb();
+  const row = await db.getFirstAsync<AudioRow>(
+    'SELECT * FROM entry_audio WHERE entry_date = ? AND slot = ?',
+    [date, slot]
+  );
+  if (!row) return;
+
+  if (row.path) await trash(AUDIO_BUCKET, row.path);
+  deleteAudioFile(row.local_uri);
+
+  await db.runAsync(
+    `UPDATE entry_audio SET local_uri = NULL, path = NULL, duration_ms = NULL,
+            audio_dirty = 0, updated_at = ?, dirty = 1
+      WHERE entry_date = ? AND slot = ?`,
+    [nowIso(), date, slot]
+  );
 }
 
 export async function countNonEmptyDays(): Promise<number> {
@@ -271,15 +372,21 @@ export async function countNonEmptyDays(): Promise<number> {
  */
 export async function wipeLocalEntries(): Promise<void> {
   const db = await getDb();
-  const rows = await db.getAllAsync<{ local_uri: string | null }>(
+  const photos = await db.getAllAsync<{ local_uri: string | null }>(
     'SELECT local_uri FROM entry_photos WHERE local_uri IS NOT NULL'
   );
-  rows.forEach((row) => deletePhotoFile(row.local_uri));
+  photos.forEach((row) => deletePhotoFile(row.local_uri));
+
+  const recordings = await db.getAllAsync<{ local_uri: string | null }>(
+    'SELECT local_uri FROM entry_audio WHERE local_uri IS NOT NULL'
+  );
+  recordings.forEach((row) => deleteAudioFile(row.local_uri));
 
   await db.runAsync('DELETE FROM entries');
   await db.runAsync('DELETE FROM entry_photos');
+  await db.runAsync('DELETE FROM entry_audio');
   await db.runAsync('DELETE FROM days');
-  await db.runAsync('DELETE FROM photo_trash');
+  await db.runAsync('DELETE FROM storage_trash');
 }
 
 // --- app_state --------------------------------------------------------------

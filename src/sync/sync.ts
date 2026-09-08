@@ -1,19 +1,37 @@
 import NetInfo from '@react-native-community/netinfo';
 import { AppState } from 'react-native';
 
-import { getDb, type DayRow, type EntryRow, type PhotoRow, type Slot } from '@/db/db';
+import {
+  AUDIO_BUCKET,
+  getDb,
+  PHOTO_BUCKET,
+  type AudioRow,
+  type DayRow,
+  type EntryRow,
+  type PhotoRow,
+  type Slot,
+} from '@/db/db';
 import { getState, setState } from '@/db/entries';
+import {
+  AUDIO_MIME,
+  audioExists,
+  deleteAudioFile,
+  downloadAudio,
+  readAudioBytes,
+} from '@/audio/audio';
 import { deletePhotoFile, downloadPhoto, photoExists, readPhotoBytes } from '@/photos/photos';
 import { currentUserId, getSupabase } from './supabase';
 
 const TABLE = 'gratitude_entries';
 const DAYS_TABLE = 'gratitude_days';
 const PHOTOS_TABLE = 'gratitude_photos';
-const BUCKET = 'gratitude-photos';
+const AUDIO_TABLE = 'gratitude_audio';
+const BUCKET = PHOTO_BUCKET;
 
 const LAST_PULLED_KEY = 'last_pulled_at';
 const LAST_PULLED_DAYS_KEY = 'last_pulled_days_at';
 const LAST_PULLED_PHOTOS_KEY = 'last_pulled_photos_at';
+const LAST_PULLED_AUDIO_KEY = 'last_pulled_audio_at';
 const EPOCH = '1970-01-01T00:00:00.000Z';
 const PAGE_SIZE = 500;
 
@@ -29,6 +47,14 @@ type RemotePhotoRow = {
   slot: number;
   position: number;
   path: string | null;
+  updated_at: string;
+};
+
+type RemoteAudioRow = {
+  entry_date: string;
+  slot: number;
+  path: string | null;
+  duration_ms: number | null;
   updated_at: string;
 };
 
@@ -86,11 +112,14 @@ async function run(): Promise<void> {
     // Kolejnosc ma znaczenie: wiersz zdjecia musi wyjechac z gotowa sciezka,
     // wiec najpierw pliki do Storage, dopiero potem upsert wierszy.
     await uploadPhotoFiles(userId);
+    await uploadAudioFiles(userId);
     await pushRows(userId);
     await pushPhotos(userId);
+    await pushAudio(userId);
     await pushDays(userId);
     await pullRows();
     await pullPhotos();
+    await pullAudio();
     await pullDays();
     await purgeTrash();
     setStatus('idle');
@@ -139,6 +168,48 @@ async function uploadPhotoFiles(userId: string): Promise<void> {
       `UPDATE entry_photos SET path = ?, photo_dirty = 0, dirty = 1
         WHERE entry_date = ? AND slot = ? AND position = ? AND local_uri = ?`,
       [storagePath, row.entry_date, row.slot, row.position, localUri]
+    );
+  }
+}
+
+/**
+ * Nagrania ida do WLASNEGO bucketu.
+ *
+ * Bucket zdjec ma liste dozwolonych typow MIME ograniczona do obrazow, wiec
+ * wrzucenie tam .m4a odbiloby sie od walidacji Storage.
+ */
+async function uploadAudioFiles(userId: string): Promise<void> {
+  const db = await getDb();
+  const supabase = getSupabase()!;
+
+  const pending = await db.getAllAsync<AudioRow>(
+    'SELECT * FROM entry_audio WHERE audio_dirty = 1 AND local_uri IS NOT NULL'
+  );
+
+  for (const row of pending) {
+    const localUri = row.local_uri!;
+    if (!audioExists(localUri)) {
+      await db.runAsync(
+        'UPDATE entry_audio SET audio_dirty = 0 WHERE entry_date = ? AND slot = ?',
+        [row.entry_date, row.slot]
+      );
+      continue;
+    }
+
+    const fileName = localUri.split('/').pop()!;
+    const storagePath = `${userId}/${row.entry_date}/${fileName}`;
+
+    const bytes = await readAudioBytes(localUri);
+    const { error } = await supabase.storage.from(AUDIO_BUCKET).upload(storagePath, bytes, {
+      contentType: AUDIO_MIME,
+      upsert: true,
+    });
+    if (error) throw error;
+
+    await db.runAsync(
+      `UPDATE entry_audio SET path = ?, audio_dirty = 0, dirty = 1
+        WHERE entry_date = ? AND slot = ? AND local_uri = ?`,
+      [storagePath, row.entry_date, row.slot, localUri]
     );
   }
 }
@@ -197,6 +268,35 @@ async function pushPhotos(userId: string): Promise<void> {
       `UPDATE entry_photos SET dirty = 0
         WHERE entry_date = ? AND slot = ? AND position = ? AND updated_at = ?`,
       [row.entry_date, row.slot, row.position, row.updated_at]
+    );
+  }
+}
+
+async function pushAudio(userId: string): Promise<void> {
+  const db = await getDb();
+  const supabase = getSupabase()!;
+
+  const dirty = await db.getAllAsync<AudioRow>(
+    'SELECT * FROM entry_audio WHERE dirty = 1 AND audio_dirty = 0'
+  );
+  if (dirty.length === 0) return;
+
+  const { error } = await supabase.from(AUDIO_TABLE).upsert(
+    dirty.map((row) => ({
+      user_id: userId,
+      entry_date: row.entry_date,
+      slot: row.slot,
+      path: row.path,
+      duration_ms: row.duration_ms,
+    })),
+    { onConflict: 'user_id,entry_date,slot' }
+  );
+  if (error) throw error;
+
+  for (const row of dirty) {
+    await db.runAsync(
+      'UPDATE entry_audio SET dirty = 0 WHERE entry_date = ? AND slot = ? AND updated_at = ?',
+      [row.entry_date, row.slot, row.updated_at]
     );
   }
 }
@@ -336,6 +436,44 @@ const pullPhotos = () =>
     }
   );
 
+const pullAudio = () =>
+  pullTable<RemoteAudioRow>(
+    AUDIO_TABLE,
+    'entry_date,slot,path,duration_ms,updated_at',
+    LAST_PULLED_AUDIO_KEY,
+    async (remote) => {
+      const db = await getDb();
+      const local = await db.getFirstAsync<AudioRow>(
+        'SELECT * FROM entry_audio WHERE entry_date = ? AND slot = ?',
+        [remote.entry_date, remote.slot]
+      );
+
+      if (!local) {
+        await db.runAsync(
+          `INSERT INTO entry_audio (entry_date, slot, local_uri, path, duration_ms, updated_at, dirty, audio_dirty)
+           VALUES (?, ?, NULL, ?, ?, ?, 0, 0)`,
+          [remote.entry_date, remote.slot, remote.path, remote.duration_ms, remote.updated_at]
+        );
+        return;
+      }
+
+      if (local.dirty === 1 || local.audio_dirty === 1) return;
+      if (remote.updated_at <= local.updated_at) return;
+
+      // Inna sciezka to inne nagranie — plik lokalny jest juz nieaktualny.
+      const changed = remote.path !== local.path;
+      if (changed) deleteAudioFile(local.local_uri);
+
+      await db.runAsync(
+        `UPDATE entry_audio
+            SET path = ?, duration_ms = ?, updated_at = ?, dirty = 0, audio_dirty = 0
+                ${changed ? ', local_uri = NULL' : ''}
+          WHERE entry_date = ? AND slot = ?`,
+        [remote.path, remote.duration_ms, remote.updated_at, remote.entry_date, remote.slot]
+      );
+    }
+  );
+
 const pullDays = () =>
   pullTable<RemoteDayRow>(
     DAYS_TABLE,
@@ -384,23 +522,43 @@ const pullDays = () =>
 
 // --- sprzatanie -------------------------------------------------------------
 
+/**
+ * Kasuje w chmurze pliki, ktore zniknely lokalnie.
+ *
+ * Kosz jest wspolny dla obu bucketow, wiec grupujemy sciezki po buckecie —
+ * Storage kasuje wsadowo, ale wylacznie w obrebie jednego.
+ */
 async function purgeTrash(): Promise<void> {
   const db = await getDb();
   const supabase = getSupabase()!;
 
-  const trash = await db.getAllAsync<{ storage_path: string }>(
-    `SELECT storage_path FROM photo_trash
-      WHERE storage_path NOT IN (SELECT path FROM entry_photos WHERE path IS NOT NULL)
-      LIMIT 50`
+  const trash = await db.getAllAsync<{ bucket: string; storage_path: string }>(
+    `SELECT bucket, storage_path FROM storage_trash
+      WHERE NOT (
+        bucket = ? AND storage_path IN (SELECT path FROM entry_photos WHERE path IS NOT NULL)
+      ) AND NOT (
+        bucket = ? AND storage_path IN (SELECT path FROM entry_audio WHERE path IS NOT NULL)
+      )
+      LIMIT 50`,
+    [PHOTO_BUCKET, AUDIO_BUCKET]
   );
   if (trash.length === 0) return;
 
-  const paths = trash.map((t) => t.storage_path);
-  const { error } = await supabase.storage.from(BUCKET).remove(paths);
-  if (error) throw error;
+  const byBucket = new Map<string, string[]>();
+  for (const row of trash) {
+    byBucket.set(row.bucket, [...(byBucket.get(row.bucket) ?? []), row.storage_path]);
+  }
 
-  for (const path of paths) {
-    await db.runAsync('DELETE FROM photo_trash WHERE storage_path = ?', [path]);
+  for (const [bucket, paths] of byBucket) {
+    const { error } = await supabase.storage.from(bucket).remove(paths);
+    if (error) throw error;
+
+    for (const path of paths) {
+      await db.runAsync('DELETE FROM storage_trash WHERE bucket = ? AND storage_path = ?', [
+        bucket,
+        path,
+      ]);
+    }
   }
 }
 
@@ -441,6 +599,38 @@ export async function ensureLocalPhoto(
   return localUri;
 }
 
+/**
+ * To samo dla nagran: plik sciaga sie dopiero wtedy, gdy ktos nacisnie play.
+ * Odzyskiwanie konta nie moze zaczynac sie od pobrania calego archiwum dzwieku.
+ */
+export async function ensureLocalAudio(date: string, slot: Slot): Promise<string | null> {
+  const db = await getDb();
+  const row = await db.getFirstAsync<AudioRow>(
+    'SELECT * FROM entry_audio WHERE entry_date = ? AND slot = ?',
+    [date, slot]
+  );
+  if (!row) return null;
+  if (row.local_uri && audioExists(row.local_uri)) return row.local_uri;
+  if (!row.path) return null;
+
+  const supabase = getSupabase();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase.storage
+    .from(AUDIO_BUCKET)
+    .createSignedUrl(row.path, 60 * 60);
+  if (error || !data?.signedUrl) return null;
+
+  const localUri = await downloadAudio(data.signedUrl, date, slot);
+  // Pobranie pliku to nie zmiana tresci — `dirty` zostaje nietkniete.
+  await db.runAsync('UPDATE entry_audio SET local_uri = ? WHERE entry_date = ? AND slot = ?', [
+    localUri,
+    date,
+    slot,
+  ]);
+  return localUri;
+}
+
 // --- wyzwalacze -------------------------------------------------------------
 
 let debounce: ReturnType<typeof setTimeout> | null = null;
@@ -477,4 +667,5 @@ export async function resetPullWatermark(): Promise<void> {
   await setState(LAST_PULLED_KEY, EPOCH);
   await setState(LAST_PULLED_DAYS_KEY, EPOCH);
   await setState(LAST_PULLED_PHOTOS_KEY, EPOCH);
+  await setState(LAST_PULLED_AUDIO_KEY, EPOCH);
 }

@@ -61,7 +61,13 @@
     "invalidCode": "Código incorrecto o caducado.",
     "haveAccount": "Ya tengo una cuenta",
     "restoreWarning": "Iniciar sesión sustituye lo que hay en este teléfono por las notas de esa cuenta.",
-    "restoreCta": "Iniciar sesión y recuperar"
+    "restoreCta": "Iniciar sesión y recuperar",
+    "deleteTitle": "Eliminar cuenta",
+    "deleteHint": "Eliminar tu cuenta borra todas las entradas, fotos y grabaciones, también en la nube.",
+    "deleteWarning": "Todas tus entradas, fotos y grabaciones se eliminarán de forma permanente de este teléfono y de la nube. No se podrán recuperar.",
+    "deleteConfirm": "Eliminar permanentemente",
+    "deleteDone": "Tu cuenta ha sido eliminada.",
+    "deleteFailed": "No se pudo eliminar la cuenta. Inténtalo de nuevo."
   },
   "sync": {
     "offline": "Sin conexión — guardado en este teléfono",
@@ -190,5 +196,19 @@
   "ads": {
     "placeholder": "Espacio publicitario",
     "placeholderTest": "Espacio publicitario (modo de prueba)"
+  },
+  "voice": {
+    "label": "Nota de voz",
+    "record": "Grabar una nota de voz",
+    "stop": "Detener",
+    "play": "Reproducir",
+    "pause": "Pausar",
+    "remove": "Eliminar grabación",
+    "recording": "Grabando",
+    "tooShort": "La grabación fue demasiado corta.",
+    "missingFile": "No se pudo cargar la grabación. Comprueba tu conexión.",
+    "permissionTitle": "Se necesita acceso al micrófono",
+    "permissionBody": "Permite el acceso al micrófono en los ajustes del teléfono para grabar notas.",
+    "unavailable": "La grabación no está disponible en esta versión."
   }
 }

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wdzięczność — usunięcie konta</title>
+<!--
+  Strona wymagana przez Google Play.
+  https://support.google.com/googleplay/android-developer/answer/13327111
+
+  Sklep zada DWOCH rzeczy naraz: sciezki usuniecia konta w aplikacji oraz
+  publicznego adresu WWW dla osob, ktore aplikacje juz odinstalowaly i nie maja
+  jak skorzystac z tej pierwszej. Adres tej strony wpisuje sie w Play Console
+  w formularzu "Data safety" -> "Data deletion".
+
+  ZANIM OPUBLIKUJESZ: podmien ADRES-KONTAKTOWY ponizej na prawdziwy adres
+  e-mail, pod ktorym odbierasz zgloszenia. Bez tego strona nie spelnia wymogu.
+-->
+<style>
+  :root {
+    --bg: #FBF6F0;
+    --surface: #FFFDFC;
+    --text: #263A32;
+    --muted: #817B73;
+    --border: #EAE1D6;
+    --accent: #3E6654;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141A17;
+      --surface: #1D2420;
+      --text: #EDE9E2;
+      --muted: #9AA29B;
+      --border: #2E3833;
+      --accent: #7FA48C;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 20px 80px;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 46rem; margin: 0 auto; }
+  h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 .4em; }
+  h2 { font-size: 1.15rem; margin: 2em 0 .5em; }
+  p, li { max-width: 40em; }
+  ol, ul { padding-left: 1.3em; }
+  li { margin-bottom: .4em; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 1.5em 0;
+  }
+  .lead { color: var(--muted); font-size: 1.05rem; }
+  a { color: var(--accent); }
+  table { border-collapse: collapse; width: 100%; margin-top: .6em; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-weight: 600; white-space: nowrap; }
+  footer { margin-top: 3em; color: var(--muted); font-size: .9rem; }
+  [lang="en"] { border-top: 1px solid var(--border); margin-top: 3em; padding-top: 2em; }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>Usunięcie konta w aplikacji Wdzięczność</h1>
+  <p class="lead">
+    Możesz w każdej chwili usunąć swoje konto razem ze wszystkimi zapisanymi
+    wdzięcznościami, zdjęciami i nagraniami głosowymi.
+  </p>
+
+  <h2>Jeśli masz aplikację na telefonie</h2>
+  <div class="card">
+    <ol>
+      <li>Otwórz <strong>Ustawienia</strong> w aplikacji</li>
+      <li>Wybierz <strong>Konto</strong></li>
+      <li>Na dole ekranu wybierz <strong>Usuń konto</strong> i potwierdź</li>
+    </ol>
+    <p>Usunięcie jest natychmiastowe i nieodwracalne.</p>
+  </div>
+
+  <h2>Jeśli aplikacja została już odinstalowana</h2>
+  <div class="card">
+    <p>
+      Napisz na adres <a href="mailto:ADRES-KONTAKTOWY">ADRES-KONTAKTOWY</a>
+      z tematem <strong>Usunięcie konta</strong>. W treści podaj adres e-mail,
+      którym konto zostało zabezpieczone.
+    </p>
+    <p>
+      Zgłoszenie realizujemy w ciągu <strong>30 dni</strong>. Potwierdzenie
+      wysyłamy na ten sam adres.
+    </p>
+    <p>
+      Jeśli konto nigdy nie zostało powiązane z adresem e-mail, jest ono
+      dostępne wyłącznie z tego jednego telefonu i nie mamy sposobu, by je
+      odnaleźć. Odinstalowanie aplikacji jest wtedy równoznaczne z utratą
+      dostępu, a same dane usuwamy automatycznie.
+    </p>
+  </div>
+
+  <h2>Co dokładnie znika</h2>
+  <table>
+    <tr>
+      <th>Usuwane natychmiast</th>
+      <td>Konto, treść wdzięczności, zdjęcia, nagrania głosowe, nastroje,
+          notatki dzienne i kategorie — z urządzenia i z serwera.</td>
+    </tr>
+    <tr>
+      <th>Pozostaje</th>
+      <td>Nic, co pozwalałoby Cię zidentyfikować. Aplikacja nie zbiera
+          historii przeglądania ani kontaktów.</td>
+    </tr>
+    <tr>
+      <th>Kopie zapasowe</th>
+      <td>Kopie techniczne serwera są nadpisywane w cyklu <strong>7 dni</strong>
+          i po tym czasie nie zawierają już usuniętych danych.</td>
+    </tr>
+  </table>
+
+  <h2>Subskrypcja</h2>
+  <p>
+    Usunięcie konta <strong>nie anuluje</strong> subskrypcji „bez reklam" —
+    rozliczają ją Google Play i App Store, nie my. Anuluj ją w ustawieniach
+    subskrypcji swojego sklepu, zanim usuniesz konto.
+  </p>
+
+  <section lang="en">
+    <h1>Deleting your Wdzięczność account</h1>
+    <p class="lead">
+      You can delete your account and everything stored with it — entries,
+      photos and voice notes — at any time.
+    </p>
+
+    <h2>From the app</h2>
+    <p>Open <strong>Settings → Account</strong> and choose <strong>Delete account</strong>.
+      Deletion is immediate and cannot be undone.</p>
+
+    <h2>If you already uninstalled the app</h2>
+    <p>
+      Email <a href="mailto:ADRES-KONTAKTOWY">ADRES-KONTAKTOWY</a> with the
+      subject <strong>Account deletion</strong> and the email address the
+      account was secured with. Requests are handled within 30 days.
+    </p>
+    <p>
+      An account never linked to an email address exists only on that one
+      phone and cannot be located by us.
+    </p>
+
+    <h2>What is removed</h2>
+    <p>
+      The account itself and all entry text, photos, voice recordings, moods,
+      daily notes and categories — on the device and on the server. Technical
+      server backups roll over within 7 days.
+    </p>
+    <p>
+      Deleting the account does <strong>not</strong> cancel the ad-free
+      subscription; cancel it in your App Store or Google Play subscription
+      settings.
+    </p>
+  </section>
+
+  <footer>Wdzięczność</footer>
+
+</main>
+</body>
+</html>

@@ -20,6 +20,8 @@ import { useTheme } from '@/hooks/use-theme';
 import {
   confirmEmailLink,
   confirmSignIn,
+  deleteAccount,
+  ensureSession,
   getAccountState,
   requestEmailLink,
   requestSignIn,
@@ -115,6 +117,44 @@ export default function AccountScreen() {
       },
     ]);
   };
+
+  /**
+   * Trwale usuniecie konta. Wymagane przez oba sklepy (Apple 5.1.1(v),
+   * Google Play), a dostepne takze dla konta anonimowego — ono rowniez trzyma
+   * wpisy i zdjecia w chmurze, wiec "nie mam e-maila" nie znaczy "nie mam
+   * czego usuwac".
+   */
+  const confirmDelete = () =>
+    Alert.alert(t('account.deleteTitle'), t('account.deleteWarning'), [
+      { text: t('common.cancel'), style: 'cancel' },
+      {
+        text: t('account.deleteConfirm'),
+        style: 'destructive',
+        onPress: () => {
+          void (async () => {
+            setBusy(true);
+            try {
+              await deleteAccount();
+              // Dane lokalne kasujemy dopiero PO potwierdzeniu z serwera. Przy
+              // odwrotnej kolejnosci nieudane zadanie zostawiloby uzytkownika
+              // z pusta aplikacja i nietknietym kontem w chmurze.
+              await wipeLocalEntries();
+              await resetPullWatermark();
+              // Nowa sesja anonimowa, zeby aplikacja dalej dzialala — inaczej
+              // po usunieciu konta nie dalo by sie zapisac ani jednego zdania.
+              await ensureSession();
+              setAccount(await getAccountState());
+              Alert.alert(t('account.deleteTitle'), t('account.deleteDone'));
+              router.back();
+            } catch (error) {
+              fail(error instanceof Error ? error.message : t('account.deleteFailed'));
+            } finally {
+              setBusy(false);
+            }
+          })();
+        },
+      },
+    ]);
 
   if (!account) {
     return (
@@ -219,6 +259,19 @@ export default function AccountScreen() {
               ) : null}
             </>
           )}
+
+          {account.kind !== 'offline' ? (
+            <View style={[styles.danger, { borderColor: colors.border }]}>
+              <Text style={[styles.label, { color: colors.textMuted }]}>
+                {t('account.deleteHint')}
+              </Text>
+              <Pressable onPress={confirmDelete} disabled={busy} accessibilityRole="button">
+                <Text style={[styles.link, { color: colors.danger }]}>
+                  {t('account.deleteTitle')}
+                </Text>
+              </Pressable>
+            </View>
+          ) : null}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -303,5 +356,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     paddingVertical: Spacing.sm,
+  },
+  danger: {
+    marginTop: Spacing.xl,
+    paddingTop: Spacing.lg,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    gap: Spacing.sm,
   },
 });

@@ -28,10 +28,18 @@ npm run set-supabase -- https://twoj-projekt.supabase.co sb_publishable_xxx
 
 Skrypt sprawdza połączenie, ostrzega, jeśli logowanie anonimowe jest wyłączone, odmawia przyjęcia klucza `service_role` i dopiero wtedy zapisuje wartości do `app.json`.
 
-Potem wklej **[`supabase/setup.sql`](supabase/setup.sql)** w SQL Editor — to wszystkie cztery migracje sklejone w jeden plik, więc nie da się pomylić kolejności. Plik jest generowany, nie edytuj go ręcznie:
+Potem wklej **[`supabase/setup.sql`](supabase/setup.sql)** w SQL Editor — to wszystkie migracje sklejone w jeden plik, więc nie da się pomylić kolejności. Plik jest generowany, nie edytuj go ręcznie:
 
 ```bash
 npm run setup-sql
+```
+
+Jeśli baza była konfigurowana wcześniej, nie wklejaj całego `setup.sql` ponownie — wykonaj tylko brakujące migracje. [`0005_audio.sql`](supabase/migrations/0005_audio.sql) jest napisana tak, że można ją uruchomić na już skonfigurowanej bazie.
+
+Wdróż też funkcję usuwania konta — bez niej ekran „Usuń konto" zgłosi błąd, a oba sklepy wymagają działającej ścieżki usunięcia:
+
+```bash
+npx supabase functions deploy delete-account
 ```
 
 Na koniec weryfikacja:
@@ -40,7 +48,9 @@ Na koniec weryfikacja:
 npm run check-supabase
 ```
 
-Sprawdza tabele, bucket i konfigurację reklam, a przede wszystkim **zakłada dwa konta anonimowe i próbuje z drugiego odczytać wpisy pierwszego**. Jeśli się uda, polityki RLS nie działają i prywatne zapiski są widoczne dla obcych — to jedyny błąd z tej listy, który kończy się wyciekiem danych.
+Sprawdza tabele, oba buckety i konfigurację reklam, a przede wszystkim **zakłada dwa konta anonimowe i próbuje z drugiego dostać się do wpisów, zdjęć i nagrań pierwszego**. Jeśli którakolwiek z tych prób się powiedzie, polityki RLS nie działają i prywatne zapiski są widoczne dla obcych — to jedyne błędy z tej listy, które kończą się wyciekiem danych.
+
+Ostatni krok skryptu **naprawdę kasuje** oba konta testowe przez funkcję `delete-account`. Dzięki temu sprawdzamy ścieżkę usuwania od końca do końca, a konta anonimowe nie zbierają się w projekcie po każdym uruchomieniu.
 
 ### Krok, który najłatwiej przeoczyć
 
@@ -49,9 +59,12 @@ Szablony e-mail muszą zwracać sam kod. W panelu: *Authentication → Emails*, 
 ## Ręczna konfiguracja Supabase (gdyby skrypty zawiodły)
 
 1. Utwórz nowy projekt na [supabase.com](https://supabase.com).
-2. Wykonaj **obie** migracje w SQL Editor, po kolei:
-   - [`supabase/migrations/0001_gratitude.sql`](supabase/migrations/0001_gratitude.sql) — wpisy, zdjęcia, RLS, bucket
-   - [`supabase/migrations/0002_days.sql`](supabase/migrations/0002_days.sql) — nastrój, ulubione, tagi, notatka dodatkowa
+2. Wykonaj migracje w SQL Editor, po kolei:
+   - [`0001_gratitude.sql`](supabase/migrations/0001_gratitude.sql) — wpisy, zdjęcia, RLS, bucket
+   - [`0002_days.sql`](supabase/migrations/0002_days.sql) — nastrój, ulubione, tagi, notatka dodatkowa
+   - [`0003_slots_and_photos.sql`](supabase/migrations/0003_slots_and_photos.sql) — 10 wpisów dziennie, zdjęcia jako osobna tabela
+   - [`0004_app_config.sql`](supabase/migrations/0004_app_config.sql) — zdalna konfiguracja reklam
+   - [`0005_audio.sql`](supabase/migrations/0005_audio.sql) — notatki głosowe i bucket na nagrania
 3. W **Authentication → Providers → Email** włącz **Anonymous sign-ins**.
 4. W **Authentication → Email Templates** podmień w szablonach *Confirm signup*, *Magic Link* i *Change Email Address* odnośnik na sam kod:
 

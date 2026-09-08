@@ -80,4 +80,6 @@ console.log('\nPozostalo:');
 console.log('  1. Wklej supabase/setup.sql w SQL Editor i uruchom');
 console.log('  2. Podmien szablony e-mail na {{ .Token }}');
 console.log('     (Authentication -> Emails: Confirm signup, Magic Link, Change Email Address)');
-console.log('  3. npm run check-supabase');
+console.log('  3. npx supabase functions deploy delete-account');
+console.log('     (bez tego ekran "Usun konto" nie zadziala, a wymagaja go oba sklepy)');
+console.log('  4. npm run check-supabase');

@@ -164,6 +164,31 @@ export async function confirmSignIn(email: string, token: string): Promise<void>
   if (error) throw error;
 }
 
+/**
+ * Trwale usuniecie konta razem z wpisami, zdjeciami i nagraniami w chmurze.
+ *
+ * Robi to funkcja brzegowa (supabase/functions/delete-account), bo skasowanie
+ * wiersza z auth.users wymaga klucza service_role — a ten nie moze znalezc sie
+ * w aplikacji mobilnej, gdzie kazdy klucz da sie odczytac z paczki.
+ *
+ * Sprzatanie danych LOKALNYCH jest osobno, po stronie wolajacego: ta funkcja
+ * odpowiada tylko za chmure.
+ */
+export async function deleteAccount(): Promise<void> {
+  const supabase = getSupabase();
+  if (!supabase) throw new Error('cloud-not-configured');
+
+  const { data } = await supabase.auth.getSession();
+  if (!data.session) throw new Error('not-signed-in');
+
+  const { error } = await supabase.functions.invoke('delete-account', { method: 'POST' });
+  if (error) throw error;
+
+  // Konto juz nie istnieje, wiec sesja jest martwa — czyscimy ja lokalnie,
+  // zeby klient nie probowal odswiezac tokenu nieistniejacego uzytkownika.
+  await supabase.auth.signOut({ scope: 'local' });
+}
+
 export async function signOut(): Promise<void> {
   await getSupabase()?.auth.signOut();
 }

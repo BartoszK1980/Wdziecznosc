@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { formatDuration } from '@/audio/audio';
 import { AdBanner } from '@/components/ad-banner';
 import { Calendar } from '@/components/calendar';
 import { EntryPhoto } from '@/components/entry-photo';
@@ -221,9 +222,20 @@ function DayCard({
               {day.slots.slice(0, 3).map((slot) => (
                 <View key={slot.slot} style={styles.line}>
                   <View style={[styles.bullet, { backgroundColor: colors.sage }]} />
-                  <Text style={[styles.lineText, { color: colors.text }]} numberOfLines={2}>
-                    {slot.text || '—'}
-                  </Text>
+                  {/* Wdziecznosc moze byc SAMYM nagraniem. Bez tego pokazywalaby
+                      sie na liscie jako pusta kreska, czyli jak wpis bez tresci. */}
+                  {!slot.text && slot.voice ? (
+                    <View style={styles.voiceLine}>
+                      <Feather name="mic" size={13} color={colors.textMuted} />
+                      <Text style={[styles.lineText, { color: colors.textMuted }]}>
+                        {formatDuration(slot.voice.durationMs)}
+                      </Text>
+                    </View>
+                  ) : (
+                    <Text style={[styles.lineText, { color: colors.text }]} numberOfLines={2}>
+                      {slot.text || '—'}
+                    </Text>
+                  )}
                 </View>
               ))}
               {extra > 0 ? (
@@ -294,6 +306,7 @@ const styles = StyleSheet.create({
   line: { flexDirection: 'row', alignItems: 'flex-start', gap: Spacing.sm },
   bullet: { width: 4, height: 4, borderRadius: 2, marginTop: 8 },
   lineText: { flex: 1, fontSize: 14, lineHeight: 20 },
+  voiceLine: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 6 },
   more: { fontSize: 12, paddingLeft: Spacing.md },
   empty: { alignItems: 'center', paddingTop: Spacing.xl },
 });

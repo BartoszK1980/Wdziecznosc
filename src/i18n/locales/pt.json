@@ -61,7 +61,13 @@
     "invalidCode": "Código incorreto ou expirado.",
     "haveAccount": "Já tenho uma conta",
     "restoreWarning": "Entrar substitui o que está neste celular pelas notas dessa conta.",
-    "restoreCta": "Entrar e recuperar"
+    "restoreCta": "Entrar e recuperar",
+    "deleteTitle": "Eliminar conta",
+    "deleteHint": "Eliminar a conta apaga todos os registos, fotografias e gravações — também na nuvem.",
+    "deleteWarning": "Todos os teus registos, fotografias e gravações serão eliminados permanentemente deste telemóvel e da nuvem. Não poderão ser recuperados.",
+    "deleteConfirm": "Eliminar permanentemente",
+    "deleteDone": "A tua conta foi eliminada.",
+    "deleteFailed": "Não foi possível eliminar a conta. Tenta novamente."
   },
   "sync": {
     "offline": "Offline — salvo neste celular",
@@ -190,5 +196,19 @@
   "ads": {
     "placeholder": "Espaço de anúncio",
     "placeholderTest": "Espaço de anúncio (modo de teste)"
+  },
+  "voice": {
+    "label": "Nota de voz",
+    "record": "Gravar uma nota de voz",
+    "stop": "Parar",
+    "play": "Reproduzir",
+    "pause": "Pausar",
+    "remove": "Eliminar gravação",
+    "recording": "A gravar",
+    "tooShort": "A gravação foi demasiado curta.",
+    "missingFile": "Não foi possível carregar a gravação. Verifica a ligação.",
+    "permissionTitle": "É necessário acesso ao microfone",
+    "permissionBody": "Permite o acesso ao microfone nas definições do telemóvel para gravar notas.",
+    "unavailable": "A gravação não está disponível nesta versão."
   }
 }

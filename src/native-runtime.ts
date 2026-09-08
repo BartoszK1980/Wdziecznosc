@@ -1,4 +1,5 @@
 import Constants, { ExecutionEnvironment } from 'expo-constants';
+import { requireOptionalNativeModule } from 'expo-modules-core';
 import { NativeModules, TurboModuleRegistry } from 'react-native';
 
 /**
@@ -34,6 +35,22 @@ export function hasNativeModule(name: string): boolean {
 
   try {
     return (NativeModules as Record<string, unknown>)[name] != null;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * To samo pytanie, ale dla modulow Expo.
+ *
+ * Biblioteki `expo-*` nie rejestruja sie w TurboModuleRegistry ani w
+ * NativeModules, tylko we wlasnym rejestrze — hasNativeModule zwrocilby dla
+ * nich false nawet wtedy, gdy sa wkompilowane. `requireOptionalNativeModule`
+ * to oficjalny wariant, ktory zwraca null zamiast rzucac.
+ */
+export function hasExpoModule(name: string): boolean {
+  try {
+    return requireOptionalNativeModule(name) != null;
   } catch {
     return false;
   }

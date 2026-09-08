@@ -13,7 +13,8 @@
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Attach a photo from your library to a gratitude entry.",
         "NSCameraUsageDescription": "Take a photo to attach to a gratitude entry.",
-        "NSFaceIDUsageDescription": "Unlock Wdzięczność with Face ID."
+        "NSFaceIDUsageDescription": "Unlock Wdzięczność with Face ID.",
+        "NSMicrophoneUsageDescription": "Record a voice note for a gratitude entry."
       }
     },
     "android": {
@@ -61,7 +62,15 @@
         }
       ],
       "expo-image",
-      "expo-sharing"
+      "expo-sharing",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Record a voice note for a gratitude entry.",
+          "enableBackgroundPlayback": false,
+          "enableBackgroundRecording": false
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

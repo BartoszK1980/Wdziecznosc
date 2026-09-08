@@ -21,6 +21,13 @@ const base = {
     textMuted: '#817B73',
     /** #ECAF44 — zloto: numery wpisow, iskry w logo, wyroznienia */
     gold: '#ECAF44',
+    /**
+     * #B4483C — jedyny kolor SEMANTYCZNY, nie markowy: kropka nagrywania.
+     * Czerwien przy nagrywaniu jest konwencja rozpoznawana bez podpisu, wiec
+     * zastapienie jej zlotem z palety kosztowaloby zrozumialosc. Odcien
+     * z rodziny terakoty, ktora paleta juz zna, zeby nie zgrzytal.
+     */
+    danger: '#B4483C',
     border: '#EAE1D6',
   },
   dark: {
@@ -30,6 +37,7 @@ const base = {
     text: '#EDE9E2',
     textMuted: '#9AA29B',
     gold: '#E9B45C',
+    danger: '#D9796C',
     border: '#2E3833',
   },
 } as const;
@@ -83,6 +91,7 @@ export type Palette = {
   text: string;
   textMuted: string;
   gold: string;
+  danger: string;
   border: string;
   accent: string;
   sage: string;

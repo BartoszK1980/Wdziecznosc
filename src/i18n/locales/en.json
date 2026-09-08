@@ -61,7 +61,13 @@
     "invalidCode": "Wrong or expired code.",
     "haveAccount": "I already have an account",
     "restoreWarning": "Signing in replaces what is on this phone with the entries from that account.",
-    "restoreCta": "Sign in and restore"
+    "restoreCta": "Sign in and restore",
+    "deleteTitle": "Delete account",
+    "deleteHint": "Deleting your account erases every entry, photo and recording — in the cloud too.",
+    "deleteWarning": "All your entries, photos and recordings will be permanently deleted from this phone and from the cloud. They cannot be recovered.",
+    "deleteConfirm": "Delete permanently",
+    "deleteDone": "Your account has been deleted.",
+    "deleteFailed": "Could not delete the account. Please try again."
   },
   "sync": {
     "offline": "Offline — saved on this phone",
@@ -190,5 +196,19 @@
   "ads": {
     "placeholder": "Ad slot",
     "placeholderTest": "Ad slot (test mode)"
+  },
+  "voice": {
+    "label": "Voice note",
+    "record": "Record a voice note",
+    "stop": "Stop",
+    "play": "Play",
+    "pause": "Pause",
+    "remove": "Delete recording",
+    "recording": "Recording",
+    "tooShort": "That recording was too short.",
+    "missingFile": "Could not load the recording. Check your connection.",
+    "permissionTitle": "Microphone access needed",
+    "permissionBody": "Allow microphone access in your phone settings to record notes.",
+    "unavailable": "Recording is not available in this build."
   }
 }

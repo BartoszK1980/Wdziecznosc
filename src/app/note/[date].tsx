@@ -24,7 +24,6 @@ const SAVE_DEBOUNCE_MS = 600;
 export default function NoteScreen() {
   const { t, i18n } = useTranslation();
   const colors = useTheme();
-  const router = useRouter();
   const navigation = useNavigation();
   const params = useLocalSearchParams<{ date?: string }>();
   const date = typeof params.date === 'string' ? params.date : dateKey();

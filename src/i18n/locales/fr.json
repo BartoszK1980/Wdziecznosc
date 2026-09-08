@@ -61,7 +61,13 @@
     "invalidCode": "Code incorrect ou expiré.",
     "haveAccount": "J'ai déjà un compte",
     "restoreWarning": "La connexion remplace ce qui se trouve sur ce téléphone par les notes de ce compte.",
-    "restoreCta": "Se connecter et restaurer"
+    "restoreCta": "Se connecter et restaurer",
+    "deleteTitle": "Supprimer le compte",
+    "deleteHint": "Supprimer votre compte efface toutes les entrées, photos et notes vocales, y compris dans le cloud.",
+    "deleteWarning": "Toutes vos entrées, photos et notes vocales seront définitivement supprimées de ce téléphone et du cloud. Elles seront irrécupérables.",
+    "deleteConfirm": "Supprimer définitivement",
+    "deleteDone": "Votre compte a été supprimé.",
+    "deleteFailed": "Impossible de supprimer le compte. Réessayez."
   },
   "sync": {
     "offline": "Hors ligne — enregistré sur ce téléphone",
@@ -190,5 +196,19 @@
   "ads": {
     "placeholder": "Emplacement publicitaire",
     "placeholderTest": "Emplacement publicitaire (mode test)"
+  },
+  "voice": {
+    "label": "Note vocale",
+    "record": "Enregistrer une note vocale",
+    "stop": "Arrêter",
+    "play": "Lire",
+    "pause": "Pause",
+    "remove": "Supprimer l'enregistrement",
+    "recording": "Enregistrement",
+    "tooShort": "L'enregistrement était trop court.",
+    "missingFile": "Impossible de charger l'enregistrement. Vérifiez votre connexion.",
+    "permissionTitle": "Accès au microphone requis",
+    "permissionBody": "Autorisez le microphone dans les réglages du téléphone pour enregistrer des notes.",
+    "unavailable": "L'enregistrement n'est pas disponible dans cette version."
   }
 }
