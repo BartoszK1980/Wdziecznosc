@@ -45,3 +45,6 @@ example
 # Podglady weryfikacyjne — odtwarzalne przez npm run verify-mark / make-icons
 assets/brand/mark-comparison.png
 assets/brand/icon-preview.png
+
+# Supabase CLI — pamiec podreczna (ref projektu, wersje, adres poolera)
+supabase/.temp/
