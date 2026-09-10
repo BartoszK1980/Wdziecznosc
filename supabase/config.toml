@@ -1,0 +1,33 @@
+# Konfiguracja Supabase CLI — deklaruje WYLACZNIE to, czym zarzadzamy z repo.
+#
+# `supabase config push` zostawia bez zmian kazda wlasciwosc, ktorej ten plik
+# nie deklaruje, wiec nie ma tu logowania anonimowego, site_url ani limitow.
+# Nie dopisuj sekcji "na zapas": zadeklarowana wartosc nadpisze ustawienie
+# w panelu przy najblizszym pushu.
+#
+#   npx supabase config diff --project-ref sjgtiafaaumjzvherbwv   # podglad
+#   npx supabase config push --project-ref sjgtiafaaumjzvherbwv   # wyslanie
+#
+# UWAGA: szablony da sie wyslac dopiero po skonfigurowaniu WLASNEGO serwera
+# SMTP. Na darmowym planie z domyslna wysylka Supabase odrzuca zmiane szablonu
+# bledem 400 — i razem z nia cala paczke zmian Auth, lacznie z otp_length.
+# Domyslna wysylka i tak nie nadaje sie do produkcji: dostarcza poczte tylko
+# czlonkom zespolu projektu, najwyzej 2 wiadomosci na godzine.
+project_id = "wdziecznosc"
+
+[auth.email]
+# Aplikacja przyjmuje 6 cyfr i we wszystkich 7 jezykach mowi o "6-cyfrowym
+# kodzie". Nowe projekty Supabase potrafia startowac z 8.
+otp_length = 6
+
+[auth.email.template.confirmation]
+subject = "Wdzięczność — kod potwierdzający"
+content_path = "./supabase/templates/confirmation.html"
+
+[auth.email.template.magic_link]
+subject = "Wdzięczność — kod logowania"
+content_path = "./supabase/templates/magic_link.html"
+
+[auth.email.template.email_change]
+subject = "Wdzięczność — kod do zabezpieczenia wpisów"
+content_path = "./supabase/templates/email_change.html"

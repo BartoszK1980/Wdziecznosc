@@ -54,7 +54,21 @@ Ostatni krok skryptu **naprawdę kasuje** oba konta testowe przez funkcję `dele
 
 ### Krok, który najłatwiej przeoczyć
 
-Szablony e-mail muszą zwracać sam kod. W panelu: *Authentication → Emails*, w szablonach *Confirm signup*, *Magic Link* i *Change Email Address* podmień odnośnik na `{{ .Token }}`. Bez tego Supabase wyśle link, a aplikacja prosi o sześciocyfrowy kod — logowanie po prostu nie przejdzie.
+Szablony e-mail muszą zwracać sam kod (`{{ .Token }}`), bo aplikacja prosi o sześciocyfrowy kod, a domyślne szablony wysyłają odnośnik.
+
+**Tego nie da się zrobić na darmowym planie z wbudowaną wysyłką poczty.** Supabase odrzuca wtedy każdą zmianę szablonu błędem 400 — w panelu pole jest po prostu niedostępne. Wbudowana wysyłka i tak nie nadaje się do produkcji: dostarcza pocztę **wyłącznie członkom zespołu projektu**, najwyżej 2 wiadomości na godzinę. Prawdziwy użytkownik nie dostałby kodu wcale.
+
+Kolejność jest więc taka:
+
+1. Skonfiguruj własny serwer SMTP (np. Resend albo Brevo) w ustawieniach Auth projektu. Hasło SMTP wpisujesz sam w panelu — nie trafia do repozytorium.
+2. Wyślij gotowe szablony z [`supabase/templates/`](supabase/templates/) jednym poleceniem:
+
+   ```bash
+   npx supabase config diff --project-ref sjgtiafaaumjzvherbwv
+   npx supabase config push --project-ref sjgtiafaaumjzvherbwv
+   ```
+
+   [`supabase/config.toml`](supabase/config.toml) deklaruje wyłącznie długość kodu i trzy szablony. Wszystko, czego nie deklaruje, `config push` zostawia bez zmian.
 
 ## Ręczna konfiguracja Supabase (gdyby skrypty zawiodły)
 
@@ -66,10 +80,10 @@ Szablony e-mail muszą zwracać sam kod. W panelu: *Authentication → Emails*, 
    - [`0004_app_config.sql`](supabase/migrations/0004_app_config.sql) — zdalna konfiguracja reklam
    - [`0005_audio.sql`](supabase/migrations/0005_audio.sql) — notatki głosowe i bucket na nagrania
 3. W **Authentication → Providers → Email** włącz **Anonymous sign-ins**.
-4. W **Authentication → Email Templates** podmień w szablonach *Confirm signup*, *Magic Link* i *Change Email Address* odnośnik na sam kod:
+4. Skonfiguruj **własny serwer SMTP** (Authentication → SMTP). Bez niego Supabase nie pozwoli zmienić szablonów e-mail, a wbudowana wysyłka dostarcza pocztę tylko członkom zespołu projektu. Potem wyślij szablony z [`supabase/templates/`](supabase/templates/):
 
-   ```
-   {{ .Token }}
+   ```bash
+   npx supabase config push --project-ref <ref-projektu>
    ```
 
    Bez tego Supabase wyśle **link**, a aplikacja prosi o **sześciocyfrowy kod** — logowanie nie przejdzie.
