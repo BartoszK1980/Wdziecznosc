@@ -97,10 +97,17 @@ export type Stats = {
   tags: { tag: Tag; count: number }[];
 };
 
+// Uwaga: ten warunek MUSI zgadzac sie z HAS_CONTENT w db/entries.ts. Sa dwie
+// kopie, bo kazda dotyczy innego zapytania — rozjechanie ich konczy sie tym, ze
+// wpis widoczny na liscie nie liczy sie do serii dni i statystyk.
 const CONTENT = `((e.text IS NOT NULL AND trim(e.text) <> '') OR EXISTS (
   SELECT 1 FROM entry_photos p
    WHERE p.entry_date = e.entry_date AND p.slot = e.slot
      AND (p.local_uri IS NOT NULL OR p.path IS NOT NULL)
+) OR EXISTS (
+  SELECT 1 FROM entry_audio a
+   WHERE a.entry_date = e.entry_date AND a.slot = e.slot
+     AND (a.local_uri IS NOT NULL OR a.path IS NOT NULL)
 ))`;
 
 /**
