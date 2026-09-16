@@ -29,10 +29,13 @@ export function MoodChart({ points }: { points: Point[] }) {
 
   const onLayout = (event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width);
 
+  // Linii nie da sie narysowac z jednego punktu, wiec podpowiedz pokazuje sie
+  // takze przy jednym zapisanym nastroju — stad mowa o "kilku dniach", a nie
+  // o braku danych.
   if (points.length < 2) {
     return (
       <View style={styles.placeholder} onLayout={onLayout}>
-        <Text style={[styles.hint, { color: colors.textMuted }]}>{t('stats.empty')}</Text>
+        <Text style={[styles.hint, { color: colors.textMuted }]}>{t('stats.moodEmpty')}</Text>
       </View>
     );
   }

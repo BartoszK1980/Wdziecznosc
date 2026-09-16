@@ -136,7 +136,8 @@
     "streakShort": "Days in a row",
     "moodChart": "Your mood over time",
     "topTags": "Most often grateful for",
-    "empty": "Write a few notes and your statistics will appear here."
+    "empty": "Write a few notes and your statistics will appear here.",
+    "moodEmpty": "Record your mood for a few days and a chart will appear here."
   },
   "tags": {
     "family": "Family",

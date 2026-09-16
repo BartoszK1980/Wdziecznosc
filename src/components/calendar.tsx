@@ -11,6 +11,8 @@ import { datesWithContent } from '@/db/entries';
 import { useTheme } from '@/hooks/use-theme';
 
 const CELL_HEIGHT = 46;
+/** Bok znacznika dnia z trescia. Parzysty, zeby polowa byla calkowita. */
+const DOT = 6;
 
 /** Poniedzialek jako pierwszy dzien — tak dziala kalendarz w Polsce i wiekszosci Europy. */
 const FIRST_DAY_OF_WEEK = 1;
@@ -189,11 +191,14 @@ const styles = StyleSheet.create({
     fontVariant: ['tabular-nums'],
   },
   dot: {
-    width: 6,
-    height: 6,
-    // Przy 5 px i promieniu 3 Android rysowal kwadrat — zaokraglenie musi byc
-    // wyraznie wieksze od polowy boku, zeby wyszlo kolo.
-    borderRadius: Radius.pill,
+    width: DOT,
+    height: DOT,
+    // Promien to DOKLADNIE polowa boku. Wczesniej bylo tu Radius.pill (999) i
+    // znacznik renderowal sie jako KWADRAT: Android z nowa architektura
+    // (Fabric) nie radzi sobie z promieniem wielokrotnie wiekszym od elementu.
+    // Odwrotnie niz sugerowal poprzedni komentarz — problemem byl promien za
+    // duzy, nie za maly.
+    borderRadius: DOT / 2,
     backgroundColor: 'transparent',
   },
 });

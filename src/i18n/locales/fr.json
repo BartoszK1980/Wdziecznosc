@@ -136,7 +136,8 @@
     "streakShort": "Jours de suite",
     "moodChart": "Ton humeur dans le temps",
     "topTags": "Le plus souvent reconnaissant·e pour",
-    "empty": "Écris quelques notes et tes statistiques apparaîtront ici."
+    "empty": "Écris quelques notes et tes statistiques apparaîtront ici.",
+    "moodEmpty": "Notez votre humeur pendant quelques jours et un graphique apparaîtra ici."
   },
   "tags": {
     "family": "Famille",

@@ -136,7 +136,8 @@
     "streakShort": "Dias seguidos",
     "moodChart": "Seu humor ao longo do tempo",
     "topTags": "Mais grato/a por",
-    "empty": "Escreva algumas notas e as estatísticas aparecerão aqui."
+    "empty": "Escreva algumas notas e as estatísticas aparecerão aqui.",
+    "moodEmpty": "Registra o teu humor durante alguns dias e aparecerá aqui um gráfico."
   },
   "tags": {
     "family": "Família",

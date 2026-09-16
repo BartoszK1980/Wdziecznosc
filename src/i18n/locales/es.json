@@ -136,7 +136,8 @@
     "streakShort": "Días seguidos",
     "moodChart": "Tu ánimo con el tiempo",
     "topTags": "Agradecido/a más a menudo por",
-    "empty": "Escribe algunas notas y aquí aparecerán tus estadísticas."
+    "empty": "Escribe algunas notas y aquí aparecerán tus estadísticas.",
+    "moodEmpty": "Registra tu estado de ánimo unos días y aquí aparecerá un gráfico."
   },
   "tags": {
     "family": "Familia",

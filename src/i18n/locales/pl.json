@@ -136,7 +136,8 @@
     "streakShort": "Dni z rzędu",
     "moodChart": "Twój nastrój w czasie",
     "topTags": "Najczęściej wdzięczny/a za",
-    "empty": "Zapisz kilka wpisów, a pojawią się tutaj statystyki."
+    "empty": "Zapisz kilka wpisów, a pojawią się tutaj statystyki.",
+    "moodEmpty": "Zapisuj nastrój przez kilka dni, a pojawi się tutaj wykres."
   },
   "tags": {
     "family": "Rodzina",

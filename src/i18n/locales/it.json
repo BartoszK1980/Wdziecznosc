@@ -136,7 +136,8 @@
     "streakShort": "Giorni di fila",
     "moodChart": "Il tuo umore nel tempo",
     "topTags": "Più spesso grato/a per",
-    "empty": "Scrivi qualche nota e qui appariranno le statistiche."
+    "empty": "Scrivi qualche nota e qui appariranno le statistiche.",
+    "moodEmpty": "Registra il tuo umore per qualche giorno e qui apparirà un grafico."
   },
   "tags": {
     "family": "Famiglia",

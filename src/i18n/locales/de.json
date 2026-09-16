@@ -136,7 +136,8 @@
     "streakShort": "Tage in Folge",
     "moodChart": "Deine Stimmung im Verlauf",
     "topTags": "Am häufigsten dankbar für",
-    "empty": "Schreibe ein paar Notizen, dann erscheint hier deine Statistik."
+    "empty": "Schreibe ein paar Notizen, dann erscheint hier deine Statistik.",
+    "moodEmpty": "Halte ein paar Tage deine Stimmung fest, dann erscheint hier ein Diagramm."
   },
   "tags": {
     "family": "Familie",
