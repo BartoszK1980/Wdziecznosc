@@ -73,8 +73,7 @@
       ]
     ],
     "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
+      "typedRoutes": true
     },
     "extra": {
       "supabaseUrl": "https://sjgtiafaaumjzvherbwv.supabase.co",
