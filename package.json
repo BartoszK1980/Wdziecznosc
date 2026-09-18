@@ -69,7 +69,8 @@
     "set-supabase": "node scripts/set-supabase.mjs",
     "check-supabase": "node scripts/check-supabase.mjs",
     "check-listing": "node scripts/check-listing.mjs",
-    "store-graphics": "node scripts/make-store-graphics.mjs"
+    "store-graphics": "node scripts/make-store-graphics.mjs",
+    "frame-screenshots": "node scripts/frame-screenshots.mjs"
   },
   "private": true
 }
