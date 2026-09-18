@@ -2,6 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
 
 import { Card } from './ui';
 
@@ -119,14 +120,24 @@ export function Calendar({ onSelectDay }: Props) {
                   ]}>
                   {Number(day.slice(8))}
                 </Text>
-                <View
-                  style={[
-                    styles.dot,
-                    hasContent && {
-                      backgroundColor: isToday ? colors.surface : colors.sage,
-                    },
-                  ]}
-                />
+                {/* Kolo wektorowe zamiast widoku z zaokragleniem. Android z Fabric
+                    ignorowal borderRadius tego widoku i rysowal kwadrat — przy
+                    promieniu 999 i przy dokladnej polowie boku tak samo. Koło SVG
+                    nie zalezy od obslugi zaokraglen, wiec jest kolem zawsze.
+                    Pusty widok tej samej wielkosci trzyma rowny odstep w dniach
+                    bez tresci. */}
+                <View style={styles.dot}>
+                  {hasContent ? (
+                    <Svg width={DOT} height={DOT}>
+                      <Circle
+                        cx={DOT / 2}
+                        cy={DOT / 2}
+                        r={DOT / 2}
+                        fill={isToday ? colors.surface : colors.sage}
+                      />
+                    </Svg>
+                  ) : null}
+                </View>
               </Pressable>
             );
           })}
@@ -193,12 +204,5 @@ const styles = StyleSheet.create({
   dot: {
     width: DOT,
     height: DOT,
-    // Promien to DOKLADNIE polowa boku. Wczesniej bylo tu Radius.pill (999) i
-    // znacznik renderowal sie jako KWADRAT: Android z nowa architektura
-    // (Fabric) nie radzi sobie z promieniem wielokrotnie wiekszym od elementu.
-    // Odwrotnie niz sugerowal poprzedni komentarz — problemem byl promien za
-    // duzy, nie za maly.
-    borderRadius: DOT / 2,
-    backgroundColor: 'transparent',
   },
 });
