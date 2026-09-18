@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wdzięczność — polityka prywatności</title>
+<!--
+  Polityka prywatnosci wymagana przez Google Play i App Store.
+
+  ZANIM OPUBLIKUJESZ podmien dwa miejsca oznaczone wielkimi literami:
+    ADMINISTRATOR     -> imie i nazwisko (albo nazwa firmy) wydawcy
+    ADRES-KONTAKTOWY  -> adres e-mail do spraw prywatnosci
+  Wystepuja w wersji polskiej i angielskiej.
+
+  Tresc opisuje wylacznie to, co aplikacja faktycznie robi w kodzie
+  (stan na 18 wrzesnia 2026). Przy kazdej zmianie zbieranych danych — nowa
+  biblioteka, analityka, logowanie przez Google — ten dokument trzeba
+  zaktualizowac, bo sklepy porownuja go z deklaracja "Data safety".
+
+  To rzetelny szkic, a nie porada prawna.
+-->
+<style>
+  :root {
+    --bg: #FBF6F0; --surface: #FFFDFC; --text: #263A32; --muted: #6E6860;
+    --border: #EAE1D6; --accent: #3E6654; --soft: #F1E4D6;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141A17; --surface: #1D2420; --text: #EDE9E2; --muted: #9AA29B;
+      --border: #2E3833; --accent: #7FA48C; --soft: #2A2521;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 20px 80px; background: var(--bg); color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 46rem; margin: 0 auto; }
+  nav { display: flex; gap: 18px; flex-wrap: wrap; font-size: .92rem; margin-bottom: 2em; }
+  h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 .3em; }
+  h2 { font-size: 1.15rem; margin: 2.2em 0 .5em; }
+  p, li { max-width: 42em; }
+  ul { padding-left: 1.3em; }
+  li { margin-bottom: .35em; }
+  a { color: var(--accent); }
+  .lead { color: var(--muted); font-size: 1.05rem; }
+  .meta { color: var(--muted); font-size: .9rem; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 22px; margin: 1.2em 0; }
+  .card > :first-child { margin-top: 0; }
+  .card > :last-child { margin-bottom: 0; }
+  .tablewrap { overflow-x: auto; margin: 1em 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+  th, td { text-align: left; padding: 9px 11px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-weight: 600; background: var(--soft); }
+  [lang="en"] { border-top: 1px solid var(--border); margin-top: 3.5em; padding-top: 2.5em; }
+  footer { margin-top: 3em; color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+
+  <nav>
+    <a href="./">Wdzięczność</a>
+    <a href="#en">English version</a>
+    <a href="usun-konto.html">Usunięcie konta</a>
+  </nav>
+
+  <h1>Polityka prywatności</h1>
+  <p class="meta">Aplikacja Wdzięczność · ostatnia aktualizacja: 18 września 2026</p>
+  <p class="lead">
+    Twoje wdzięczności są prywatne. Nie sprzedajemy ich, nie czytamy i nie
+    używamy do reklam. Ten dokument mówi dokładnie, co aplikacja przechowuje,
+    gdzie i dlaczego.
+  </p>
+
+  <h2>Kto odpowiada za Twoje dane</h2>
+  <div class="card">
+    <p>
+      Administratorem danych jest <strong>ADMINISTRATOR</strong>, wydawca aplikacji.
+      W sprawach prywatności pisz na adres
+      <a href="mailto:ADRES-KONTAKTOWY">ADRES-KONTAKTOWY</a>.
+    </p>
+  </div>
+
+  <h2>Co przechowujemy</h2>
+  <div class="tablewrap">
+    <table>
+      <tr><th>Dane</th><th>Po co</th><th>Gdzie</th></tr>
+      <tr>
+        <td>Treść wdzięczności, zdjęcia, notatki głosowe, nastrój, kategorie, notatki dzienne</td>
+        <td>To jest treść Twojego dziennika. Kopia w chmurze pozwala odzyskać wpisy na nowym telefonie.</td>
+        <td>Na telefonie oraz na serwerze Supabase w Londynie</td>
+      </tr>
+      <tr>
+        <td>Identyfikator konta</td>
+        <td>Aplikacja zakłada anonimowe konto przy pierwszym uruchomieniu, żeby tylko Ty miał dostęp do swoich wpisów.</td>
+        <td>Supabase</td>
+      </tr>
+      <tr>
+        <td>Adres e-mail — tylko jeśli go podasz</td>
+        <td>Wysyłka jednorazowego kodu, dzięki któremu odzyskasz wpisy na innym urządzeniu.</td>
+        <td>Supabase; kod wysyła Brevo</td>
+      </tr>
+      <tr>
+        <td>Identyfikator reklamowy, adres IP (z którego Google może szacować przybliżoną lokalizację), interakcje z aplikacją i reklamami, dane diagnostyczne</td>
+        <td>Wyświetlanie reklam, pomiar ich skuteczności i zapobieganie oszustwom reklamowym. Reklamy spersonalizowane wyłącznie za Twoją zgodą. Przy aktywnej subskrypcji reklamy się nie wyświetlają.</td>
+        <td>Google AdMob</td>
+      </tr>
+      <tr>
+        <td>Status subskrypcji i identyfikator transakcji</td>
+        <td>Wyłączenie reklam po wykupieniu subskrypcji i przywrócenie jej na nowym telefonie.</td>
+        <td>Google Play, RevenueCat</td>
+      </tr>
+    </table>
+  </div>
+
+  <p><strong>Czego aplikacja nie używa:</strong> lokalizacji GPS, kontaktów, historii
+  przeglądania ani danych z innych aplikacji. Nie prowadzimy własnych statystyk
+  korzystania z aplikacji — dane opisane w wierszu o reklamach zbiera wyłącznie
+  Google AdMob. Mikrofon działa tylko wtedy, gdy sam nagrywasz notatkę, a aparat —
+  gdy sam robisz zdjęcie.</p>
+
+  <p><strong>Zostaje wyłącznie na telefonie:</strong> odcisk palca lub twarz przy
+  blokadzie aplikacji (obsługuje je system, aplikacja nigdy ich nie widzi), godzina
+  przypomnienia oraz ustawienia języka, motywu i koloru.</p>
+
+  <h2>Na jakiej podstawie</h2>
+  <ul>
+    <li><strong>Umowa</strong> (art. 6 ust. 1 lit. b RODO) — przechowywanie i synchronizacja Twoich wpisów, obsługa konta i subskrypcji. Bez tego aplikacja nie mogłaby działać.</li>
+    <li><strong>Zgoda</strong> (art. 6 ust. 1 lit. a RODO) — reklamy spersonalizowane. Pytamy o nią przy pierwszym uruchomieniu i możesz ją zmienić w każdej chwili w <em>Ustawienia → Prywatność reklam</em>.</li>
+    <li><strong>Prawnie uzasadniony interes</strong> (art. 6 ust. 1 lit. f RODO) — bezpieczeństwo i zapobieganie nadużyciom.</li>
+  </ul>
+
+  <h2>Komu powierzamy dane</h2>
+  <p>Korzystamy z usługodawców, którzy przetwarzają dane w naszym imieniu i tylko w opisanym celu:</p>
+  <ul>
+    <li><strong>Supabase</strong> — baza danych i przechowywanie plików. Serwery w Londynie, Wielka Brytania; dla tego kraju Komisja Europejska wydała decyzję stwierdzającą odpowiedni poziom ochrony.</li>
+    <li><strong>Brevo</strong> — wysyłka wiadomości z kodem logowania. Firma z siedzibą w Unii Europejskiej.</li>
+    <li><strong>Google</strong> (AdMob, Google Play) — reklamy oraz płatności. Dane kart płatniczych obsługuje wyłącznie Google; nigdy do nas nie trafiają.</li>
+    <li><strong>RevenueCat</strong> — obsługa subskrypcji. Firma z siedzibą w USA; przekazanie odbywa się na podstawie standardowych klauzul umownych zatwierdzonych przez Komisję Europejską.</li>
+  </ul>
+  <p>Nie sprzedajemy danych i nie udostępniamy ich nikomu innemu.</p>
+
+  <h2>Jak długo</h2>
+  <p>
+    Wpisy przechowujemy, dopóki ich nie usuniesz albo nie usuniesz konta. Usunięcie
+    konta kasuje natychmiast wszystkie wpisy, zdjęcia i nagrania z serwera. Techniczne
+    kopie zapasowe serwera mogą zawierać dane jeszcze do 7 dni, po czym są nadpisywane.
+  </p>
+
+  <h2>Twoje prawa</h2>
+  <p>Masz prawo do dostępu do swoich danych, ich poprawienia, usunięcia, ograniczenia przetwarzania, przeniesienia oraz sprzeciwu. Większość z nich zrealizujesz sam w aplikacji:</p>
+  <ul>
+    <li><strong>Eksport</strong> — <em>Ustawienia → Eksportuj moje dane</em> zapisuje wszystkie wpisy w pliku.</li>
+    <li><strong>Usunięcie</strong> — <em>Ustawienia → Konto → Usuń konto</em>. Jeśli aplikacja jest już odinstalowana, <a href="usun-konto.html">tu opisujemy, jak poprosić o usunięcie</a>.</li>
+    <li><strong>Zgoda na reklamy</strong> — <em>Ustawienia → Prywatność reklam</em>.</li>
+  </ul>
+  <p>
+    Pozostałe sprawy zgłoś na <a href="mailto:ADRES-KONTAKTOWY">ADRES-KONTAKTOWY</a> —
+    odpowiadamy w ciągu 30 dni. Przysługuje Ci też skarga do Prezesa Urzędu Ochrony
+    Danych Osobowych.
+  </p>
+
+  <h2>Bezpieczeństwo</h2>
+  <p>
+    Połączenie z serwerem jest szyfrowane. Każde konto widzi wyłącznie własne wpisy —
+    serwer egzekwuje to sam, niezależnie od aplikacji. Zdjęcia i nagrania leżą
+    w prywatnym magazynie, dostępnym tylko dla ich właściciela.
+  </p>
+
+  <h2>Dzieci</h2>
+  <p>Aplikacja nie jest przeznaczona dla osób poniżej 16 roku życia.</p>
+
+  <h2>Zmiany</h2>
+  <p>O istotnych zmianach tej polityki poinformujemy w aplikacji. Data ostatniej aktualizacji znajduje się na górze strony.</p>
+
+  <!-- ====================================================================== -->
+
+  <section lang="en" id="en">
+    <h1>Privacy policy</h1>
+    <p class="meta">Wdzięczność app · last updated: 18 September 2026</p>
+    <p class="lead">
+      Your gratitude entries are private. We don't sell them, read them or use
+      them for advertising. This page explains exactly what the app stores,
+      where and why.
+    </p>
+
+    <h2>Who is responsible</h2>
+    <div class="card">
+      <p>The data controller is <strong>ADMINISTRATOR</strong>, the publisher of the app.
+      For privacy matters, write to <a href="mailto:ADRES-KONTAKTOWY">ADRES-KONTAKTOWY</a>.</p>
+    </div>
+
+    <h2>What we store</h2>
+    <div class="tablewrap">
+      <table>
+        <tr><th>Data</th><th>Why</th><th>Where</th></tr>
+        <tr><td>Entry text, photos, voice notes, mood, categories, daily notes</td><td>This is your journal. The cloud copy lets you restore it on a new phone.</td><td>On your phone and on Supabase servers in London</td></tr>
+        <tr><td>Account identifier</td><td>An anonymous account is created on first launch so that only you can access your entries.</td><td>Supabase</td></tr>
+        <tr><td>Email address — only if you add one</td><td>To send a one-time code that restores your entries on another device.</td><td>Supabase; codes sent by Brevo</td></tr>
+        <tr><td>Advertising ID, IP address (which Google may use to estimate approximate location), app and ad interactions, diagnostic data</td><td>To show ads, measure them and prevent ad fraud. Personalised ads only with your consent. No ads are shown with an active subscription.</td><td>Google AdMob</td></tr>
+        <tr><td>Subscription status and transaction ID</td><td>To remove ads after purchase and restore the subscription on a new phone.</td><td>Google Play, RevenueCat</td></tr>
+      </table>
+    </div>
+    <p><strong>The app does not use</strong> GPS location, contacts, browsing history or data from other apps. We run no usage analytics of our own — the data listed in the advertising row is collected by Google AdMob only. The microphone works only while you record a note, the camera only while you take a photo.</p>
+    <p><strong>Stays on your phone only:</strong> fingerprint or face data used for the app lock (handled by the operating system — the app never sees it), reminder time, and language, theme and colour settings.</p>
+
+    <h2>Legal basis (GDPR)</h2>
+    <ul>
+      <li><strong>Contract</strong> (Art. 6(1)(b)) — storing and syncing your entries, running your account and subscription.</li>
+      <li><strong>Consent</strong> (Art. 6(1)(a)) — personalised ads. You can change it anytime in <em>Settings → Ad privacy</em>.</li>
+      <li><strong>Legitimate interest</strong> (Art. 6(1)(f)) — security and abuse prevention.</li>
+    </ul>
+
+    <h2>Service providers</h2>
+    <ul>
+      <li><strong>Supabase</strong> — database and file storage, servers in London, United Kingdom (covered by an EU adequacy decision).</li>
+      <li><strong>Brevo</strong> — sends sign-in codes; based in the European Union.</li>
+      <li><strong>Google</strong> (AdMob, Google Play) — ads and payments. Card details are handled by Google only and never reach us.</li>
+      <li><strong>RevenueCat</strong> — subscription management; based in the USA, transfers covered by EU Standard Contractual Clauses.</li>
+    </ul>
+    <p>We never sell your data or share it with anyone else.</p>
+
+    <h2>Retention</h2>
+    <p>Entries are kept until you delete them or your account. Deleting your account immediately removes all entries, photos and recordings from the server. Technical server backups may retain data for up to 7 days before being overwritten.</p>
+
+    <h2>Your rights</h2>
+    <p>You have the right to access, correct, delete, restrict, port and object to the processing of your data. In the app: <em>Settings → Export my data</em>, <em>Settings → Account → Delete account</em> and <em>Settings → Ad privacy</em>. If you have already uninstalled the app, see <a href="usun-konto.html">how to request deletion</a>. For anything else, write to <a href="mailto:ADRES-KONTAKTOWY">ADRES-KONTAKTOWY</a> — we reply within 30 days. You may also lodge a complaint with your data protection authority.</p>
+
+    <h2>Security</h2>
+    <p>The connection to the server is encrypted. Each account can see only its own entries — the server enforces this itself. Photos and recordings are kept in private storage accessible only to their owner.</p>
+
+    <h2>Children</h2>
+    <p>The app is not intended for people under 16.</p>
+
+    <h2>Changes</h2>
+    <p>We will announce material changes in the app. The date of the last update is shown at the top.</p>
+  </section>
+
+  <footer>Wdzięczność</footer>
+</main>
+</body>
+</html>

@@ -4,7 +4,7 @@
 //   - Apple, wytyczna 5.1.1(v): "If your app supports account creation, you
 //     must also offer account deletion within the app."
 //   - Google Play: sciezka w aplikacji ORAZ publiczny adres WWW dla osob,
-//     ktore aplikacje juz odinstalowaly (patrz web/usun-konto.html).
+//     ktore aplikacje juz odinstalowaly (patrz docs/usun-konto.html).
 //
 // Dlaczego funkcja brzegowa, a nie kod w aplikacji: skasowanie wiersza
 // z auth.users wymaga klucza service_role, ktory omija RLS i daje dostep do

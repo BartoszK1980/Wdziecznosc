@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wdzięczność — dziennik wdzięczności</title>
+<meta name="description" content="Zapisuj codziennie, za co jesteś wdzięczny. Prosty dziennik z notatkami głosowymi, zdjęciami i kopią w chmurze.">
+<!--
+  Strona startowa aplikacji. Jej adres wpisuje sie w Google Play jako
+  "Witryna" w danych kontaktowych. Serwowana przez GitHub Pages z katalogu docs/.
+-->
+<style>
+  :root {
+    --bg: #FBF6F0; --surface: #FFFDFC; --text: #263A32; --muted: #6E6860;
+    --border: #EAE1D6; --accent: #3E6654; --gold: #ECAF44;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #141A17; --surface: #1D2420; --text: #EDE9E2; --muted: #9AA29B; --border: #2E3833; --accent: #7FA48C; --gold: #E9B45C; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 56px 20px 80px; background: var(--bg); color: var(--text);
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 40rem; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+  h1 { font-family: Georgia, "Times New Roman", serif; font-size: 2.6rem; line-height: 1.1; margin: 0; }
+  .spark { color: var(--gold); }
+  .lead { color: var(--muted); font-size: 1.15rem; margin: 0; }
+  ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; }
+  .links { display: flex; gap: 12px; flex-wrap: wrap; }
+  .links a { display: inline-block; padding: 10px 16px; border: 1px solid var(--border); border-radius: 10px;
+    background: var(--surface); color: var(--accent); text-decoration: none; font-weight: 600; }
+  .links a:hover { border-color: var(--accent); }
+  footer { color: var(--muted); font-size: .9rem; border-top: 1px solid var(--border); padding-top: 18px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Wdzięczność <span class="spark" aria-hidden="true">✦</span></h1>
+  <p class="lead">
+    Codziennie kilka zdań o tym, za co jesteś wdzięczny. Tak prosto, że da się to
+    robić nawet w najgorszy dzień.
+  </p>
+
+  <ul>
+    <li>Do dziesięciu wdzięczności dziennie, ze zdjęciami i notatką głosową</li>
+    <li>Kalendarz, nastrój i statystyki, które pokazują, jak rośnie Twoja praktyka</li>
+    <li>Działa bez internetu, a kopia w chmurze pozwala odzyskać wszystko na nowym telefonie</li>
+    <li>Siedem języków, jasny i ciemny motyw, blokada odciskiem palca</li>
+  </ul>
+
+  <div class="links">
+    <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+    <a href="usun-konto.html">Usunięcie konta</a>
+  </div>
+
+  <footer>Wdzięczność · <a href="polityka-prywatnosci.html#en">English</a></footer>
+</main>
+</body>
+</html>
