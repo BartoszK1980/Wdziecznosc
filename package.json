@@ -67,7 +67,9 @@
     "make-icons": "node scripts/make-icons.mjs",
     "setup-sql": "node scripts/build-setup-sql.mjs",
     "set-supabase": "node scripts/set-supabase.mjs",
-    "check-supabase": "node scripts/check-supabase.mjs"
+    "check-supabase": "node scripts/check-supabase.mjs",
+    "check-listing": "node scripts/check-listing.mjs",
+    "store-graphics": "node scripts/make-store-graphics.mjs"
   },
   "private": true
 }
