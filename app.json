@@ -70,7 +70,8 @@
           "enableBackgroundPlayback": false,
           "enableBackgroundRecording": false
         }
-      ]
+      ],
+      "./plugins/with-no-stylus-handwriting"
     ],
     "experiments": {
       "typedRoutes": true
