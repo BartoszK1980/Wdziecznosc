@@ -24,8 +24,7 @@ Po włączeniu GitHub Pages (patrz niżej) strony będą pod adresami:
 *Pages* → *Source: Deploy from a branch* → *Branch: `main`*, folder **`/docs`** → *Save*.
 Strona pojawia się po 1–2 minutach.
 
-**Przed publikacją** podmień w `docs/polityka-prywatnosci.html` i `docs/usun-konto.html`:
-`ADMINISTRATOR` (imię i nazwisko) oraz `ADRES-KONTAKTOWY` (e-mail).
+Administrator danych w polityce prywatności: **Bartosz Kubiak**, kontakt: **bartoszkubiak2@o2.pl**.
 
 ---
 
@@ -119,7 +118,7 @@ Spodziewana klasyfikacja: **PEGI 3 / Dla wszystkich**, z oznaczeniem zakupów w 
 | Język domyślny | polski (pl-PL) |
 | Pozostałe tłumaczenia | en-US, de-DE, es-ES, fr-FR, it-IT, **pt-PT** — teksty są w portugalskim europejskim, jak interfejs aplikacji (nie pt-BR) |
 | Kategoria | **Styl życia** — rekomendacja zamiast „Zdrowie i fitness”, z powodu opisanego wyżej |
-| Adres e-mail kontaktowy | **publiczny**, widoczny w sklepie — ten sam co `ADRES-KONTAKTOWY` |
+| Adres e-mail kontaktowy | **publiczny**, widoczny w sklepie — `bartoszkubiak2@o2.pl` |
 | Witryna | adres „Witryna aplikacji” z tabeli na górze |
 | Ikona 512×512 | `store/grafiki/ikona-512.png` |
 | Grafika promocyjna 1024×500 | `store/grafiki/promo-<język>.png` |
