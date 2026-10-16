@@ -237,18 +237,108 @@ async function migrateToV2(db: SQLite.SQLiteDatabase): Promise<void> {
 }
 
 let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
+/** Surowe polaczenie stojace za dbPromise — pozwala poznac, czy juz je podmieniono. */
+let activeDb: SQLite.SQLiteDatabase | null = null;
+let openCount = 0;
 
-async function open(): Promise<SQLite.SQLiteDatabase> {
-  const db = await SQLite.openDatabaseAsync('gratitude.db');
-  await db.execAsync(SCHEMA);
-  await migrate(db);
-  return db;
+/**
+ * Obrona przed bledem expo-modules-core na Androidzie (expo/expo#49799):
+ * wywolanie async metody obiektu natywnego przekazuje do Kotlina tylko numer
+ * obiektu, a sam obiekt jest wyszukiwany dopiero pozniej, w watku w tle. Jesli
+ * w tym oknie rejestr zdazy go zwolnic, zapytanie odpada z "Cannot use shared
+ * object that was already released" — zanim SQL w ogole sie wykona. Zgloszenie
+ * odtwarza to w buildzie release, a poprawka (PR #49807) nie jest jeszcze
+ * wydana. Gdy trafi do expo-modules-core, ten kod mozna usunac.
+ */
+function isReleasedError(error: unknown): boolean {
+  for (let e = error; e; e = (e as { cause?: unknown }).cause) {
+    if (String((e as Error).message ?? e).includes('already released')) return true;
+  }
+  return false;
 }
 
-/** Jedno wspoldzielone polaczenie na caly proces. */
+/** Tylko metody, ktorych naprawde uzywamy. Transakcji celowo tu nie ma — patrz nizej. */
+const RETRIED_METHODS = new Set<PropertyKey>(['execAsync', 'runAsync', 'getAllAsync', 'getFirstAsync']);
+const RAW = Symbol('raw');
+
+/**
+ * Zapytanie, ktore trafilo na zwolniony obiekt, powtarzamy RAZ na swiezo
+ * otwartym polaczeniu. Stare polaczenie jest wtedy spisane na straty — nie
+ * wiemy, czy zwolniona zostala baza, czy tylko jej instrukcja, a ponowne
+ * uzycie zwolnionej bazy konczy sie tym samym bledem przy kazdym zapytaniu.
+ *
+ * Dlaczego powtorzenie jest bezpieczne: blad pada przy przekazywaniu argumentow,
+ * wiec SQL zwykle nie zdazyl sie wykonac. A gdyby padl dopiero przy sprzataniu
+ * po nim — nasze zapisy ustawiaja wartosci bezwzglednie (zadnych x = x + 1),
+ * wiec drugie wykonanie da ten sam stan albo glosny blad klucza glownego,
+ * nigdy cichy duplikat.
+ *
+ * Dlaczego nie transakcje: powtorka poszlaby innym polaczeniem niz BEGIN, czyli
+ * poza transakcja. withTransactionAsync uzywa tylko migracja, a ta dostaje
+ * surowe polaczenie i ma wlasne ponowienie w openWithRetry().
+ */
+function withRetry(db: SQLite.SQLiteDatabase): SQLite.SQLiteDatabase {
+  return new Proxy(db, {
+    get(target, prop, receiver) {
+      if (prop === RAW) return target;
+      const value = Reflect.get(target, prop, receiver);
+      if (!RETRIED_METHODS.has(prop) || typeof value !== 'function') return value;
+
+      return async (...args: unknown[]) => {
+        try {
+          return await value.apply(target, args);
+        } catch (error) {
+          if (!isReleasedError(error)) throw error;
+          // Rownolegle zapytania moga trafic na ten sam blad naraz — tylko
+          // pierwsze otwiera nowe polaczenie, reszta korzysta z niego.
+          if (activeDb === target) {
+            activeDb = null;
+            dbPromise = null;
+          }
+          // Powtorka idzie do SUROWEGO polaczenia, z pominieciem proxy — inaczej
+          // przy uporczywym bledzie kazda proba otwieralaby kolejna baze bez konca.
+          const fresh = (await getDb()) as SQLite.SQLiteDatabase & { [RAW]?: SQLite.SQLiteDatabase };
+          const raw = fresh[RAW] ?? fresh;
+          return (Reflect.get(raw, prop) as (...a: unknown[]) => Promise<unknown>).apply(raw, args);
+        }
+      };
+    },
+  });
+}
+
+async function open(): Promise<SQLite.SQLiteDatabase> {
+  // Kazde otwarcie poza pierwszym omija cache expo-sqlite: dla tej samej sciezki
+  // zwraca on TEN SAM obiekt natywny (z mysla o fast refresh), wiec po bledzie
+  // "already released" moglibysmy dostac z powrotem wlasnie zwolniona baze.
+  const options = openCount++ > 0 ? { useNewConnection: true } : undefined;
+  const db = await SQLite.openDatabaseAsync('gratitude.db', options);
+  await db.execAsync(SCHEMA);
+  await migrate(db);
+  activeDb = db;
+  return withRetry(db);
+}
+
+async function openWithRetry(): Promise<SQLite.SQLiteDatabase> {
+  try {
+    return await open();
+  } catch (error) {
+    // Zgloszone przypadki padaly wlasnie tu: pierwsze zapytania po starcie.
+    // Schemat i migracje sa idempotentne (IF NOT EXISTS, user_version ustawiany
+    // na koncu), wiec jedno ponowne otwarcie niczego nie zdubluje.
+    if (!isReleasedError(error)) throw error;
+    return open();
+  }
+}
+
+/** Jedno wspoldzielone polaczenie na caly proces (podmieniane tylko po bledzie wyzej). */
 export function getDb(): Promise<SQLite.SQLiteDatabase> {
-  dbPromise ??= open();
-  return dbPromise;
+  // Nieudane otwarcie nie moze zostac w pamieci na zawsze — nastepne wywolanie
+  // ma sprobowac od nowa, a nie dostawac w kolko te sama odrzucona obietnice.
+  const attempt = (dbPromise ??= openWithRetry().catch((error: unknown) => {
+    if (dbPromise === attempt) dbPromise = null;
+    throw error;
+  }));
+  return attempt;
 }
 
 /**
