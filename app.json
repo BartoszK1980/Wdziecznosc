@@ -82,7 +82,12 @@
       "admobBannerAndroid": "",
       "admobBannerIos": "",
       "revenueCatAndroidKey": "",
-      "revenueCatIosKey": ""
-    }
+      "revenueCatIosKey": "",
+      "router": {},
+      "eas": {
+        "projectId": "a0b46cce-5969-468b-9811-6203c718f875"
+      }
+    },
+    "owner": "bartoszkubiak1980"
   }
 }
