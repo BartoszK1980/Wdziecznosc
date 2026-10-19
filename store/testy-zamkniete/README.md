@@ -15,16 +15,37 @@ Pliki w tym folderze:
 
 ---
 
+## Stan na 19 października 2026
+
+| Co | Stan |
+|---|---|
+| Aplikacja w Play Console | utworzona: `Wdzięczność – dziennik`, `com.bartoszkubiak.wdziecznosc` |
+| Zawartość aplikacji | wszystkie 10 deklaracji zrealizowane; ocena treści PEGI 3 |
+| Ustawienia sklepu | kategoria Styl życia, e-mail `bartoszkubiak2@o2.pl`, witryna GitHub Pages |
+| Teksty strony w sklepie | zapisane jako wersja robocza w 7 językach (pl-PL domyślny, en-US, de-DE, es-ES, fr-FR, it-IT, pt-PT) |
+| **Grafiki strony w sklepie** | **brak** — ikona, grafika promocyjna i zrzuty do wgrania ręcznie |
+| Projekt EAS | `@bartoszkubiak1980/wdziecznosc`, klucz podpisu wygenerowany i przechowywany w chmurze Expo |
+| Plik AAB | zbudowany (versionCode 2) — [pobierz](https://expo.dev/artifacts/eas/V8g_AeTobUngXbc4_WLd9KalQOBhIaTnj3jvOgEyGvI.aab) |
+| Ścieżka Alpha | 178 krajów, grupa testerów, adres do opinii — zapisane |
+| **Wersja na ścieżce Alpha** | **brak** — plik AAB do wgrania ręcznie |
+| **Grupa testerów** | `testerzy-wdzicznoci@googlegroups.com` — **dołączanie wymaga jeszcze zatwierdzenia**, zmień na „Dołączyć może każdy w internecie” |
+
+Adres grupy różni się od planowanego: Google wyciął polskie litery z nazwy. W zaproszeniach
+podawaj dokładnie `testerzy-wdzicznoci@googlegroups.com`.
+
+Klucz podpisu jest tylko na koncie Expo `bartoszkubiak1980`. Każda kolejna wersja w Google Play
+musi być nim podpisana — nie trać dostępu do tego konta.
+
 ## Lista kontrolna przed startem
 
 - [ ] Weryfikacja konta w Play Console zakończona (tożsamość, telefon, urządzenie)
 - [x] Administrator i adres kontaktowy uzupełnione w `docs/polityka-prywatnosci.html` i `docs/usun-konto.html`
-- [ ] GitHub Pages włączone, polityka prywatności otwiera się pod
+- [x] GitHub Pages włączone, polityka prywatności otwiera się pod
       `https://bartoszk1980.github.io/Wdziecznosc/polityka-prywatnosci.html`
 - [x] Zrzuty „Moje notatki” z wpisem demonstracyjnym
-- [ ] `npx.cmd eas login` wykonane
-- [ ] Plik AAB zbudowany (`eas build -p android --profile production`)
-- [ ] Grupa Google dla testerów założona
+- [x] `npx.cmd eas login` wykonane
+- [x] Plik AAB zbudowany (`eas build -p android --profile production`)
+- [x] Grupa Google dla testerów założona
 - [ ] Co najmniej 15 osób zadeklarowało udział (zapas na rezygnacje)
 
 ---
@@ -34,12 +55,12 @@ Pliki w tym folderze:
 Dzięki grupie testerzy zapisują się sami, a Ty nie przepisujesz adresów do Play Console.
 
 1. Wejdź na https://groups.google.com → **Utwórz grupę**.
-2. Nazwa: `Testerzy Wdzięczność`, adres np. `testerzy-wdziecznosc@googlegroups.com`.
+2. Nazwa: `Testerzy Wdzięczność`, adres `testerzy-wdzicznoci@googlegroups.com` (Google usuwa polskie litery z nazwy).
 3. **Kto może wyszukać grupę:** każdy w internecie.
    **Kto może dołączyć:** każdy może dołączyć (bez zatwierdzania — inaczej testerzy z
    wymiany będą czekać na Ciebie).
    **Kto może publikować / wyświetlać wątki:** tylko właściciele (żeby grupa nie zbierała spamu).
-4. Zapisz link do grupy: `https://groups.google.com/g/testerzy-wdziecznosc`.
+4. Zapisz link do grupy: `https://groups.google.com/g/testerzy-wdzicznoci`.
 
 ## Krok 2. Aplikacja w Play Console
 
@@ -54,7 +75,7 @@ Dzięki grupie testerzy zapisują się sami, a Ty nie przepisujesz adresów do P
 1. **Testowanie → Test zamknięty → Alpha → Zarządzaj ścieżką**.
 2. **Kraje/regiony:** zaznacz **wszystkie kraje**. Testerzy z grup wymiany są z całego
    świata — jeśli zostawisz tylko Polskę, nie zainstalują aplikacji.
-3. **Testerzy:** dodaj **Grupę Google** (`testerzy-wdziecznosc@googlegroups.com`).
+3. **Testerzy:** dodaj **Grupę Google** (`testerzy-wdzicznoci@googlegroups.com`).
 4. **Adres URL lub e-mail do przesyłania opinii:** `bartoszkubiak2@o2.pl`.
 5. **Utwórz wersję** → wgraj plik AAB.
    Pole „Informacje o wersji” — wklej:

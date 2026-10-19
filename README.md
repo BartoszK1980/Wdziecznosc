@@ -243,6 +243,18 @@ Scenariusze do przejścia na **fizycznym urządzeniu** (emulator nie sprawdzi ap
 
 Buildy przez EAS (`eas build --platform all`). Wymaga konta Apple Developer (99 USD/rok) i Google Play Console (25 USD jednorazowo). Oba sklepy wymagają polityki prywatności pod publicznym URL — aplikacja zbiera zdjęcia i adres e-mail.
 
+Projekt jest połączony z EAS jako `@bartoszkubiak1980/wdziecznosc`. Plik do Google Play:
+
+```bash
+npx eas-cli build -p android --profile production
+```
+
+Klucz podpisu Androida wygenerował EAS i trzyma go w chmurze Expo. Każda aktualizacja w Google Play musi być podpisana tym samym kluczem, więc dostęp do konta Expo jest równie ważny jak dostęp do Play Console. `versionCode` podnosi się sam (`appVersionSource: remote` w [`eas.json`](eas.json)).
+
+### Google Play
+
+Materiały do sklepu leżą w [`store/`](store): opisy w 7 językach, grafiki, zrzuty i gotowe odpowiedzi do formularzy ([`google-play-formularze.md`](store/google-play-formularze.md)). Konto prywatne musi przejść test zamknięty — 12 testerów przez 14 dni — zanim dostanie dostęp do wersji produkcyjnej. Plan testu i bieżący stan konfiguracji Play Console: [`store/testy-zamkniete/README.md`](store/testy-zamkniete/README.md).
+
 ## Struktura
 
 ```
