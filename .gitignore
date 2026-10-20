@@ -48,3 +48,6 @@ assets/brand/icon-preview.png
 
 # Supabase CLI — pamiec podreczna (ref projektu, wersje, adres poolera)
 supabase/.temp/
+
+# Kopie grafik ulozone do recznego wgrania w Play Console — odtwarzalne
+store/do-wgrania/

@@ -1,6 +1,6 @@
 # Zaproszenie dla znajomych i rodziny
 
-Przed wysłaniem podmień `[LINK-DO-GRUPY]` i `[LINK-DO-TESTU]` (oba są w `README.md`, kroki 1 i 3).
+Linki są już wpisane. Link do testu (krok 2) działa dopiero po zatwierdzeniu wersji przez Google — do tego czasu ludzie mogą tylko dołączyć do grupy (krok 1).
 
 ---
 
@@ -21,10 +21,10 @@ Przed wysłaniem podmień `[LINK-DO-GRUPY]` i `[LINK-DO-TESTU]` (oba są w `READ
 > Dzięki, że pomagasz! Poniżej wszystko krok po kroku.
 >
 > **1. Dołącz do grupy testerów** (to tylko lista, nie dostaniesz od niej spamu):
-> [LINK-DO-GRUPY] → kliknij **„Dołącz do grupy”**.
+> https://groups.google.com/g/testerzy-wdzicznoci → kliknij **„Dołącz do grupy”**.
 > Ważne: zrób to na **tym samym koncie Google**, które masz na telefonie w Sklepie Play.
 >
-> **2. Zapisz się do testów:** otwórz [LINK-DO-TESTU] → kliknij **„Zostań testerem”**.
+> **2. Zapisz się do testów:** otwórz https://play.google.com/apps/testing/com.bartoszkubiak.wdziecznosc → kliknij **„Zostań testerem”**.
 >
 > **3. Zainstaluj aplikację** — na tej samej stronie jest link do Sklepu Play
 > (albo wyszukaj „Wdzięczność” w Sklepie Play na telefonie — po zapisaniu się będzie widoczna).

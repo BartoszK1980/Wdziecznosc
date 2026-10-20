@@ -12,6 +12,7 @@ Pliki w tym folderze:
 | `zaproszenie-znajomi.md` | gotowe wiadomości do znajomych i instrukcja dla testera (PL) |
 | `wymiana-testow.md` | grupy wzajemnego testowania + gotowy post po angielsku |
 | `dziennik-testow.md` | lista testerów, zebrane uwagi i szkic odpowiedzi dla Google |
+| `kontakty-i-mailing.md` | platformy wymiany testów, społeczności tematyczne i gotowe wiadomości |
 
 ---
 

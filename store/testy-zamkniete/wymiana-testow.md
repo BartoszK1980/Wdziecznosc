@@ -26,7 +26,8 @@ odmówić dostępu do produkcji.
 
 ## Gotowy post (po angielsku)
 
-Podmień `[LINK-DO-GRUPY]` i `[LINK-DO-TESTU]`.
+Linki są już wpisane. Link do testu działa dopiero po zatwierdzeniu wersji przez Google.
+Więcej miejsc i wiadomości: `kontakty-i-mailing.md`.
 
 **Tytuł:**
 
@@ -39,8 +40,8 @@ Podmień `[LINK-DO-GRUPY]` i `[LINK-DO-TESTU]`.
 > notes. Available in 7 languages (EN, DE, ES, FR, IT, PT, PL).
 >
 > **How to join:**
-> 1. Join the Google Group: [LINK-DO-GRUPY]
-> 2. Opt in to testing: [LINK-DO-TESTU]
+> 1. Join the Google Group: https://groups.google.com/g/testerzy-wdzicznoci
+> 2. Opt in to testing: https://play.google.com/apps/testing/com.bartoszkubiak.wdziecznosc
 > 3. Install from the Play Store and keep it installed for 14 days 🙏
 >
 > No sign-up inside the app — it works right away. Ads in the test build are test ads.
