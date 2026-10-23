@@ -71,7 +71,16 @@
           "enableBackgroundRecording": false
         }
       ],
-      "./plugins/with-no-stylus-handwriting"
+      "./plugins/with-no-stylus-handwriting",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
