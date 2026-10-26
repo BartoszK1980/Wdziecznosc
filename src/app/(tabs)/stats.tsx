@@ -56,9 +56,9 @@ export default function StatsScreen() {
               <View style={styles.section}>
                 <SectionLabel>{t('stats.summary')}</SectionLabel>
                 <View style={styles.tiles}>
-                  <StatTile value={stats?.days ?? 0} label={t('stats.days')} />
-                  <StatTile value={stats?.entries ?? 0} label={t('stats.entries')} />
-                  <StatTile value={stats?.streak ?? 0} label={t('stats.streakShort')} />
+                  <StatTile value={stats?.days ?? 0} label={t('stats.days', { count: stats?.days ?? 0 })} />
+                  <StatTile value={stats?.entries ?? 0} label={t('stats.entries', { count: stats?.entries ?? 0 })} />
+                  <StatTile value={stats?.streak ?? 0} label={t('stats.streakShort', { count: stats?.streak ?? 0 })} />
                 </View>
               </View>
 

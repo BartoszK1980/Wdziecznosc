@@ -9,6 +9,7 @@ import { Card, Chip, Muted, SectionLabel } from '@/components/ui';
 import { Fonts, MaxContentWidth, Radius, Spacing } from '@/constants/theme';
 import { dateKey, EDIT_WINDOW_DAYS, isEditable, TAGS, type Tag } from '@/db/db';
 import { loadDayMeta, MAX_NOTE_LENGTH, setNote, setTags, toggleFavorite } from '@/db/days';
+import { loadDay } from '@/db/entries';
 import { useTheme } from '@/hooks/use-theme';
 import { formatLongDate } from '@/i18n/dates';
 import { scheduleSync } from '@/sync/sync';
@@ -38,15 +39,22 @@ export default function NoteScreen() {
   const [note, setNoteState] = useState('');
   const [tags, setTagsState] = useState<Tag[]>([]);
   const [favorite, setFavorite] = useState(false);
+  /**
+   * Czy w chwili otwarcia dzien mial juz zapisane wdziecznosci. Ustalane raz,
+   * przy wejsciu — tytul nie przeskakuje z „Nowa notatka” na „Notatka” w trakcie
+   * pisania pierwszego wpisu.
+   */
+  const [hadEntries, setHadEntries] = useState(false);
   const noteTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     let active = true;
-    void loadDayMeta(date).then((meta) => {
+    void Promise.all([loadDayMeta(date), loadDay(date)]).then(([meta, day]) => {
       if (!active) return;
       setNoteState(meta.note);
       setTagsState(meta.tags);
       setFavorite(meta.favorite);
+      setHadEntries(day.slots.length > 0 || meta.note.trim().length > 0);
     });
     return () => {
       active = false;
@@ -84,9 +92,10 @@ export default function NoteScreen() {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      // "Nowa notatka" tylko dla dzisiejszego dnia — otwierajac 10 sierpnia
-      // z kalendarza uzytkownik nie tworzy niczego nowego.
-      title: date === dateKey() ? t('editor.titleNew') : t('editor.titleEdit'),
+      // "Nowa notatka" tylko dla dzisiejszego dnia, ktory nie ma jeszcze tresci —
+      // otwierajac 10 sierpnia z kalendarza albo wracajac do zapisanego dzis
+      // wpisu, uzytkownik nie tworzy niczego nowego.
+      title: date === dateKey() && !hadEntries ? t('editor.titleNew') : t('editor.titleEdit'),
       headerRight: () =>
         editable ? (
         <Pressable
@@ -104,7 +113,7 @@ export default function NoteScreen() {
         </Pressable>
         ) : null,
     });
-  }, [navigation, favorite, colors, onToggleFavorite, t, editable, date]);
+  }, [navigation, favorite, colors, onToggleFavorite, t, editable, date, hadEntries]);
 
   return (
     <KeyboardAvoidingView

@@ -59,9 +59,12 @@ export default function SettingsScreen() {
   );
 
   const applyReminder = async (time: ReminderTime | null) => {
-    const ok = await setReminder(time);
-    if (!ok) {
-      Alert.alert(t('settings.reminder'), t('settings.reminderUnavailable'));
+    const result = await setReminder(time);
+    if (result !== 'ok') {
+      Alert.alert(
+        t('settings.reminder'),
+        t(result === 'denied' ? 'settings.reminderDenied' : 'settings.reminderUnavailable')
+      );
       return;
     }
     setReminderState(time);

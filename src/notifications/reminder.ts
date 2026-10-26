@@ -64,24 +64,30 @@ export async function getReminder(): Promise<ReminderTime | null> {
   return { hour, minute };
 }
 
-/** Zwraca false, gdy uzytkownik odmowil zgody albo modulu nie ma. */
-export async function setReminder(time: ReminderTime | null): Promise<boolean> {
+/**
+ * Wynik osobno dla braku modulu i dla odmowy zgody — to dwie rozne sytuacje dla
+ * uzytkownika: pierwsza to ograniczenie tej wersji aplikacji, druga da sie
+ * naprawic w ustawieniach telefonu.
+ */
+export type ReminderResult = 'ok' | 'denied' | 'unavailable';
+
+export async function setReminder(time: ReminderTime | null): Promise<ReminderResult> {
   const Notifications = await loadNotifications();
-  if (!Notifications) return false;
+  if (!Notifications) return 'unavailable';
 
   if (!time) {
     await clearState(REMINDER_KEY);
     await Notifications.cancelAllScheduledNotificationsAsync();
-    return true;
+    return 'ok';
   }
 
   const existing = await Notifications.getPermissionsAsync();
   const granted = existing.granted || (await Notifications.requestPermissionsAsync()).granted;
-  if (!granted) return false;
+  if (!granted) return 'denied';
 
   await setState(REMINDER_KEY, `${time.hour}:${time.minute}`);
   await schedule(Notifications, time);
-  return true;
+  return 'ok';
 }
 
 /**
