@@ -48,7 +48,7 @@ export default function StatsScreen() {
                   <Text style={[styles.streakValue, { color: colors.text }]}>
                     {stats?.streak ?? 0}
                   </Text>
-                  <Muted size={14}>{t('stats.streakUnit')}</Muted>
+                  <Muted size={14}>{t('stats.streakUnit', { count: stats?.streak ?? 0 })}</Muted>
                 </View>
                 <Text style={styles.flame}>🔥</Text>
               </Card>
