@@ -52,6 +52,9 @@ Uzupełniaj na bieżąco — z tych notatek powstaną odpowiedzi we wniosku o do
 com.giftgeniusai.app) testuje nas; wysłany mu adres do dopisania — czekam na potwierdzenie.
 27.10: zapisany do Retro Space (Khayelihle Gumede, e-mail, com.uzoswenka.retro.space);
 on chce zrzut ekranu zapisu, potem zainstaluje Wdzięczność.
+29.10: zapisany (grupa + opt-in) do Cam2You (com.tiegames.cam2you) i Panorun (com.tiegames.panorun)
+od TIE Games — oni testują nas od 28.10; linki wysłane na o2.pl, trzymać do 12.11.
+29.10: Play Console — 12 testerów od 2 dni (licznik liczy od 28.10, więc 14 dni mija ok. 11.11).
 
 Odpisane 26.10: Will (+ zrzut ekranu Health Entry), Konstantin, Paolo, Yong + Niko (wątek
 google-play-test-users), Yuuki (potwierdzony adres; czekam na jego link do gry — pachinko 18+).
