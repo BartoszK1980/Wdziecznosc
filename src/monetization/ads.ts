@@ -31,8 +31,12 @@ const extra = (Constants.expoConfig?.extra ?? {}) as {
   admobBannerIos?: string;
 };
 
-/** Prawdziwy identyfikator z konfiguracji, a w jego braku — testowy Google. */
+/**
+ * Prawdziwy identyfikator z konfiguracji, a w jego braku — testowy Google.
+ * Buildy deweloperskie zawsze dostaja testowy, zeby nie klikac wlasnych reklam.
+ */
 export function bannerUnitId(): string {
+  if (__DEV__) return Platform.OS === 'ios' ? TEST_BANNER.ios : TEST_BANNER.android;
   const configured = Platform.OS === 'ios' ? extra.admobBannerIos : extra.admobBannerAndroid;
   const trimmed = configured?.trim();
   if (trimmed) return trimmed;
@@ -41,6 +45,7 @@ export function bannerUnitId(): string {
 
 /** Czy pracujemy na identyfikatorach testowych (do oznaczenia w interfejsie). */
 export function usingTestUnit(): boolean {
+  if (__DEV__) return true;
   const configured = Platform.OS === 'ios' ? extra.admobBannerIos : extra.admobBannerAndroid;
   return !configured?.trim();
 }

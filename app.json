@@ -2,7 +2,7 @@
   "expo": {
     "name": "Wdzięczność",
     "slug": "wdziecznosc",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "wdziecznosc",
@@ -57,7 +57,7 @@
       [
         "react-native-google-mobile-ads",
         {
-          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "androidAppId": "ca-app-pub-4472425407364444~4617239067",
           "iosAppId": "ca-app-pub-3940256099942544~1458002511"
         }
       ],
@@ -88,7 +88,7 @@
     "extra": {
       "supabaseUrl": "https://sjgtiafaaumjzvherbwv.supabase.co",
       "supabaseKey": "sb_publishable_y3zS7yHd8rYre9Ks0ZN0wQ_jszSUWlo",
-      "admobBannerAndroid": "",
+      "admobBannerAndroid": "ca-app-pub-4472425407364444/5252110996",
       "admobBannerIos": "",
       "revenueCatAndroidKey": "",
       "revenueCatIosKey": "",
