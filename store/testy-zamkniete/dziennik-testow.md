@@ -86,7 +86,8 @@ w wątkach przychodzą na e-mail.
 |---|---|---|
 | 20.10 | 1.0.0 | pierwsza wersja testowa |
 | 27.10 | 1.0.1 | karta „Dziś”, tytuł zapisanego wpisu, „1 Notes”, komunikat o odmowie powiadomień, R8 |
-| 28.10 | 1.0.2 | odmiana liczebników we wszystkich 7 językach (seria, limity w edytorze) — kod 6, wgrana na Alpha 28.10, w trakcie sprawdzania przez Google |
+| 28.10 | 1.0.2 | odmiana liczebników we wszystkich 7 językach (seria, limity w edytorze) — kod 6, opublikowana 28.10 |
+| 29.10 | 1.0.3 | prawdziwe identyfikatory AdMob (Android) — kod 7, wgrana na Alpha 30.10, w trakcie sprawdzania przez Google |
 
 ---
 
