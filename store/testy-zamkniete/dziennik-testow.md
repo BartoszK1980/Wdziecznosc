@@ -82,6 +82,7 @@ w wątkach przychodzą na e-mail.
 | 25.10 | Yuuki | Wpis + kategoria zapisują się i wracają po restarcie (Moto g06, Android 15) — bez błędów | — |
 | 23.10 | Salih (Solnox) | Karta serii: „1 days in a row” | odmiana liczebników w 7 językach (1.0.2) |
 | 28.10 | Saika (Lucky Harbors) | Na 1.0.1 karta serii nadal „1 days in a row” (podsumowanie już dobrze) | jw. (1.0.2) |
+| 28.10 | Yong | Aplikacja znów uruchamia się poprawnie na telefonie testowym, bez awarii | — |
 
 ## Wydane wersje w trakcie testu
 
