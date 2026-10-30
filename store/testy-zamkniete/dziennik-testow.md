@@ -54,6 +54,9 @@ com.giftgeniusai.app) testuje nas; wysłany mu adres do dopisania — czekam na 
 on chce zrzut ekranu zapisu, potem zainstaluje Wdzięczność.
 29.10: zapisany (grupa + opt-in) do Cam2You (com.tiegames.cam2you) i Panorun (com.tiegames.panorun)
 od TIE Games — oni testują nas od 28.10; linki wysłane na o2.pl, trzymać do 12.11.
+30.10: zapisany (opt-in) do Jarvis Live, Release Flow i Moonsworn (Samuel Bezerra / Spread Out AI,
+google-play-test-users) — on testuje nas od 30.10; linki wysłane na o2.pl, trzymać do 13.11.
+30.10: Play Console — 12 testerów od 3 dni. AdMob: konto zatwierdzone 29.10.
 29.10: Play Console — 12 testerów od 2 dni (licznik liczy od 28.10, więc 14 dni mija ok. 11.11).
 
 Odpisane 26.10: Will (+ zrzut ekranu Health Entry), Konstantin, Paolo, Yong + Niko (wątek
