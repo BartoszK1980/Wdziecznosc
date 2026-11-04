@@ -56,6 +56,12 @@ on chce zrzut ekranu zapisu, potem zainstaluje Wdzięczność.
 od TIE Games — oni testują nas od 28.10; linki wysłane na o2.pl, trzymać do 12.11.
 30.10: zapisany (opt-in) do Jarvis Live, Release Flow i Moonsworn (Samuel Bezerra / Spread Out AI,
 google-play-test-users) — on testuje nas od 30.10; linki wysłane na o2.pl, trzymać do 13.11.
+04.11: Play Console — 12 testerów od 8 dni. Wymiana z Benyahmanem (Many Paths, com.manypaths.meetings): opt-in,
+ale aplikacja niedostępna w Polsce — napisałem mu o tym 04.11. Saice potwierdzone mailem, że gra zainstalowana.
+RevenueCat połączony z Google Play (konto usługi, klucz JSON zapisany, „Valid credentials”).
+03.11: Play Console — 12 testerów od 7 dni. Wymiana z Saiką (Lucky Harbors, top.writewithfolio.luckyharbors):
+grupa android20testers + opt-in, link wysłany na Gmail, trzymać do 17.11.
+02.11: Play Console — 12 testerów od 6 dni (14 dni mija ok. 10–11.11). Zapisany do GiftGenius AI (Alfonso), trzymać do 16.11.
 30.10: Play Console — 12 testerów od 3 dni. AdMob: konto zatwierdzone 29.10.
 29.10: Play Console — 12 testerów od 2 dni (licznik liczy od 28.10, więc 14 dni mija ok. 11.11).
 
@@ -92,6 +98,7 @@ w wątkach przychodzą na e-mail.
 | 27.10 | 1.0.1 | karta „Dziś”, tytuł zapisanego wpisu, „1 Notes”, komunikat o odmowie powiadomień, R8 |
 | 28.10 | 1.0.2 | odmiana liczebników we wszystkich 7 językach (seria, limity w edytorze) — kod 6, opublikowana 28.10 |
 | 29.10 | 1.0.3 | prawdziwe identyfikatory AdMob (Android) — kod 7, opublikowana 30.10 |
+| 04.11 | 1.0.4 | zakup subskrypcji „Bez reklam” (RevenueCat) — kod 8, wysłana do sprawdzenia 04.11 |
 
 ---
 
