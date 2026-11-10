@@ -103,6 +103,7 @@ w wątkach przychodzą na e-mail.
 | 28.10 | 1.0.2 | odmiana liczebników we wszystkich 7 językach (seria, limity w edytorze) — kod 6, opublikowana 28.10 |
 | 29.10 | 1.0.3 | prawdziwe identyfikatory AdMob (Android) — kod 7, opublikowana 30.10 |
 | 04.11 | 1.0.4 | zakup subskrypcji „Bez reklam” (RevenueCat) — kod 8, wysłana do sprawdzenia 04.11 |
+| 10.11 | 1.0.5 | nazwa aplikacji w języku telefonu (też na ekranie zgody RODO) — kod 9, wysłana do sprawdzenia 10.11 |
 
 ---
 
