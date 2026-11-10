@@ -35,8 +35,9 @@ to 1 tester, potrzebne były społeczności wymiany testów.
 > Android 15) and emulators. They used the core flow — writing daily gratitude entries,
 > choosing categories, setting the day's mood — and checked that entries persist after
 > force-stopping and reopening the app, appear in "My notes", and update the statistics
-> (streak, counters, mood chart). Several testers sent written reports with screenshots.
-> [[Uzupełnij: ile osób przysłało uwagi, np. „In total N testers sent feedback”.]]
+> (streak, counters, mood chart). Several testers sent written reports with screenshots;
+> in total 5 testers sent written feedback, and others confirmed by e-mail that the app
+> installed and ran without problems.
 
 ### Did testers' usage match how you expect production users to use the app? Describe any differences.
 
@@ -62,7 +63,12 @@ to 1 tester, potrzebne były społeczności wymiany testów.
 >    "Reminders are not available in this build" instead of explaining that permission is
 >    missing.
 > Testers confirmed that saving, reopening and listing entries, categories and statistics
-> worked correctly on real devices. [[Dopisz nowe uwagi, jeśli przyjdą do 9.11.]]
+> 5. The streak card showed "1 days in a row" — plural forms were wrong in several languages
+>    (reported by two testers).
+> 6. The ad consent screen greets users with the app's Polish name ("Wdziecznosc"), while the
+>    store listing uses "Gratitude"; a tester suggested using the same name in both places.
+> Testers confirmed that saving, reopening and listing entries, categories and statistics
+> worked correctly on real devices.
 
 ---
 
@@ -110,14 +116,22 @@ Aplikacja nie ma budżetu na reklamę, a zawyżona prognoza nic nie daje.
 >   use correct singular and plural forms in all 7 languages (including Polish, which has three
 >   plural forms); and denying the notification permission now shows a clear message explaining
 >   how to enable notifications in the phone settings.
-> [[Dopisz kolejne zmiany, jeśli będą.]]
+> - **Version 1.0.2 (6)** fixed singular and plural forms everywhere (the streak card and the
+>   editor limits) in all 7 languages, after two testers still saw "1 days in a row".
+> - **Version 1.0.3 (7)** switched to production AdMob ad units and added the GDPR consent form
+>   (with a "Do not consent" option) for users in the EU.
+> - **Version 1.0.4 (8)** added the optional yearly "No ads" subscription via Google Play
+>   Billing; all app features remain free.
+> - The tester's note about the app name on the ad consent screen will be addressed by
+>   aligning the name shown there with the store listing.
 
 ### How did you decide that your app is ready for production?
 
 > - At least 12 testers kept the app installed for over 14 days on different devices and
->   Android versions; no crashes or ANRs were reported by testers or in Android vitals
->   [[sprawdź: Play Console → Monitoruj i ulepszaj → Android Vitals]].
-> - Every issue reported during the test was fixed and verified in version 1.0.1.
+>   Android versions; testers reported no crashes or ANRs, and Android vitals shows no crash or
+>   ANR data for the test period.
+> - Every functional issue reported during the test was fixed and verified (versions 1.0.1 and
+>   1.0.2).
 > - Core flows (writing entries, attachments, reminders, statistics, backup, data export and
 >   account deletion) were tested on emulators and real devices.
 > - Play Console's pre-launch checks and the policy status show no issues; the store listing,
@@ -136,3 +150,17 @@ Aplikacja nie ma budżetu na reklamę, a zawyżona prognoza nic nie daje.
 
 Rozpatrzenie wniosku trwa zwykle do 7 dni. Po zgodzie odblokuje się ścieżka Produkcyjna —
 wtedy przenosimy wersję z testu do produkcji.
+
+---
+
+## Wersja wpisana do formularza 10.11.2026 (limit 300 znaków na odpowiedź)
+
+1. Recruiting: Through Android developer test-exchange communities (Google Groups such as testers-20 and google-play-test-users) and direct e-mail swaps with other indie developers: I tested their apps and they tested mine. No paid testing services were used.
+2. Trudność: **Trudno**.
+3. Engagement: 12+ testers on real phones (e.g. Moto g06, Android 15) and emulators wrote daily entries, set moods and categories, used statistics, reminders and photos, and checked data after restarts. This matches real daily use, but testers explored more screens per session and had only days of history.
+4. Feedback: Collected by e-mail, Play private feedback and community threads; 5 testers sent written reports, some with screenshots. No crashes reported. Issues: Today card text, saved-entry title, wrong plurals ("1 days in a row"), notification-permission message, app name on the consent screen.
+5. Audience: Adults and older teens (16+) who want a simple daily gratitude or journaling habit: people interested in well-being, mindfulness and self-reflection who prefer a short, private routine on their phone. Available in 7 languages. A general journal with no medical or therapeutic claims.
+6. Value: In about a minute a day users note what they are grateful for, with photos, voice notes, mood and categories. Works offline with optional cloud backup; calendar, search, streaks, mood chart, reminders, biometric lock, data export. Entries stay private. Free with ads; optional yearly no-ads plan.
+7. Instalacje w 1. roku: **0 – 10 tys.**
+8. Changes: 1.0.1 fixed the Today card text, saved-entry title, plurals and the notification-permission message, and enabled R8. 1.0.2 fixed plural forms in all 7 languages. 1.0.3 added production ads with a GDPR consent form; 1.0.4 an optional no-ads subscription. Consent screen name to match the listing.
+9. Readiness: 12+ testers kept it over 14 days on varied devices with no crashes or ANRs reported; every functional issue was fixed and verified; core flows tested on real devices and emulators; no policy issues; listing, privacy policy, data safety and account deletion are complete; releases passed review.

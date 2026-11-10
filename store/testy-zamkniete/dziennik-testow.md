@@ -56,6 +56,10 @@ on chce zrzut ekranu zapisu, potem zainstaluje Wdzięczność.
 od TIE Games — oni testują nas od 28.10; linki wysłane na o2.pl, trzymać do 12.11.
 30.10: zapisany (opt-in) do Jarvis Live, Release Flow i Moonsworn (Samuel Bezerra / Spread Out AI,
 google-play-test-users) — on testuje nas od 30.10; linki wysłane na o2.pl, trzymać do 13.11.
+10.11: 14 dni z 12 testerami zaliczone — wniosek o produkcję wysłany 12:42 (odpowiedzi w wniosek-produkcja.md). Balta zainstalował Wdzięczność 06.11 (uwaga: nazwa na ekranie zgody).
+05.11: Play Console — 12 testerów od 9 dni; wersja 1.0.4 opublikowana na Alpha 04.11. Status przedsiębiorcy (trader, osoba prywatna)
+zadeklarowany dla konta i aplikacji. Zapisany do Mimascot (Alfonso, app.vercel.mimascot.twa) i Bobbin (Balta, com.baltajmn.bullet,
+grupa bobbin-testers) — linki wysłane na Gmail, trzymać do 19.11. Balta czeka na zrzut ekranu Bobbin i linki do Wdzięczności.
 04.11: Play Console — 12 testerów od 8 dni. Wymiana z Benyahmanem (Many Paths, com.manypaths.meetings): opt-in,
 ale aplikacja niedostępna w Polsce — napisałem mu o tym 04.11. Saice potwierdzone mailem, że gra zainstalowana.
 RevenueCat połączony z Google Play (konto usługi, klucz JSON zapisany, „Valid credentials”).
