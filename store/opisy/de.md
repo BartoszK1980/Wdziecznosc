@@ -4,10 +4,10 @@
 Dankbarkeit – Tagebuch
 
 ## Krotki opis (max 80)
-Jeden Tag ein paar Zeilen, wofür du dankbar bist. Mit Text, Foto oder Stimme.
+Dankbarkeitstagebuch: jeden Tag ein paar Zeilen. Mit Text, Foto oder Stimme.
 
 ## Pelny opis (max 4000)
-Dankbarkeit ist ein einfaches Tagebuch, in dem du jeden Tag festhältst, wofür du dankbar bist. Eine Minute reicht – auch an Tagen, an denen wenig gut lief.
+Dankbarkeit ist ein einfaches Dankbarkeitstagebuch, in dem du jeden Tag festhältst, wofür du dankbar bist. Eine Minute reicht – auch an Tagen, an denen wenig gut lief.
 
 Wer regelmäßig das Gute bemerkt, fühlt sich oft besser. Diese App bewertet nicht und drängt nicht – sie gibt dir einfach Raum für ein paar Sätze.
 

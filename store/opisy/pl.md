@@ -4,10 +4,10 @@
 Wdzięczność – dziennik
 
 ## Krotki opis (max 80)
-Codziennie kilka zdań o tym, za co jesteś wdzięczny. Tekstem, zdjęciem, głosem.
+Dziennik wdzięczności: kilka zdań dziennie. Tekstem, zdjęciem albo głosem.
 
 ## Pelny opis (max 4000)
-Wdzięczność to prosty dziennik, w którym każdego dnia zapisujesz, za co jesteś wdzięczny. Wystarczy minuta – nawet w dzień, w którym niewiele poszło dobrze.
+Wdzięczność to prosty dziennik wdzięczności, w którym każdego dnia zapisujesz, co było dobre. Wystarczy minuta – nawet w dzień, w którym niewiele poszło dobrze.
 
 Regularne zauważanie dobrych rzeczy to jeden z najprostszych nawyków, które poprawiają samopoczucie. Ta aplikacja nie ocenia i nie pogania – po prostu daje miejsce na kilka zdań.
 

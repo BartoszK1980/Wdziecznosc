@@ -4,10 +4,10 @@
 Gratidão – Diário
 
 ## Krotki opis (max 80)
-Algumas linhas por dia sobre aquilo por que és grato. Texto, foto ou voz.
+Diário de gratidão: algumas linhas por dia. Com texto, foto ou voz.
 
 ## Pelny opis (max 4000)
-Gratidão é um diário simples onde registas, todos os dias, aquilo por que estás grato. Basta um minuto, mesmo nos dias em que pouco correu bem.
+Gratidão é um diário de gratidão simples onde registas, todos os dias, aquilo por que estás grato. Basta um minuto, mesmo nos dias em que pouco correu bem.
 
 Reparar regularmente no que é bom é um dos hábitos mais simples para te sentires melhor. Esta aplicação não julga nem apressa: dá-te apenas espaço para algumas frases.
 

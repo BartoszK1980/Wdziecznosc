@@ -72,7 +72,8 @@
     "check-listing": "node scripts/check-listing.mjs",
     "store-graphics": "node scripts/make-store-graphics.mjs",
     "frame-screenshots": "node scripts/frame-screenshots.mjs",
-    "carousels": "node scripts/make-carousels.mjs"
+    "carousels": "node scripts/make-carousels.mjs",
+    "profile-graphics": "node scripts/make-profile-graphics.mjs"
   },
   "private": true
 }

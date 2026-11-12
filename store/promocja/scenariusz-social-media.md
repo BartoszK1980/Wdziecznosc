@@ -197,6 +197,23 @@ Link wrzuć w pierwszym komentarzu. LinkedIn obniża zasięg postów z linkiem w
 
 Na Instagramie i TikToku używaj 3–5 hashtagów, nie 30.
 
+### Wersje językowe
+
+Wszystkie grafiki są w 7 językach (`<format>/<język>/`), a gotowe teksty postów z hashtagami
+w danym języku – w `teksty/<język>.md`. Fraza, której ludzie szukają, w każdym języku:
+
+| Język | „Dziennik wdzięczności” | Hashtag główny |
+|---|---|---|
+| pl | Dziennik wdzięczności | #dziennikwdzięczności |
+| en | Gratitude journal | #gratitudejournal |
+| de | Dankbarkeitstagebuch | #dankbarkeitstagebuch |
+| es | Diario de gratitud | #diariodegratitud |
+| fr | Journal de gratitude | #journaldegratitude |
+| it | Diario della gratitudine | #diariodellagratitudine |
+| pt | Diário de gratidão | #diariodegratidao |
+
+Ta sama fraza jest w krótkim opisie i w pierwszym zdaniu opisu aplikacji w sklepie (`store/opisy/`).
+
 ---
 
 ## 10. Zasady

@@ -4,10 +4,10 @@
 Gratitud – Diario
 
 ## Krotki opis (max 80)
-Cada día, unas líneas sobre lo que agradeces. Con texto, fotos o tu voz.
+Diario de gratitud: unas líneas cada día. Con texto, fotos o tu voz.
 
 ## Pelny opis (max 4000)
-Gratitud es un diario sencillo en el que cada día anotas aquello por lo que estás agradecido. Basta un minuto, incluso en los días en que poco ha salido bien.
+Gratitud es un sencillo diario de gratitud en el que cada día anotas aquello por lo que estás agradecido. Basta un minuto, incluso en los días en que poco ha salido bien.
 
 Fijarse con regularidad en lo bueno es uno de los hábitos más sencillos para sentirse mejor. Esta aplicación no juzga ni mete prisa: simplemente te da un espacio para unas frases.
 

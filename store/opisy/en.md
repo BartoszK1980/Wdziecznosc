@@ -4,10 +4,10 @@
 Gratitude – Daily Journal
 
 ## Krotki opis (max 80)
-A few lines a day about what you're grateful for. In words, photos or voice.
+Gratitude journal: a few lines a day. In words, photos or voice.
 
 ## Pelny opis (max 4000)
-Gratitude is a simple journal where you write down, every day, what you're grateful for. It takes a minute – even on days when little went right.
+Gratitude is a simple gratitude journal where you write down, every day, what you're grateful for. It takes a minute – even on days when little went right.
 
 Noticing the good things regularly is one of the simplest habits for feeling better. This app doesn't judge and doesn't rush you: it just gives you room for a few sentences.
 

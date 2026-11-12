@@ -4,10 +4,10 @@
 Gratitude – Journal
 
 ## Krotki opis (max 80)
-Chaque jour, quelques lignes de gratitude. En texte, en photo ou à voix haute.
+Journal de gratitude : quelques lignes par jour, en texte, photo ou voix.
 
 ## Pelny opis (max 4000)
-Gratitude est un journal simple où vous notez chaque jour ce pour quoi vous êtes reconnaissant. Une minute suffit, même les jours où peu de choses se sont bien passées.
+Gratitude est un journal de gratitude simple où vous notez chaque jour ce pour quoi vous êtes reconnaissant. Une minute suffit, même les jours où peu de choses se sont bien passées.
 
 Remarquer régulièrement ce qui va bien est l'une des habitudes les plus simples pour se sentir mieux. Cette application ne juge pas et ne presse pas : elle vous offre simplement un espace pour quelques phrases.
 
