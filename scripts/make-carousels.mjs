@@ -168,7 +168,44 @@ function grid({ kicker, title, sub, days = 30 }, i, n) {
 </div>${footer(i, n)}`;
 }
 
-const RENDER = { cover, question, point, step, day, cta, list, grid };
+// Pojedyncza grafika do posta (Facebook): tytul, opcjonalnie ekran aplikacji
+// albo lista punktow, na dole pasek z ikona i nazwa aplikacji.
+function poster({ kicker, title, sub, img, items, dark, badge = true }) {
+  const ink = dark ? C.bg : C.text;
+  const soft = dark ? '#DCE8DF' : C.muted;
+  const col = img ? 'right:560px' : 'right:100px';
+  return `
+<div class="blob" style="width:640px;height:640px;right:-240px;top:-240px;background:${dark ? 'rgba(255,255,255,.06)' : C.warm}"></div>
+<div style="position:absolute;left:100px;right:100px;top:100px">
+  <div class="kicker">${kicker}</div>
+  <h1 class="serif" style="font-size:80px;line-height:1.12;font-weight:600;margin-top:22px;color:${ink}">${title}</h1>
+</div>
+<div style="position:absolute;left:100px;${col};top:${img ? 600 : 500}px">
+  ${sub ? `<p style="font-size:40px;line-height:1.42;color:${soft}">${sub}</p>` : ''}
+  ${items ? `<div style="margin-top:${sub ? 48 : 0}px;display:flex;flex-direction:column;gap:34px">${items.map((t, k) => `
+    <div style="display:flex;gap:26px;align-items:flex-start">
+      <div style="flex:none;width:64px;height:64px;border-radius:50%;background:${C.gold};color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700">${k + 1}</div>
+      <p class="serif" style="font-size:46px;line-height:1.3;color:${ink}">${t}</p>
+    </div>`).join('')}</div>` : ''}
+</div>
+${img ? `
+<div style="position:absolute;right:100px;top:560px;width:420px;height:620px;border-radius:52px;background:#1E2A25;padding:14px;box-shadow:0 26px 60px rgba(62,50,38,.25)">
+  <div style="position:relative;width:100%;height:100%;border-radius:40px;overflow:hidden;background:${C.bg}">
+    <img src="${img}" style="width:100%;display:block;margin-top:-28px">
+    <div style="position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(to bottom, rgba(251,246,240,0), ${C.bg})"></div>
+  </div>
+</div>` : ''}
+<div style="position:absolute;left:0;right:0;bottom:0;height:190px;background:${dark ? 'rgba(0,0,0,.14)' : C.surface};border-top:2px solid ${dark ? 'transparent' : C.border};display:flex;align-items:center;gap:28px;padding:0 100px">
+  <img src="${icon}" style="width:104px;height:104px;border-radius:26px;box-shadow:0 6px 18px rgba(0,0,0,.12)">
+  <div style="flex:1">
+    <div class="serif" style="font-size:40px;font-weight:600;color:${ink};white-space:nowrap">Wdzięczność – dziennik</div>
+    <div style="font-size:28px;color:${soft};margin-top:4px">Android · 7 języków · za darmo</div>
+  </div>
+  ${badge ? `<div style="background:${C.gold};color:${C.text};font-size:32px;font-weight:700;padding:22px 38px;border-radius:999px">Google Play</div>` : ''}
+</div>`;
+}
+
+const RENDER = { cover, question, point, step, day, cta, list, grid, poster };
 
 // --- Tresc karuzel ------------------------------------------------------
 
@@ -262,9 +299,26 @@ const TIKTOK = {
   ],
 };
 
+// Facebook: pojedyncze grafiki do postow z planu (profil prywatny i grupy).
+// Kazda "seria" to jeden plik; w grupach (2-pytania) bez przycisku Google Play,
+// bo tam najpierw dajemy wartosc, a nie reklame.
+const FACEBOOK = {
+  '1-premiera': [{ type: 'poster', kicker: 'Nowość w Google Play', title: 'Po godzinach zrobiłem aplikację do dziennika wdzięczności',
+    sub: 'Minuta dziennie na to, co dobre. Działa bez internetu, a wpisy blokujesz odciskiem palca.', img: shot('1-dzis.png') }],
+  '2-pytania-do-grupy': [{ type: 'poster', kicker: 'Na wieczór', title: '3 pytania, gdy nie wiesz, co wpisać do dziennika', badge: false,
+    items: ['Jaka mała rzecz poszła dziś dobrze?', 'Kto dziś zrobił dla mnie coś miłego?', 'Co dziś mnie rozbawiło?'] }],
+  '3-prosba-o-opinie': [{ type: 'poster', kicker: 'Szukam opinii', title: 'Twoja szczera opinia bardzo mi pomoże',
+    sub: 'Zainstaluj, używaj przez tydzień i napisz, co działa, a co nie. Każda uwaga się liczy.', img: shot('2-edytor.png') }],
+  '4-wyzwanie-30-dni': [{ type: 'poster', kicker: 'Wyzwanie', title: '30 dni wdzięczności. Kto wchodzi?',
+    sub: 'Codziennie 3 małe rzeczy. Po miesiącu zobaczysz na wykresie, jak zmieniał się Twój nastrój.', img: shot('5-statystyki.png') }],
+  '5-dziekuje': [{ type: 'poster', dark: true, kicker: 'Dziękuję', title: 'Dziękuję za pierwsze instalacje i opinie!',
+    sub: 'Każda opinia w Sklepie Play pomaga małej aplikacji dotrzeć do kolejnych osób. Jeśli masz chwilę, zostaw swoją. Będzie mi bardzo miło.' }],
+};
+
 // --- Render -------------------------------------------------------------
 
 const FORMATS = [
+  { name: 'facebook', dir: 'facebook', W: 1080, H: 1350, cls: '', sets: FACEBOOK },
   { name: 'instagram', dir: 'karuzele', W: 1080, H: 1350, cls: '', sets: CAROUSELS },
   { name: 'tiktok', dir: 'tiktok', W: 1080, H: 1920, cls: 'tt', sets: TIKTOK },
 ];
@@ -276,15 +330,17 @@ for (const { name: format, dir: sub, W, H, cls: formatCls, sets } of FORMATS) {
   const formatMatch = only === format;
   for (const [name, slides] of Object.entries(sets)) {
     if (only && !formatMatch && !name.startsWith(only)) continue;
-    const dir = join(root, 'store', 'promocja', sub, name);
+    // Pojedyncza grafika trafia jako <seria>.png, karuzela do folderu <seria>/01.png…
+    const single = slides.length === 1;
+    const dir = join(root, 'store', 'promocja', sub, single ? '' : name);
     mkdirSync(dir, { recursive: true });
     slides.forEach((slide, k) => {
       const body = RENDER[slide.type](slide, k + 1, slides.length);
-      const cls = [formatCls, slide.type === 'cta' ? 'dark' : ''].join(' ');
+      const cls = [formatCls, slide.type === 'cta' || slide.dark ? 'dark' : ''].join(' ');
       const html = `<!doctype html><html lang="pl"><head><meta charset="utf-8"><style>${baseCss(W, H)}</style></head><body class="${cls}">${body}</body></html>`;
       const page = join(tmp, `${format}-${name}-${k}.html`);
       writeFileSync(page, html);
-      const png = join(dir, `${String(k + 1).padStart(2, '0')}.png`);
+      const png = join(dir, single ? `${name}.png` : `${String(k + 1).padStart(2, '0')}.png`);
       execFileSync(browser, [
         '--headless=new', '--disable-gpu', '--hide-scrollbars', '--force-device-scale-factor=1',
         '--allow-file-access-from-files', '--virtual-time-budget=3000',
