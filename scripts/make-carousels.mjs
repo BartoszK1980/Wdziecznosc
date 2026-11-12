@@ -1,6 +1,9 @@
-// Generuje karuzele na Instagram (1080x1350, 4:5) do store/promocja/karuzele/.
+// Generuje grafiki do mediow spolecznosciowych w store/promocja/:
+//   karuzele/  — Instagram, 1080x1350 (4:5)
+//   tiktok/    — TikTok (tryb zdjec), 1080x1920 (9:16), z marginesami na przyciski i podpis TikToka
 //
-//   npm run carousels
+//   npm run carousels            (wszystko)
+//   npm run carousels -- tiktok  (tylko jeden format albo seria, np. "1-10")
 //
 // Kazdy slajd to strona HTML (Lora z node_modules, kolory z aplikacji),
 // zrzucana do PNG przez Chrome/Edge w trybie headless.
@@ -11,9 +14,6 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const out = join(root, 'store', 'promocja', 'karuzele');
-const W = 1080;
-const H = 1350;
 
 const BROWSERS = [
   'C:/Program Files/Google/Chrome/Application/chrome.exe',
@@ -35,7 +35,7 @@ const C = {
   gold: '#ECAF44', green: '#3E6654', sage: '#738C78', border: '#EAE1D6',
 };
 
-const BASE_CSS = `
+const baseCss = (W, H) => `
 @font-face { font-family: Lora; font-weight: 400; src: url(${font('Lora_400Regular.ttf')}); }
 @font-face { font-family: Lora; font-weight: 400; font-style: italic; src: url(${font('Lora_400Regular_Italic.ttf')}); }
 @font-face { font-family: Lora; font-weight: 600; src: url(${font('Lora_600SemiBold.ttf')}); }
@@ -52,6 +52,9 @@ body { background: ${C.bg}; color: ${C.text}; font-family: 'Segoe UI', Roboto, s
 .blob { position: absolute; border-radius: 50%; filter: blur(2px); }
 .dark { background: ${C.green}; color: ${C.bg}; }
 .dark .foot, .dark .kicker { color: #CFE0D4; }
+/* TikTok: u gory zakladki, po prawej przyciski, na dole podpis i nazwa konta. */
+.tt .pad { padding: 240px 170px 520px 100px; }
+.tt .foot { bottom: 440px; right: 170px; }
 `;
 
 const footer = (i, n, swipe) => `
@@ -125,7 +128,7 @@ function day({ label, text }, i, n) {
 </div>${footer(i, n)}`;
 }
 
-function cta({ title, sub }, i, n) {
+function cta({ title, sub, where = 'Link w bio ↑' }, i, n) {
   return `
 <div class="blob" style="width:700px;height:700px;right:-260px;top:-260px;background:rgba(255,255,255,.06)"></div>
 <div class="pad" style="justify-content:center;align-items:center;text-align:center">
@@ -133,12 +136,39 @@ function cta({ title, sub }, i, n) {
   <h2 class="serif" style="font-size:88px;line-height:1.12;font-weight:600;margin-top:64px">${title}</h2>
   <p style="font-size:42px;line-height:1.4;margin-top:32px;color:#DCE8DF;max-width:820px">${sub}</p>
   <div style="margin-top:64px;background:${C.gold};color:${C.text};font-size:42px;font-weight:700;padding:30px 60px;border-radius:999px">Za darmo w Google Play</div>
-  <div style="margin-top:36px;font-size:34px;color:#DCE8DF">Link w bio ↑</div>
+  <div style="margin-top:36px;font-size:34px;color:#DCE8DF">${where}</div>
 </div>
 <div class="foot" style="justify-content:center"><span>Wdzięczność – dziennik · Android · 7 języków</span></div>`;
 }
 
-const RENDER = { cover, question, point, step, day, cta };
+function list({ kicker, title, items }, i, n) {
+  return `
+<div class="pad" style="justify-content:center">
+  <div class="kicker">${kicker}</div>
+  <h2 class="serif" style="font-size:88px;line-height:1.1;font-weight:600;margin-top:24px">${title}</h2>
+  <div style="margin-top:64px;display:flex;flex-direction:column;gap:44px">
+    ${items.map((t, k) => `
+    <div style="display:flex;gap:30px;align-items:flex-start">
+      <div style="flex:none;width:72px;height:72px;border-radius:50%;background:${C.gold};color:#fff;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:700">${k + 1}</div>
+      <p style="font-size:44px;line-height:1.35;margin-top:6px">${t}</p>
+    </div>`).join('')}
+  </div>
+</div>${footer(i, n)}`;
+}
+
+function grid({ kicker, title, sub, days = 30 }, i, n) {
+  const cells = Array.from({ length: days }, (_, k) => `
+    <div style="aspect-ratio:1;border-radius:50%;border:3px solid ${C.sage};display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:600;color:${C.green};background:${C.surface}">${k + 1}</div>`).join('');
+  return `
+<div class="pad" style="justify-content:center">
+  <div class="kicker">${kicker}</div>
+  <h2 class="serif" style="font-size:68px;line-height:1.12;font-weight:600;margin-top:20px">${title}</h2>
+  <div style="margin-top:44px;display:grid;grid-template-columns:repeat(6,1fr);gap:18px">${cells}</div>
+  <p style="font-size:34px;line-height:1.4;color:${C.muted};margin-top:40px">${sub}</p>
+</div>${footer(i, n)}`;
+}
+
+const RENDER = { cover, question, point, step, day, cta, list, grid };
 
 // --- Tresc karuzel ------------------------------------------------------
 
@@ -189,30 +219,81 @@ const CAROUSELS = {
   ],
 };
 
+// TikTok: link w bio dopiero od 1000 obserwujacych, wiec odsylamy do wyszukiwarki sklepu.
+const TT_WHERE = 'Wpisz w Google Play: „Wdzięczność dziennik”';
+const TT_CTA = (title) => ({ ...CTA(title), where: TT_WHERE });
+
+const TIKTOK = {
+  '1-3-rzeczy': [
+    { type: 'cover', kicker: 'Dziennik wdzięczności', title: '3 rzeczy, za które jestem dziś wdzięczny', sub: 'Minuta dziennie. Spróbuj ze mną.' },
+    { type: 'day', label: 'Pierwsza', text: 'Za poranną kawę wypitą w ciszy.' },
+    { type: 'day', label: 'Druga', text: 'Za spacer z psem w parku.' },
+    { type: 'day', label: 'Trzecia', text: 'Za telefon od siostry, chociaż nic nie musiała.' },
+    TT_CTA('A Ty? Napisz jedną rzecz w komentarzu'),
+  ],
+  '2-5-pytan': [
+    { type: 'cover', kicker: 'Na wieczór', title: '5 pytań, gdy nie wiesz, za co być wdzięcznym', sub: 'Zapisz, przyda się dziś wieczorem.' },
+    ...[
+      'Jaka mała rzecz poszła dziś dobrze?',
+      'Kto dziś wywołał Twój uśmiech?',
+      'Co dziś Cię rozbawiło?',
+      'Komu chcesz dziś podziękować i za co?',
+      'Na co czekasz z radością jutro?',
+    ].map((text, k) => ({ type: 'question', num: k + 1, text })),
+    TT_CTA('Odpowiadaj na jedno pytanie dziennie'),
+  ],
+  '3-zrobilem-sam': [
+    { type: 'cover', kicker: 'Po godzinach', title: 'Sam zrobiłem aplikację do dziennika wdzięczności', sub: 'Oto, co w niej jest.' },
+    { type: 'point', num: 1, title: 'Minuta dziennie', text: 'Zapisujesz 3 małe rzeczy. Tekstem, zdjęciem albo głosem.' },
+    { type: 'point', num: 2, title: 'Tylko dla Ciebie', text: 'Działa bez internetu, a wpisy blokujesz odciskiem palca. Nikt ich nie czyta.' },
+    { type: 'point', num: 3, title: 'Widzisz postęp', text: 'Seria dni z rzędu, wykres nastroju i to, za co najczęściej dziękujesz.' },
+    { type: 'point', num: 4, title: 'Za darmo', text: 'Wszystkie funkcje bez opłat. 7 języków. Bez zakładania konta.' },
+    TT_CTA('Daj znać, co o niej myślisz'),
+  ],
+  '4-wyzwanie-30-dni': [
+    { type: 'cover', kicker: 'Wyzwanie', title: '30 dni wdzięczności', sub: 'Zaczynasz razem ze mną?' },
+    { type: 'list', kicker: 'Zasady', title: 'Proste jak minuta', items: [
+      'Codziennie zapisz 3 rzeczy, za które jesteś wdzięczny.',
+      'Nie powtarzaj się. Szukaj nowych, małych rzeczy.',
+      'Zaznacz dzień na kalendarzu z kolejnego slajdu.',
+    ] },
+    { type: 'grid', kicker: 'Twój kalendarz', title: 'Zrób zrzut ekranu i zaznaczaj dni', sub: 'Wróć tu za 30 dni i napisz, co się zmieniło.' },
+    TT_CTA('Dzień 1 zaczyna się dziś'),
+  ],
+};
+
 // --- Render -------------------------------------------------------------
+
+const FORMATS = [
+  { name: 'instagram', dir: 'karuzele', W: 1080, H: 1350, cls: '', sets: CAROUSELS },
+  { name: 'tiktok', dir: 'tiktok', W: 1080, H: 1920, cls: 'tt', sets: TIKTOK },
+];
 
 const tmp = mkdtempSync(join(tmpdir(), 'karuzele-'));
 const only = process.argv[2];
 let count = 0;
-for (const [name, slides] of Object.entries(CAROUSELS)) {
-  if (only && !name.startsWith(only)) continue;
-  const dir = join(out, name);
-  mkdirSync(dir, { recursive: true });
-  slides.forEach((slide, k) => {
-    const body = RENDER[slide.type](slide, k + 1, slides.length);
-    const cls = slide.type === 'cta' ? 'dark' : '';
-    const html = `<!doctype html><html lang="pl"><head><meta charset="utf-8"><style>${BASE_CSS}</style></head><body class="${cls}">${body}</body></html>`;
-    const page = join(tmp, `${name}-${k}.html`);
-    writeFileSync(page, html);
-    const png = join(dir, `${String(k + 1).padStart(2, '0')}.png`);
-    execFileSync(browser, [
-      '--headless=new', '--disable-gpu', '--hide-scrollbars', '--force-device-scale-factor=1',
-      '--allow-file-access-from-files', '--virtual-time-budget=3000',
-      `--window-size=${W},${H}`, `--screenshot=${png}`, pathToFileURL(page).href,
-    ], { stdio: 'ignore' });
-    count++;
-  });
-  console.log(`${name}: ${slides.length} slajdów`);
+for (const { name: format, dir: sub, W, H, cls: formatCls, sets } of FORMATS) {
+  const formatMatch = only === format;
+  for (const [name, slides] of Object.entries(sets)) {
+    if (only && !formatMatch && !name.startsWith(only)) continue;
+    const dir = join(root, 'store', 'promocja', sub, name);
+    mkdirSync(dir, { recursive: true });
+    slides.forEach((slide, k) => {
+      const body = RENDER[slide.type](slide, k + 1, slides.length);
+      const cls = [formatCls, slide.type === 'cta' ? 'dark' : ''].join(' ');
+      const html = `<!doctype html><html lang="pl"><head><meta charset="utf-8"><style>${baseCss(W, H)}</style></head><body class="${cls}">${body}</body></html>`;
+      const page = join(tmp, `${format}-${name}-${k}.html`);
+      writeFileSync(page, html);
+      const png = join(dir, `${String(k + 1).padStart(2, '0')}.png`);
+      execFileSync(browser, [
+        '--headless=new', '--disable-gpu', '--hide-scrollbars', '--force-device-scale-factor=1',
+        '--allow-file-access-from-files', '--virtual-time-budget=3000',
+        `--window-size=${W},${H}`, `--screenshot=${png}`, pathToFileURL(page).href,
+      ], { stdio: 'ignore' });
+      count++;
+    });
+    console.log(`${sub}/${name}: ${slides.length} slajdów`);
+  }
 }
 rmSync(tmp, { recursive: true, force: true });
-console.log(`Gotowe: ${count} plików w ${out}`);
+console.log(`Gotowe: ${count} plików w store/promocja/`);
