@@ -37,7 +37,18 @@ wspierają osobę niż „firmę”. Na Facebooku i LinkedInie mów w pierwszej 
 | **Facebook** | Pierwsze instalacje i opinie | Post osobisty, wpisy w grupach | 1 post/tydz. na profilu + 1 grupa dziennie w tyg. 1–2 | PL |
 | **LinkedIn** | Historia twórcy, wiarygodność, kontakty | Posty tekstowe z grafiką lub filmem | 1–2 posty/tydz. | PL + EN |
 
-**Profil:** jedna nazwa wszędzie, np. `@wdziecznosc.app`. Zdjęcie profilowe: `store/grafiki/ikona-512.png`.
+**Profil:** jedna angielska nazwa wszędzie, łatwa też dla obcokrajowców: **`mygratitudeapp`**
+(wybrana 12.11.2026; tego dnia wyglądała na wolną na Instagramie, TikToku, Facebooku i YouTube).
+
+| Portal | Adres | Nazwa wyświetlana |
+|---|---|---|
+| Instagram | `instagram.com/mygratitudeapp` | Gratitude – Daily Journal |
+| TikTok | `tiktok.com/@mygratitudeapp` | Gratitude – Daily Journal |
+| Facebook (strona) | `facebook.com/mygratitudeapp` | Gratitude – Daily Journal |
+| YouTube (Shorts, opcjonalnie) | `youtube.com/@mygratitudeapp` | Gratitude – Daily Journal |
+| LinkedIn | posty z Twojego profilu; strona firmowa opcjonalnie `linkedin.com/company/mygratitudeapp` | Gratitude – Daily Journal |
+
+Zdjęcie profilowe: `store/grafiki/ikona-512.png`.
 Bio: *Minuta dziennie na to, co dobre 🌿 Darmowy dziennik wdzięczności na Androida 👇* + link do sklepu.
 Na TikToku link w bio pojawia się dopiero od 1000 obserwujących, więc do tego czasu w opisach pisz:
 „Wpisz w Google Play: Wdzięczność dziennik”.
