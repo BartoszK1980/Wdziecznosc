@@ -170,7 +170,8 @@ function grid({ kicker, title, sub, days = 30 }, i, n) {
 
 // Pojedyncza grafika do posta (Facebook): tytul, opcjonalnie ekran aplikacji
 // albo lista punktow, na dole pasek z ikona i nazwa aplikacji.
-function poster({ kicker, title, sub, img, items, dark, badge = true }) {
+function poster({ kicker, title, sub, img, items, chips, dark, badge = true,
+  appName = 'Wdzięczność – dziennik', appMeta = 'Android · 7 języków · za darmo' }) {
   const ink = dark ? C.bg : C.text;
   const soft = dark ? '#DCE8DF' : C.muted;
   const col = img ? 'right:560px' : 'right:100px';
@@ -187,6 +188,8 @@ function poster({ kicker, title, sub, img, items, dark, badge = true }) {
       <div style="flex:none;width:64px;height:64px;border-radius:50%;background:${C.gold};color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700">${k + 1}</div>
       <p class="serif" style="font-size:46px;line-height:1.3;color:${ink}">${t}</p>
     </div>`).join('')}</div>` : ''}
+  ${chips ? `<div style="margin-top:${sub ? 52 : 0}px;display:flex;flex-wrap:wrap;gap:20px">${chips.map((t) =>
+    `<span style="font-size:38px;padding:18px 34px;border-radius:999px;background:${C.surface};border:2px solid ${C.border};color:${C.green};font-weight:600">${t}</span>`).join('')}</div>` : ''}
 </div>
 ${img ? `
 <div style="position:absolute;right:100px;top:560px;width:420px;height:620px;border-radius:52px;background:#1E2A25;padding:14px;box-shadow:0 26px 60px rgba(62,50,38,.25)">
@@ -198,10 +201,10 @@ ${img ? `
 <div style="position:absolute;left:0;right:0;bottom:0;height:190px;background:${dark ? 'rgba(0,0,0,.14)' : C.surface};border-top:2px solid ${dark ? 'transparent' : C.border};display:flex;align-items:center;gap:28px;padding:0 100px">
   <img src="${icon}" style="width:104px;height:104px;border-radius:26px;box-shadow:0 6px 18px rgba(0,0,0,.12)">
   <div style="flex:1">
-    <div class="serif" style="font-size:40px;font-weight:600;color:${ink};white-space:nowrap">Wdzięczność – dziennik</div>
-    <div style="font-size:28px;color:${soft};margin-top:4px">Android · 7 języków · za darmo</div>
+    <div class="serif" style="font-size:40px;font-weight:600;color:${ink};white-space:nowrap">${appName}</div>
+    <div style="font-size:28px;color:${soft};margin-top:4px">${appMeta}</div>
   </div>
-  ${badge ? `<div style="background:${C.gold};color:${C.text};font-size:32px;font-weight:700;padding:22px 38px;border-radius:999px">Google Play</div>` : ''}
+  ${badge ? `<div style="background:${C.gold};color:${C.text};font-size:32px;font-weight:700;padding:22px 38px;border-radius:999px;white-space:nowrap">Google Play</div>` : ''}
 </div>`;
 }
 
@@ -315,9 +318,36 @@ const FACEBOOK = {
     sub: 'Każda opinia w Sklepie Play pomaga małej aplikacji dotrzeć do kolejnych osób. Jeśli masz chwilę, zostaw swoją. Będzie mi bardzo miło.' }],
 };
 
+// LinkedIn: historia tworcy (build in public). Karuzele dodatkowo jako PDF,
+// bo LinkedIn pokazuje karuzele tylko jako wgrany dokument.
+const LI_CTA = (title, sub) => ({ type: 'cta', title, sub, where: 'Moja aplikacja: „Wdzięczność – dziennik” w Google Play' });
+
+const LINKEDIN = {
+  '1-premiera': [{ type: 'poster', kicker: 'Moja pierwsza aplikacja', title: 'Od pomysłu do Google Play – po godzinach, w&nbsp;pojedynkę',
+    sub: 'Dziennik wdzięczności na Androida. Projekt, kod, 7 języków i test zamknięty z 12 testerami.', img: shot('1-dzis.png') }],
+  '2-premiera-en': [{ type: 'poster', kicker: 'My first app', title: 'From idea to Google Play – after hours, on&nbsp;my&nbsp;own',
+    sub: 'A gratitude journal for Android. Design, code, 7 languages and a closed test with 12 testers.',
+    img: url('store/zrzuty/en/1-dzis.png'), appName: 'Gratitude – Daily Journal', appMeta: 'Android · 7 languages · free' }],
+  '3-test-zamkniety': [
+    { type: 'cover', kicker: 'Poradnik dla twórców aplikacji', title: 'Jak przeszedłem test zamknięty Google Play', sub: '12 testerów, 14 dni i 5 rzeczy, które warto wiedzieć wcześniej.' },
+    { type: 'point', num: 1, title: '12 testerów przez 14 dni', text: 'Nowe prywatne konto dewelopera nie opublikuje aplikacji bez testu zamkniętego. Testerzy muszą być zapisani przez 14 dni bez przerwy.' },
+    { type: 'point', num: 2, title: 'Testerzy przez Grupę Google', text: 'Jedna grupa zamiast listy e-maili. Ustaw dołączanie „dla każdego”, inaczej zatwierdzasz każdą osobę ręcznie.' },
+    { type: 'point', num: 3, title: 'Znajomi to za mało', text: 'Najwięcej testerów dały mi wymiany z innymi twórcami: ja testuję ich aplikacje, oni moją.' },
+    { type: 'point', num: 4, title: 'Testerzy naprawdę pomagają', text: 'W trakcie testu wydałem 4 poprawki, od 1.0.2 do 1.0.5, na podstawie ich uwag.' },
+    { type: 'point', num: 5, title: 'Pilnuj licznika', text: 'Gdy liczba testerów spadnie poniżej 12, odliczanie może zacząć się od nowa. Sprawdzaj to co kilka dni.' },
+    LI_CTA('Wniosek o produkcję zatwierdzony w&nbsp;2&nbsp;dni', 'Masz pytania o publikację w Google Play? Napisz w komentarzu.'),
+  ],
+  '4-siedem-jezykow': [{ type: 'poster', kicker: 'Lekcja z projektu', title: 'Jedna aplikacja, 7 języków od pierwszego dnia',
+    sub: 'Tłumaczenia, opisy w sklepie i zrzuty ekranu w każdym języku. Więcej pracy na starcie, ale aplikacja od razu trafia do ludzi w całej Europie i obu Amerykach.',
+    chips: ['Polski', 'English', 'Deutsch', 'Español', 'Français', 'Italiano', 'Português'] }],
+  '5-wdziecznosc-w-pracy': [{ type: 'poster', kicker: 'Na piątkowe popołudnie', title: '3 pytania na koniec tygodnia w pracy', badge: false,
+    items: ['Co w tym tygodniu poszło dobrze?', 'Komu z zespołu chcę podziękować?', 'Jaka lekcja z tego tygodnia mi się przyda?'] }],
+};
+
 // --- Render -------------------------------------------------------------
 
 const FORMATS = [
+  { name: 'linkedin', dir: 'linkedin', W: 1080, H: 1350, cls: '', sets: LINKEDIN, pdf: true },
   { name: 'facebook', dir: 'facebook', W: 1080, H: 1350, cls: '', sets: FACEBOOK },
   { name: 'instagram', dir: 'karuzele', W: 1080, H: 1350, cls: '', sets: CAROUSELS },
   { name: 'tiktok', dir: 'tiktok', W: 1080, H: 1920, cls: 'tt', sets: TIKTOK },
@@ -326,7 +356,7 @@ const FORMATS = [
 const tmp = mkdtempSync(join(tmpdir(), 'karuzele-'));
 const only = process.argv[2];
 let count = 0;
-for (const { name: format, dir: sub, W, H, cls: formatCls, sets } of FORMATS) {
+for (const { name: format, dir: sub, W, H, cls: formatCls, sets, pdf } of FORMATS) {
   const formatMatch = only === format;
   for (const [name, slides] of Object.entries(sets)) {
     if (only && !formatMatch && !name.startsWith(only)) continue;
@@ -348,7 +378,21 @@ for (const { name: format, dir: sub, W, H, cls: formatCls, sets } of FORMATS) {
       ], { stdio: 'ignore' });
       count++;
     });
-    console.log(`${sub}/${name}: ${slides.length} slajdów`);
+    if (pdf && !single) {
+      // Slajdy jako strony PDF w rozmiarze grafiki, bez marginesow i stopek przegladarki.
+      const pages = slides.map((_, k) =>
+        `<img src="${pathToFileURL(join(dir, `${String(k + 1).padStart(2, '0')}.png`)).href}">`).join('');
+      const doc = join(tmp, `${format}-${name}-pdf.html`);
+      writeFileSync(doc, `<!doctype html><html><head><meta charset="utf-8"><style>
+@page { size: ${W}px ${H}px; margin: 0; } * { margin: 0; padding: 0; }
+img { display: block; width: ${W}px; height: ${H}px; page-break-after: always; }
+</style></head><body>${pages}</body></html>`);
+      execFileSync(browser, [
+        '--headless=new', '--disable-gpu', '--allow-file-access-from-files', '--virtual-time-budget=3000',
+        '--no-pdf-header-footer', `--print-to-pdf=${join(dir, `${name}.pdf`)}`, pathToFileURL(doc).href,
+      ], { stdio: 'ignore' });
+    }
+    console.log(`${sub}/${name}: ${slides.length} slajdów${pdf && !single ? ' + PDF' : ''}`);
   }
 }
 rmSync(tmp, { recursive: true, force: true });
