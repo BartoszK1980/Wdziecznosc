@@ -71,7 +71,8 @@
     "check-supabase": "node scripts/check-supabase.mjs",
     "check-listing": "node scripts/check-listing.mjs",
     "store-graphics": "node scripts/make-store-graphics.mjs",
-    "frame-screenshots": "node scripts/frame-screenshots.mjs"
+    "frame-screenshots": "node scripts/frame-screenshots.mjs",
+    "carousels": "node scripts/make-carousels.mjs"
   },
   "private": true
 }
