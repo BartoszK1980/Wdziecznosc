@@ -73,6 +73,7 @@
       ],
       "./plugins/with-no-stylus-handwriting",
       "./plugins/with-localized-app-name",
+      "./plugins/with-optional-hardware",
       [
         "expo-build-properties",
         {
