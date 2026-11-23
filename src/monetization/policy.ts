@@ -29,6 +29,20 @@ export type AdPolicy = {
    * reklam nie zobaczyl.
    */
   graceDays: number;
+  /**
+   * Po ilu dniach od instalacji sami proponujemy wersje bez reklam.
+   * 0 = nigdy, propozycja zostaje tylko w ustawieniach.
+   *
+   * Liczone od instalacji, tak jak graceDays. Musi byc WIEKSZE od graceDays:
+   * proponowanie usuniecia reklam komus, kto jeszcze zadnej nie widzial,
+   * nie ma sensu — nie wie, za co mialby placic.
+   */
+  upsellAfterDays: number;
+  /**
+   * Co ile dni ponowic propozycje, jesli uzytkownik jej nie przyjal.
+   * 0 = tylko raz.
+   */
+  upsellRepeatDays: number;
 };
 
 export const DEFAULT_AD_POLICY: AdPolicy = {
@@ -42,10 +56,15 @@ export const DEFAULT_AD_POLICY: AdPolicy = {
   },
   interstitialEveryNDays: 0,
   graceDays: 7,
+  // Trzy dni po pojawieniu sie pierwszego banera: uzytkownik juz wie, jak
+  // reklama wyglada, a jeszcze nie przywykl do niej na tyle, by ja ignorowac.
+  upsellAfterDays: 10,
+  upsellRepeatDays: 30,
 };
 
 const INSTALLED_AT_KEY = 'installed_at';
 const POLICY_CACHE_KEY = 'ad_policy_cache';
+const UPSELL_SHOWN_KEY = 'upsell_last_shown_at';
 
 /**
  * Nadpisanie z serwera.
@@ -88,6 +107,8 @@ function merge(partial: Partial<AdPolicy>): AdPolicy {
     interstitialEveryNDays:
       partial.interstitialEveryNDays ?? DEFAULT_AD_POLICY.interstitialEveryNDays,
     graceDays: partial.graceDays ?? DEFAULT_AD_POLICY.graceDays,
+    upsellAfterDays: partial.upsellAfterDays ?? DEFAULT_AD_POLICY.upsellAfterDays,
+    upsellRepeatDays: partial.upsellRepeatDays ?? DEFAULT_AD_POLICY.upsellRepeatDays,
   };
 }
 
@@ -105,6 +126,37 @@ export async function graceExpired(policy: AdPolicy): Promise<boolean> {
   const installedAt = await getState(INSTALLED_AT_KEY);
   if (!installedAt) return false;
 
-  const elapsedDays = (Date.now() - new Date(installedAt).getTime()) / 86_400_000;
-  return elapsedDays >= policy.graceDays;
+  return daysSince(installedAt) >= policy.graceDays;
+}
+
+function daysSince(iso: string): number {
+  return (Date.now() - new Date(iso).getTime()) / 86_400_000;
+}
+
+/**
+ * Czy pora samemu zaproponowac wersje bez reklam.
+ *
+ * Nie sprawdza subskrypcji ani dostepnosci oferty — to robi provider, bo tylko
+ * on wie, czy uzytkownik juz zaplacil i czy sklep zwrocil cene.
+ */
+export async function upsellDue(policy: AdPolicy): Promise<boolean> {
+  // Bez reklam nie ma czego usuwac.
+  if (!policy.enabled || policy.upsellAfterDays <= 0) return false;
+
+  const installedAt = await getState(INSTALLED_AT_KEY);
+  if (!installedAt || daysSince(installedAt) < policy.upsellAfterDays) return false;
+
+  const lastShown = await getState(UPSELL_SHOWN_KEY);
+  if (!lastShown) return true;
+  if (policy.upsellRepeatDays <= 0) return false;
+  return daysSince(lastShown) >= policy.upsellRepeatDays;
+}
+
+/**
+ * Zapisywane PRZED pokazaniem ekranu, nie po zamknieciu. Gdyby aplikacja
+ * padla albo zostala zabita w trakcie, propozycja nie moze wracac przy
+ * kazdym kolejnym uruchomieniu.
+ */
+export async function markUpsellShown(): Promise<void> {
+  await setState(UPSELL_SHOWN_KEY, new Date().toISOString());
 }

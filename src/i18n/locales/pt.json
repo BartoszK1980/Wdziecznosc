@@ -214,7 +214,10 @@
     "activeTitle": "Assinatura ativa",
     "activeBody": "Você não verá anúncios. Obrigado pelo apoio.",
     "legal": "O pagamento é feito pela loja. A assinatura renova anualmente até você cancelar nas configurações da sua conta.",
-    "settingsRow": "Remover anúncios"
+    "settingsRow": "Remover anúncios",
+    "upsellTitle": "Está gostando do seu diário?",
+    "upsellSubtitle": "Há alguns dias você anota aquilo pelo que é grato. Pode continuar sem anúncios — a assinatura anual remove-os de todo o app.",
+    "notNow": "Agora não"
   },
   "ads": {
     "placeholder": "Espaço de anúncio",

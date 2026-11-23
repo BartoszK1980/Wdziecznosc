@@ -214,7 +214,10 @@
     "activeTitle": "Suscripción activa",
     "activeBody": "No verás anuncios. Gracias por el apoyo.",
     "legal": "El pago lo gestiona la tienda. La suscripción se renueva cada año hasta que la canceles en los ajustes de tu cuenta.",
-    "settingsRow": "Quitar anuncios"
+    "settingsRow": "Quitar anuncios",
+    "upsellTitle": "¿Te gusta tu diario?",
+    "upsellSubtitle": "Llevas unos días anotando aquello por lo que estás agradecido. Puedes seguir haciéndolo sin anuncios: la suscripción anual los elimina de toda la app.",
+    "notNow": "Ahora no"
   },
   "ads": {
     "placeholder": "Espacio publicitario",

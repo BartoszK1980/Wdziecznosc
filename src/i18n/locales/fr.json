@@ -214,7 +214,10 @@
     "activeTitle": "Abonnement actif",
     "activeBody": "Tu ne verras aucune publicité. Merci pour ton soutien.",
     "legal": "Le paiement est prélevé par la boutique. L'abonnement se renouvelle chaque année jusqu'à ce que tu l'annules dans les réglages de ton compte.",
-    "settingsRow": "Retirer les publicités"
+    "settingsRow": "Retirer les publicités",
+    "upsellTitle": "Vous aimez votre journal ?",
+    "upsellSubtitle": "Depuis quelques jours, vous notez ce pour quoi vous êtes reconnaissant. Vous pouvez continuer sans publicité : l'abonnement annuel la supprime de toute l'application.",
+    "notNow": "Pas maintenant"
   },
   "ads": {
     "placeholder": "Emplacement publicitaire",

@@ -214,7 +214,10 @@
     "activeTitle": "Subscription active",
     "activeBody": "You will not see any ads. Thank you for the support.",
     "legal": "Payment is taken by the store. The subscription renews yearly until you cancel it in your store account settings.",
-    "settingsRow": "Remove ads"
+    "settingsRow": "Remove ads",
+    "upsellTitle": "Enjoying your journal?",
+    "upsellSubtitle": "You've been writing down what you're grateful for for a few days now. You can keep doing it without ads — a yearly subscription removes them from the whole app.",
+    "notNow": "Not now"
   },
   "ads": {
     "placeholder": "Ad slot",

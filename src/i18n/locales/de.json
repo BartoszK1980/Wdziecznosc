@@ -214,7 +214,10 @@
     "activeTitle": "Abo aktiv",
     "activeBody": "Du siehst keine Werbung. Danke für die Unterstützung.",
     "legal": "Die Zahlung übernimmt der Store. Das Abo verlängert sich jährlich, bis du es in den Kontoeinstellungen des Stores kündigst.",
-    "settingsRow": "Werbung entfernen"
+    "settingsRow": "Werbung entfernen",
+    "upsellTitle": "Gefällt dir dein Tagebuch?",
+    "upsellSubtitle": "Seit ein paar Tagen schreibst du auf, wofür du dankbar bist. Das geht auch ohne Werbung — ein Jahresabo entfernt sie aus der ganzen App.",
+    "notNow": "Nicht jetzt"
   },
   "ads": {
     "placeholder": "Werbeplatz",

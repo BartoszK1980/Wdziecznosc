@@ -1,12 +1,14 @@
 import { createContext, use, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { gatherConsent, showPrivacyOptions, type ConsentState } from './consent';
-import { cachedPremium, refreshPremium } from './entitlement';
+import { annualOffer, cachedPremium, refreshPremium } from './entitlement';
 import {
   DEFAULT_AD_POLICY,
   graceExpired,
   loadAdPolicy,
   markInstalled,
+  markUpsellShown,
+  upsellDue,
   type AdPlacement,
   type AdPolicy,
 } from './policy';
@@ -28,6 +30,14 @@ type MonetizationValue = {
   /** Ponowne otwarcie formularza zgody z ustawien. */
   openPrivacyOptions: () => Promise<void>;
   refresh: () => Promise<void>;
+  /**
+   * Czy pora samemu pokazac propozycje wersji bez reklam. Prawda tylko wtedy,
+   * gdy uzytkownik nie ma subskrypcji, a sklep zwrocil oferte z cena —
+   * otwieranie komus ekranu z komunikatem "niedostepne" byloby gorsze niz nic.
+   */
+  upsellDue: boolean;
+  /** Zapisuje, ze propozycja zostala pokazana, i gasi `upsellDue`. */
+  consumeUpsell: () => Promise<void>;
 };
 
 const MonetizationContext = createContext<MonetizationValue | null>(null);
@@ -45,6 +55,7 @@ export function MonetizationProvider({ children }: { children: React.ReactNode }
   const [policy, setPolicy] = useState<AdPolicy>(DEFAULT_AD_POLICY);
   const [afterGrace, setAfterGrace] = useState(false);
   const [consent, setConsent] = useState<ConsentState>(INITIAL_CONSENT);
+  const [upsell, setUpsell] = useState(false);
 
   const refresh = useCallback(async () => {
     await markInstalled();
@@ -63,6 +74,10 @@ export function MonetizationProvider({ children }: { children: React.ReactNode }
     // Formularza zgody nie pokazujemy komus, kto zaplacil za brak reklam —
     // nie ma o co pytac, skoro i tak nic mu nie wyswietlimy.
     if (!active) setConsent(await gatherConsent());
+
+    // Oferte pobieramy dopiero, gdy termin minal — inaczej kazdy start
+    // aplikacji pytalby sklep o cene, ktorej i tak nikt nie zobaczy.
+    setUpsell(!active && (await upsellDue(next)) && (await annualOffer()) !== null);
   }, []);
 
   useEffect(() => {
@@ -72,6 +87,11 @@ export function MonetizationProvider({ children }: { children: React.ReactNode }
 
   const openPrivacyOptions = useCallback(async () => {
     setConsent(await showPrivacyOptions());
+  }, []);
+
+  const consumeUpsell = useCallback(async () => {
+    setUpsell(false);
+    await markUpsellShown();
   }, []);
 
   const value = useMemo<MonetizationValue>(
@@ -87,8 +107,10 @@ export function MonetizationProvider({ children }: { children: React.ReactNode }
         policy.banners[placement],
       openPrivacyOptions,
       refresh,
+      upsellDue: upsell,
+      consumeUpsell,
     }),
-    [premium, policy, afterGrace, consent, openPrivacyOptions, refresh]
+    [premium, policy, afterGrace, consent, openPrivacyOptions, refresh, upsell, consumeUpsell]
   );
 
   return <MonetizationContext value={value}>{children}</MonetizationContext>;

@@ -214,7 +214,10 @@
     "activeTitle": "Abbonamento attivo",
     "activeBody": "Non vedrai pubblicità. Grazie per il supporto.",
     "legal": "Il pagamento è gestito dallo store. L'abbonamento si rinnova ogni anno finché non lo annulli nelle impostazioni del tuo account.",
-    "settingsRow": "Rimuovi pubblicità"
+    "settingsRow": "Rimuovi pubblicità",
+    "upsellTitle": "Ti piace il tuo diario?",
+    "upsellSubtitle": "Da qualche giorno annoti ciò per cui sei grato. Puoi continuare senza pubblicità: l'abbonamento annuale la rimuove da tutta l'app.",
+    "notNow": "Non ora"
   },
   "ads": {
     "placeholder": "Spazio pubblicitario",

@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -21,6 +21,10 @@ export default function PremiumScreen() {
   const colors = useTheme();
   const router = useRouter();
   const { premium, refresh } = useMonetization();
+  // 'upsell' = ekran otworzyla sama aplikacja, a nie uzytkownik z ustawien.
+  // Wtedy mowimy, skad sie wzial, i dajemy wyrazne "nie teraz".
+  const { source } = useLocalSearchParams<{ source?: string }>();
+  const fromUpsell = source === 'upsell';
 
   const [offer, setOffer] = useState<Offer>(null);
   const [loading, setLoading] = useState(true);
@@ -79,8 +83,8 @@ export default function PremiumScreen() {
   return (
     <ScrollView style={{ backgroundColor: colors.bg }} contentContainerStyle={styles.content}>
       <View style={styles.column}>
-        <Heading size={26}>{t('premium.title')}</Heading>
-        <Muted>{t('premium.subtitle')}</Muted>
+        <Heading size={26}>{t(fromUpsell ? 'premium.upsellTitle' : 'premium.title')}</Heading>
+        <Muted>{t(fromUpsell ? 'premium.upsellSubtitle' : 'premium.subtitle')}</Muted>
 
         <Card warm style={styles.benefits}>
           {['noAds', 'support', 'sameFeatures'].map((key) => (
@@ -111,6 +115,12 @@ export default function PremiumScreen() {
             </Muted>
           </Card>
         )}
+
+        {fromUpsell ? (
+          <Pressable onPress={() => router.back()} disabled={busy} accessibilityRole="button">
+            <Text style={[styles.restore, { color: colors.textMuted }]}>{t('premium.notNow')}</Text>
+          </Pressable>
+        ) : null}
 
         <Pressable onPress={() => void restore()} disabled={busy} accessibilityRole="button">
           <Text style={[styles.restore, { color: colors.accent }]}>{t('premium.restore')}</Text>

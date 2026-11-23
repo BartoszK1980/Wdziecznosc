@@ -214,7 +214,10 @@
     "activeTitle": "Subskrypcja aktywna",
     "activeBody": "Nie zobaczysz reklam. Dziękujemy za wsparcie.",
     "legal": "Płatność pobiera sklep. Subskrypcja odnawia się co rok, dopóki jej nie anulujesz w ustawieniach konta w sklepie.",
-    "settingsRow": "Usuń reklamy"
+    "settingsRow": "Usuń reklamy",
+    "upsellTitle": "Podoba Ci się dziennik?",
+    "upsellSubtitle": "Od kilku dni zapisujesz swoje wdzięczności. Możesz to robić bez reklam — roczna subskrypcja usuwa je z całej aplikacji.",
+    "notNow": "Nie teraz"
   },
   "ads": {
     "placeholder": "Miejsce na reklamę",
