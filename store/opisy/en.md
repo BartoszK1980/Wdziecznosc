@@ -4,10 +4,10 @@
 Gratitude – Daily Journal
 
 ## Krotki opis (max 80)
-Gratitude journal: a few lines a day. In words, photos or voice.
+Gratitude journal. Save the good moments in words, photos or voice.
 
 ## Pelny opis (max 4000)
-Gratitude is a simple gratitude journal where you write down, every day, what you're grateful for. It takes a minute – even on days when little went right.
+Gratitude is a simple gratitude journal. Save the good moments in words, photos or voice. It takes a minute a day – even when the day wasn't perfect. Every feature is free, and an optional subscription removes the ads.
 
 Noticing the good things regularly is one of the simplest habits for feeling better. This app doesn't judge and doesn't rush you: it just gives you room for a few sentences.
 
@@ -24,15 +24,15 @@ LOOK BACK AND SEE YOUR PROGRESS
 • Your streak, mood over time and what you're most often grateful for
 
 YOUR ENTRIES ARE SAFE
-• Works offline – everything is saved on your phone instantly
-• A cloud copy restores your entries on a new phone
+• Works offline – entries are saved on your phone instantly
+• Backs up to the cloud automatically; add your email to restore your entries on a new phone
 • App lock with fingerprint or face
 • Export all your entries to a file
-• We don't read your entries, sell them or use them for advertising
+• We don't read your entries, sell them or use them for advertising. The free version uses Google AdMob, which processes ad data as described in the privacy policy
 
 MAKE IT YOURS
 • A daily reminder at the time you choose
 • Light and dark theme and six accent colors
 • Seven languages
 
-The app is free and contains ads. An annual subscription removes them completely – every feature is available without it too.
+The free version shows ads. An annual subscription removes them completely – every feature is available without it too.
